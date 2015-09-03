@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RadioGroup
+        android:id="@+id/rg_reportType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/yourmoney_lightBlue" >
+
+        <RadioButton
+            android:id="@+id/rb_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:checked="true"
+            android:text="@string/lblIncome"
+            android:textColor="#FFF" />
+
+        <RadioButton
+            android:id="@+id/rb_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="@string/lblExpense"
+            android:textColor="#FFF" />
+    </RadioGroup>
+
+    <!--  <Button
+        android:id="@+id/tv_lblReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rg_reportType"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/rg_reportType"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_toLeftOf="@+id/rg_reportType"
+        android:background="@color/yourmoney_lightBlue"
+        android:gravity="center"
+        android:text="@string/lblReportType" />-->
+    
+    <Button
+        android:id="@+id/btn_openReport"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rg_reportType"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/rg_reportType"
+        android:textColor="#FFF"
+        android:text="@string/lblReportType" />
+
+    <DatePicker
+        android:id="@+id/dp_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rg_reportType"
+        android:layout_marginBottom="-10dp"
+        android:layout_marginTop="-10dp"
+        android:calendarViewShown="false" />
+
+    <TextView
+        android:id="@+id/tv_lblStart"
+        style="@style/TextLabel"
+        android:layout_alignBottom="@id/dp_start"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@id/dp_start"
+        android:layout_below="@+id/btn_openReport"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@+id/dp_start"        android:gravity="center_vertical"
+        android:text="@string/lblStart" />
+    
+    <DatePicker
+        android:id="@+id/dp_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/dp_start"
+        android:layout_marginTop="-10dp"
+        android:calendarViewShown="false" />
+
+    <TextView
+        android:id="@+id/tv_lblEnd"
+        style="@style/TextLabel"
+        android:layout_alignBottom="@id/dp_end"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@id/dp_end"
+        android:layout_below="@+id/tv_lblStart"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@+id/dp_end"
+        android:gravity="center_vertical"
+        android:text="@string/lblEnd" />
+
+</RelativeLayout>

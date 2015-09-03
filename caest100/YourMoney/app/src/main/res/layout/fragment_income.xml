@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="RtlHardcoded"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/tv_lblGlance"
+        style="@style/TextLabel"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/lblGlance" />
+
+    <TextView
+        android:id="@+id/tv_lblYTD"
+        style="@style/TextLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tv_lblGlance"
+        android:text="@string/lblYtdIncome" />
+    
+    <ProgressBar
+        android:id="@+id/pb_ytdLoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_lblYTD"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="-12dp"
+        android:layout_toRightOf="@+id/tv_lblYTD" />
+    
+    <TextView 
+        android:id="@+id/tv_ytdTotalDisp"
+        style="@style/TextLabel"
+        android:layout_marginRight = "10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/tv_lblYTD" />
+    
+    <TextView
+        android:id="@+id/tv_lblTransMgt"
+        style="@style/TextLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tv_lblYTD"
+        android:layout_marginTop="40dp"
+        android:text="@string/lblTransMgt" />
+
+    <LinearLayout
+        android:id="@+id/ll_transBtns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tv_lblTransMgt" >
+        <Button
+	        android:id="@+id/btnTransAdd"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="10dp"
+	        android:drawableTop="@drawable/ic_action_new"
+	        android:layout_weight="1"
+	        android:textColor="#FFFFFF"
+	        android:text="@string/btnAdd"/>
+        <Button
+	        android:id="@+id/btnTransEdit"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="10dp"
+	        android:drawableTop="@drawable/ic_action_edit"
+	        android:layout_weight="1"
+	        android:textColor="#FFFFFF"
+	        android:text="@string/btnEdit"/>
+        <Button
+	        android:id="@+id/btnTransDelete"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="10dp"
+	        android:drawableTop="@drawable/ic_action_remove"
+	        android:layout_weight="1"
+	        android:textColor="#FFFFFF"
+	        android:text="@string/btnDelete"/>
+	</LinearLayout>
+	
+    <TextView
+        android:id="@+id/tv_lblActMgt"
+        style="@style/TextLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ll_transBtns"
+        android:layout_marginTop="40dp"
+        android:text="@string/lblActMgt" />
+	
+    <LinearLayout
+        android:id="@+id/ll_CatBtns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tv_lblActMgt" >
+
+        <Button
+	        android:id="@+id/btnCatAdd"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="10dp"
+	        android:drawableTop="@drawable/ic_action_new"
+	        android:layout_weight="1"
+	        android:textColor="#FFFFFF"
+	        android:text="@string/btnAdd"/>
+        <Button
+	        android:id="@+id/btnCatDelete"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="10dp"
+	        android:drawableTop="@drawable/ic_action_remove"
+	        android:layout_weight="1"
+	        android:textColor="#FFFFFF"
+	        android:text="@string/btnDelete"/>
+	</LinearLayout>
+
+</RelativeLayout>

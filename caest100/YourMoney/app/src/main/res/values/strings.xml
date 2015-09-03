@@ -1,0 +1,34 @@
+<resources>
+
+    <string name="app_name">YourMoney</string>
+    <string name="lblGlance"><u>At a Glance</u></string>
+    <string name="lblYtdIncome">Year to Date Income:</string>
+    <string name="lblYtdExpenses">Year to Date Expenses:</string>
+	<string name="lblTransMgt"><u>Transaction Management</u></string>
+	<string name="lblActMgt"><u>Category Management</u></string>
+	<string name="btnAdd">Add</string>
+	<string name="btnEdit">Edit</string>
+	<string name="btnDelete">Delete</string>
+	<string name="lbl_addCat"><u>Add a Category:</u></string>
+	<string name="lbl_deleteCat"><u>Delete a Category:</u></string>
+	<string name="btnCancel">Cancel</string>
+	<string name="lblDesc">Description:</string>
+	<string name="lblAddDesc">Add Description</string>
+	<string name="lblDate">Date:</string>
+	<string name="lblCat">Category:</string>
+	<string name="lblCatName">Category Name</string>
+	<string name="lblAmt">Amount:</string>
+	<string name="lblAmtHint">0.00</string>
+	<string name="btnSubmit">Submit</string>
+	<string name="lblIncome">Income</string>
+	<string name="lblExpense">Expense</string>
+	<string name="lblReportType">Report Type:</string>
+	<string name="lblStart">Start:</string>
+	<string name="lblEnd">End:</string>
+	<string name="lblReportFragTitle">Report Setup</string>
+	<string name="lblFilter">Filter by Category:</string>
+	<string name="hintClickUpdate"><u>Touch to Update</u></string>
+	<string name="lblStartDate">Start Date:</string>
+	<string name="lblEndDate">End Date:</string>
+	<string name="btnViewReport">View Report</string>
+</resources>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="ExtraText" >
+
+    <TextView
+        android:id="@+id/tv_selectReport"
+        style="@style/TextLabel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:text="@string/lblReportFragTitle"
+        android:textSize="30sp" />
+"
+
+    <TextView
+        android:id="@+id/tv_lblReptType"
+        style="@style/TextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rg_reportType"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/rg_reportType"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@+id/rg_reportType"
+        android:gravity="center_vertical"
+        android:text="@string/lblReportType" />
+
+    <RadioGroup
+        android:id="@+id/rg_reportType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_selectReport" >
+
+        <RadioButton
+            android:id="@+id/rb_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:checked="true"
+            android:text="@string/lblIncome"
+            android:textColor="#FFF" />
+
+        <RadioButton
+            android:id="@+id/rb_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="@string/lblExpense"
+            android:textColor="#FFF" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_lblStartDate"
+        style="@style/TextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_lblReptType"
+        android:text="@string/lblStartDate" />
+
+    <TextView
+        android:id="@+id/tv_lblEndDate"
+        style="@style/TextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_lblStartDate"
+        android:text="@string/lblEndDate" />
+
+    <TextView
+        android:id="@+id/tv_endDate"
+        style="@style/TextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_lblEndDate"
+        android:layout_alignBottom="@+id/tv_lblEndDate"
+        android:layout_alignRight="@+id/tv_startDate"
+        android:text="@string/hintClickUpdate" />
+
+    <Button
+        android:id="@+id/btn_viewReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_endDate"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFF"
+        android:text="@string/btnViewReport" />
+
+    <TextView
+        android:id="@+id/tv_startDate"
+        style="@style/TextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_endDate"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="@string/hintClickUpdate" />
+
+</RelativeLayout>
