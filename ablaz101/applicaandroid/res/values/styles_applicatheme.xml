@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="ApplicaTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:editTextStyle">@style/EditTextApplicaTheme</item>
+    </style>
+
+    <style name="ApplicaTheme.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="IconWithEditTextFrameLayout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="IconWithEditText">
+        <item name="android:layout_width">17dp</item>
+        <item name="android:layout_height">17dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">18dp</item>
+    </style>
+
+    <style name="ApplicaLogoFrameLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">190dp</item>
+        <item name="android:background">@color/applica_blue</item>
+    </style>
+
+    <style name="ApplicaLogoImageView">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="EditTextApplicaTheme" parent="android:Widget.Holo.Light.EditText">
+        <item name="android:background">@drawable/applicatheme_edit_text_holo_light</item>
+    </style>
+
+  <style name="AutoCompleteTextViewApplicaTheme" parent="android:Widget.Holo.Light.AutoCompleteTextView">
+      <item name="android:dropDownSelector">@drawable/applicatheme_list_selector_holo_light</item>
+	    <item name="android:background">@drawable/applicatheme_edit_text_holo_light</item>
+  </style>
+
+  <style name="ButtonApplicaTheme" parent="android:Widget.Holo.Light.Button">
+	  <item name="android:background">@drawable/applicatheme_btn_default_holo_light</item>
+  </style>
+
+  <style name="ImageButtonApplicaTheme" parent="android:Widget.Holo.Light.ImageButton">
+	  <item name="android:background">@drawable/applicatheme_btn_default_holo_light</item>
+  </style>
+
+  <style name="SpinnerApplicaTheme" parent="android:Widget.Holo.Light.Spinner">
+      <item name="android:background">@drawable/applicatheme_spinner_background_holo_light</item>
+      <item name="android:dropDownSelector">@drawable/applicatheme_list_selector_holo_light</item>
+  </style>
+
+  <style name="ProgressBarApplicaTheme" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+      <item name="android:progressDrawable">@drawable/applicatheme_progress_horizontal_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/applicatheme_progress_indeterminate_horizontal_holo_light</item>
+  </style>
+
+</resources>

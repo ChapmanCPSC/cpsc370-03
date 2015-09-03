@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:background="@color/applica_gray_text">
+
+    <TextView
+        android:layout_width="229dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="University of the Philippines Diliman"
+        android:id="@+id/slideMenuSchoolName"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:layout_width="87dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="CANDIDATE"
+        android:id="@+id/slideMenuStatusCandidate"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:paddingTop="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="3dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/applica_green"
+        android:textColor="@color/white"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="87dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="DENIED"
+        android:id="@+id/slideMenuStatusDenied"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:paddingTop="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="3dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/applica_red"
+        android:textColor="@color/white"
+        android:gravity="center"/>
+
+</RelativeLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/widget_side_menu_row.xml -->

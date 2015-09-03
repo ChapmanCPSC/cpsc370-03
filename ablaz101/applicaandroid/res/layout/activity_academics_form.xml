@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        tools:context=".views.AcademicsFormActivity">
+
+        <!--<include layout="@layout/widget_top_bar"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:id="@+id/topBar"/>-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="10dp"
+            android:text="ACADEMIC INFORMATION"
+            android:id="@+id/academicInfoText"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/black"
+            android:layout_alignParentStart="true"/>
+
+        <include layout="@layout/view_dark_line"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@id/academicInfoText"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/academicInfoLine"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/academicFormSubjects"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/academicInfoLine"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"/>
+
+        <com.mikepenz.iconics.view.IconicsButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+ Add Another Subject"
+            android:id="@+id/addSubjectBtn"
+            android:layout_below="@id/academicFormSubjects"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:onClick="addAnotherSubject"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="10dp"
+            android:text="ACHIEVEMENTS"
+            android:id="@+id/achievementsText"
+            android:textColor="@android:color/black"
+            android:layout_alignStart="@id/academicInfoText"
+            android:layout_marginTop="17dp"
+            android:layout_below="@+id/addSubjectBtn"
+            android:layout_alignParentStart="true" />
+
+        <include layout="@layout/view_dark_line"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@id/achievementsText"
+            android:id="@+id/achievementsLine"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/achievementsInput"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/achievementsText"
+            android:layout_alignStart="@+id/achievementsText"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_above="@+id/saveAcademicsFormBtn"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Academics Form"
+            android:id="@+id/saveAcademicsFormBtn"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="onSaveAcademicsForm"/>
+
+    </RelativeLayout>
+
+    <!-- Side Navigation Drawer UI -->
+    <ListView
+        android:id="@+id/navList"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|start"
+        android:background="#ffeeeeee"/>
+
+</android.support.v4.widget.DrawerLayout>

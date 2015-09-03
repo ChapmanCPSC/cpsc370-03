@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+
+        <include layout="@layout/widget_top_bar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/topBar"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="FAMILY MEMBERS"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/familyMembersText"
+                android:textColor="@android:color/black"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"/>
+
+            <include layout="@layout/view_dark_line"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/familyMembersLine"
+                android:layout_below="@id/familyMembersText"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/familyMembersLine"
+                android:id="@+id/familyMembers">
+
+                <include layout="@layout/activity_family_form_member"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/familyMembersLine"
+                    android:layout_below="@id/familyMembersText"/>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="{plus} Add Another Family Member"
+                android:id="@+id/addAnotherFamilyMemberBtn"
+                android:layout_below="@+id/familyMembers"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Save Family Form"
+                android:id="@+id/saveFamilyFormBtn"
+                android:layout_below="@id/addAnotherFamilyMemberBtn"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>

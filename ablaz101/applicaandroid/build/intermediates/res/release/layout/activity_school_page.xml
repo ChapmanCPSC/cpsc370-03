@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <include layout="@layout/widget_top_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/topBar"
+        android:layout_marginBottom="10dp"/>
+
+    <include layout="@layout/widget_school_frame"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/schoolFrame"
+        android:layout_below="@id/topBar"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/schoolFrame"
+        android:id="@+id/buttons">
+
+        <com.mikepenz.iconics.view.IconicsButton
+            android:text="{Follow Button}"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/followButton"
+            android:layout_toLeftOf="@id/centerShim"/>
+
+        <View
+            android:id="@+id/centerShim"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:visibility="invisible"
+            android:layout_centerHorizontal="true"/>
+
+        <com.mikepenz.iconics.view.IconicsButton
+            android:text="{Apply Button}"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/applyButton"
+            android:layout_toRightOf="@id/followButton"/>
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/horizontalScrollView">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Add icons one by one here-->
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/infoListView"
+            android:layout_below="@+id/followButton"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_school_page.xml -->

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="RELATIONSHIP"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/relationshipText"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/familyMembersText"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/relationshipInput"
+        android:layout_below="@+id/relationshipText"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/relationshipText"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="LAST NAME"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/lastNameText"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/relationshipInput"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lastNameInput"
+        android:layout_below="@+id/lastNameText"
+        android:layout_alignStart="@+id/lastNameText"
+        android:paddingRight="170dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="FIRST NAME"
+        android:paddingLeft="4dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/firstNameText"
+        android:textColor="@android:color/black"
+        android:layout_above="@+id/lastNameInput"
+        android:layout_toEndOf="@+id/lastNameInput"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstNameInput"
+        android:layout_alignTop="@+id/lastNameInput"
+        android:layout_alignStart="@+id/firstNameText"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="MIDDLE NAME"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/middleNameText"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/lastNameInput"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/middleNameInput"
+        android:layout_below="@+id/middleNameText"
+        android:layout_alignStart="@+id/middleNameText"
+        android:layout_alignEnd="@+id/lastNameInput"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="CIVIL STATUS"
+        android:id="@+id/civilStatusText"
+        android:textColor="@android:color/black"
+        android:layout_above="@+id/middleNameInput"
+        android:layout_toEndOf="@+id/middleNameText"
+        android:layout_alignStart="@id/firstNameText"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Single"
+        android:id="@+id/singleRadioBtn"
+        android:layout_below="@+id/civilStatusText"
+        android:layout_alignStart="@+id/civilStatusText"
+        android:checked="false"
+        android:buttonTint="#58585b"
+        android:textColor="@android:color/black"
+        android:layout_alignBottom="@+id/middleNameInput"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="NATIONALITY"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/nationalityText"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/middleNameInput"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nationalityInput"
+        android:layout_below="@+id/nationalityText"
+        android:layout_alignStart="@+id/nationalityText"
+        android:layout_alignEnd="@+id/middleNameInput"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="OCCUPATION"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/occupationText"
+        android:textColor="@android:color/black"
+        android:layout_above="@+id/nationalityInput"
+        android:layout_toEndOf="@+id/nationalityInput"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/occupationInput"
+        android:layout_alignTop="@+id/nationalityInput"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/singleRadioBtn"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="HIGHEST EDUCATIONAL ATTAINMENT"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/highEducAtnText"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/nationalityInput"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highEducAtnInput"
+        android:layout_below="@+id/highEducAtnText"
+        android:layout_alignStart="@+id/highEducAtnText"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="EMPLOYER"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/employerText"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/highEducAtnInput"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/employerInput"
+        android:layout_below="@+id/employerText"
+        android:layout_alignStart="@+id/employerText"
+        android:layout_alignEnd="@+id/nationalityInput" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="INCOME"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/incomeText"
+        android:textColor="@android:color/black"
+        android:layout_above="@+id/employerInput"
+        android:layout_toEndOf="@+id/employerInput" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/incomeInput"
+        android:layout_below="@+id/incomeText"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/occupationInput"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="MAILING ADDRESS"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/mailAddressText"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/employerInput"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mailAddressInput"
+        android:layout_below="@+id/mailAddressText"
+        android:layout_alignStart="@+id/mailAddressText"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"/>
+
+</RelativeLayout>

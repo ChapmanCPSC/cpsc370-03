@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+
+        <include layout="@layout/widget_top_bar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/topBar"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" >
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="PERSONAL INFORMATION"
+                android:id="@+id/personalInfoText"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <include layout="@layout/view_dark_line"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/personalInfoText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="LAST NAME"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/lastNameText"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/personalInfoText"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lastNameInput"
+                android:layout_below="@+id/lastNameText"
+                android:layout_alignStart="@+id/lastNameText"
+                android:layout_toStartOf="@+id/centerShim" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="FIRST NAME"
+                android:id="@+id/firstNameText"
+                android:textColor="@android:color/black"
+                android:layout_above="@+id/lastNameInput"
+                android:layout_toEndOf="@+id/lastNameInput"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/firstNameInput"
+                android:layout_below="@+id/firstNameText"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/lastNameInput" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="MIDDLE NAME"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/middleNameText"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/lastNameInput"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/middleNameInput"
+                android:layout_below="@+id/middleNameText"
+                android:layout_alignStart="@+id/middleNameText"
+                android:layout_alignEnd="@+id/lastNameInput" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="SEX"
+                android:id="@+id/sexText"
+                android:textColor="@android:color/black"
+                android:layout_toEndOf="@+id/middleNameInput"
+                android:layout_below="@id/firstNameInput"/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sexSpinner"
+                android:layout_below="@+id/sexText"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/middleNameInput"
+                android:layout_alignBottom="@+id/middleNameInput" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="DATE OF BIRTH (MM/DD/YYYY)"
+                android:id="@+id/birthdayText"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/middleNameInput"
+                android:layout_alignStart="@+id/middleNameInput" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:ems="10"
+                android:id="@+id/birthdayInput"
+                android:layout_below="@+id/birthdayText"
+                android:layout_alignStart="@+id/birthdayText"
+                android:layout_above="@+id/emailText"
+                android:layout_toStartOf="@+id/firstNameText"
+                android:layout_alignEnd="@+id/presentStreetText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="NATIONALITY"
+                android:id="@+id/nationalityText"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/birthdayText"
+                android:layout_alignStart="@+id/birthdayText"
+                android:layout_marginTop="36dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nationalityInput"
+                android:layout_below="@+id/nationalityText"
+                android:layout_alignStart="@+id/nationalityText"
+                android:layout_toStartOf="@+id/emailInput" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="EMAIL"
+                android:id="@+id/emailText"
+                android:layout_alignTop="@+id/nationalityText"
+                android:layout_alignStart="@+id/civilStatusText" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emailInput"
+                android:layout_below="@+id/emailText"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/lastNameInput" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="MOBILE NO."
+                android:id="@+id/mobileText"
+                android:layout_below="@+id/nationalityInput"
+                android:layout_alignStart="@+id/nationalityText"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mobileInput"
+                android:layout_below="@+id/mobileText"
+                android:layout_alignStart="@+id/mobileText"
+                android:layout_toStartOf="@+id/emailInput" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="CIVIL STATUS"
+                android:id="@+id/civilStatusText"
+                android:textColor="@android:color/black"
+                android:layout_alignTop="@+id/mobileText"
+                android:layout_toEndOf="@+id/middleNameInput" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/civilStatusSpinner"
+                android:layout_below="@+id/civilStatusText"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/lastNameInput"
+                android:layout_above="@+id/presentProvAddress" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="PRESENT/PROVINCIAL ADDRESS"
+                android:id="@+id/presentProvAddress"
+                android:textColor="@android:color/black"
+                android:layout_alignParentStart="true"
+                android:textStyle="bold"
+                android:layout_marginTop="14dp"
+                android:layout_below="@id/mobileInput"
+                android:layout_marginLeft="10dp"/>
+
+            <include layout="@layout/view_dark_line"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/presentProvAddress"/>
+
+            <TextView
+                android:layout_width="365dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="PRESENT HOUSE NO. STREET, BARANGAY/VILLAGE"
+                android:id="@+id/presentStreetText"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/presentProvAddress"
+                android:layout_alignStart="@+id/mobileText" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/presentStreetInput"
+                android:layout_below="@+id/presentStreetText"
+                android:layout_alignStart="@+id/presentStreetText"
+                android:layout_alignEnd="@+id/presentStreetText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Town/City"
+                android:id="@+id/presentTownCityText"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/presentStreetInput"
+                android:layout_alignStart="@+id/presentStreetInput" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/presentTownCityInput"
+                android:layout_below="@+id/presentTownCityText"
+                android:layout_alignStart="@+id/presentTownCityText"
+                android:layout_alignEnd="@+id/presentTownCityText" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/centerShim"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Province"
+                android:textColor="@android:color/black"
+                android:id="@+id/presentProvinceText"
+                android:layout_below="@+id/presentStreetInput"
+                android:layout_centerHorizontal="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/presentProvinceInput"
+                android:layout_below="@+id/presentProvinceText"
+                android:layout_alignStart="@+id/presentProvinceText"
+                android:layout_alignEnd="@+id/presentProvinceText" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Zipcode"
+                android:textColor="@android:color/black"
+                android:id="@+id/presentZipcodeText"
+                android:layout_alignTop="@+id/presentProvinceText"
+                android:layout_alignEnd="@+id/presentStreetInput" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/presentZipcodeInput"
+                android:layout_below="@+id/presentZipcodeText"
+                android:layout_alignStart="@+id/presentZipcodeText"
+                android:layout_alignEnd="@+id/presentZipcodeText" />
+
+            <TextView
+                android:layout_width="365dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Prov. House No. Street, Barangay/Village "
+                android:id="@+id/provStreetText"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/presentTownCityInput"
+                android:layout_alignStart="@+id/presentTownCityInput"
+                android:layout_alignEnd="@id/presentZipcodeInput"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/provStreetInput"
+                android:layout_below="@+id/provStreetText"
+                android:layout_alignStart="@+id/provStreetText"
+                android:layout_alignEnd="@+id/provStreetText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Town/City"
+                android:id="@+id/provTownCityText"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/provStreetInput"
+                android:layout_alignStart="@+id/provStreetInput" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/provTownCityInput"
+                android:layout_below="@+id/provTownCityText"
+                android:layout_alignStart="@+id/provTownCityText"
+                android:layout_alignEnd="@+id/provTownCityText" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Province"
+                android:textColor="@android:color/black"
+                android:id="@+id/provProvText"
+                android:layout_alignTop="@+id/provTownCityText"
+                android:layout_centerHorizontal="true"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText26"
+                android:layout_below="@+id/provProvText"
+                android:layout_alignStart="@+id/provProvText"
+                android:layout_alignEnd="@+id/provProvText" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Zipcode"
+                android:textColor="@android:color/black"
+                android:id="@+id/provZipcodeText"
+                android:layout_alignTop="@+id/provProvText"
+                android:layout_alignEnd="@+id/presentZipcodeText" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/provZipcodeInput"
+                android:layout_below="@+id/provZipcodeText"
+                android:layout_alignStart="@+id/provZipcodeText"
+                android:layout_alignEnd="@+id/provZipcodeText" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Profile Form"
+                android:id="@+id/saveProfileFormBtn"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/provZipcodeInput"/>
+
+        </RelativeLayout>
+    
+    </ScrollView>
+
+</LinearLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_profile_form.xml -->

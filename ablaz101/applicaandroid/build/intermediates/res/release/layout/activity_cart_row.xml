@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- School Image -->
+    <ImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:id="@+id/cartRowSchoolImage"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/applica_blue"/>
+
+
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="University of the Philippines Diliman"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/cartRowSchoolName"
+        android:layout_toRightOf="@id/cartRowSchoolImage"/>
+
+    <!-- Application Price -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price: P600"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/cartRowAppPrice"
+        android:layout_toEndOf="@+id/cartRowSchoolImage"
+        android:layout_below="@id/cartRowSchoolName"/>
+
+    <!-- X Icon -->
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:id="@+id/cartRowXicon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/applica_blue"/>
+
+</RelativeLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_cart_row.xml -->

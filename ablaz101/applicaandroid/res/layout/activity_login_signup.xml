@@ -1,0 +1,120 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.LoginSignUpActivity">
+
+    <FrameLayout
+        style="@style/ApplicaLogoFrameLayout"
+        android:id="@+id/applicaLogoElements">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            style="@style/ApplicaLogoImageView"
+            android:id="@+id/applicaLogo"/>
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/centerShim"
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:id="@+id/homeSignUpImage"
+        android:layout_below="@id/applicaLogoElements"
+        android:layout_toLeftOf="@id/centerShim"
+        android:onClick="changeToSignUpLayout"
+        android:src="@drawable/gray_sign_up_btn"
+        android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:id="@+id/homeLoginImage"
+        android:layout_below="@id/applicaLogoElements"
+        android:layout_toRightOf="@id/centerShim"
+        android:onClick="changeToLoginLayout"
+        android:src="@drawable/blue_log_in_btn"
+        android:layout_marginTop="10dp"/>
+
+    <FrameLayout
+        style="@style/IconWithEditTextFrameLayout"
+        android:layout_below="@id/homeLoginImage"
+        android:id="@+id/homeEmailElements">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            style="@style/IconWithEditText"
+            android:id="@+id/homeEmailIcon"/>
+
+        <EditText
+            android:id="@+id/homeEmailInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="16"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="55dp"
+            android:hint="Your Email"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        style="@style/IconWithEditTextFrameLayout"
+        android:layout_below="@id/homeEmailElements"
+        android:id="@+id/homePasswordElements">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            style="@style/IconWithEditText"
+            android:id="@+id/homePasswordIcon"/>
+
+        <EditText
+            android:id="@+id/homePasswordInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="16"
+            android:inputType="textPassword"
+            android:paddingLeft="55dp"
+            android:paddingRight="65dp"
+            android:hint="Password"
+            android:layout_gravity="right|center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot?"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="7dp"
+            android:id="@+id/forgotPasswordTitle"
+            android:layout_gravity="right|bottom"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/applica_blue"
+            android:onClick="onForgotPasswordClick"
+            android:clickable="true"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        style="@style/IconWithEditTextFrameLayout"
+        android:id="@+id/homeConfirmPasswordElements"
+        android:layout_below="@id/homePasswordElements">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            style="@style/IconWithEditText"
+            android:id="@+id/homeCheckIcon"/>
+
+        <EditText
+            android:id="@+id/homeConfirmPasswordInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="16"
+            android:inputType="textPassword"
+            android:paddingLeft="55dp"
+            android:hint="Confirm Password"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

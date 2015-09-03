@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/values/strings.xml -->
+    <eat-comment/>
+    <color name="applica_blue">#157fc3</color>
+    <color name="applica_blue_alt">#2dafd5</color>
+    <color name="applica_gray_icon">#bbbdc0</color>
+    <color name="applica_gray_price">#58585b</color>
+    <color name="applica_gray_text">#939597</color>
+    <color name="applica_green">#8cc63e</color>
+    <color name="applica_red">#ed1c24</color>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/values/colors_applicatheme.xml -->
+    <eat-comment/>
+    <color name="applicatheme_color">#939597</color>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/values/strings.xml -->
+    <eat-comment/>
+    <color name="white">#FFFFFF</color>
+    <declare-styleable name="IconicsImageView"><attr format="string" name="iiv_icon"/><attr format="color|reference" name="iiv_color"/><attr format="dimension|reference" name="iiv_size"/><attr format="dimension|reference" name="iiv_padding"/></declare-styleable>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="navigation_drawer_width">240dp</dimen>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">Applica</string>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/build/intermediates/exploded-aar/com.mikepenz/iconics/1.2.1/res/values/values.xml -->
+    <eat-comment/>
+    <string name="define_AndroidIconics">year;owner</string>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="hello_world">Hello world!</string>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/build/intermediates/exploded-aar/com.mikepenz/iconics/1.2.1/res/values/values.xml -->
+    <eat-comment/>
+    <string name="library_AndroidIconics_author">Mike Penz</string>
+    <string name="library_AndroidIconics_authorWebsite">http://mikepenz.com/</string>
+    <string name="library_AndroidIconics_isOpenSource">true</string>
+    <string name="library_AndroidIconics_libraryDescription">
+        <![CDATA[
+        <b>Android-Iconics</b> will blow your mind :D
+        <br /><br />
+        Android-Iconics is a library to use (almost) any alternative icon-font in your projects. It allows you to add any Android-Iconics compatible typeface-library-addon to your project and you are able to start using that font.
+        ]]>
+    </string>
+    <string name="library_AndroidIconics_libraryName">Android-Iconics</string>
+    <string name="library_AndroidIconics_libraryVersion">1.2.1</string>
+    <string name="library_AndroidIconics_libraryWebsite">https://github.com/mikepenz/Android-Iconics</string>
+    <string name="library_AndroidIconics_licenseId">apache_2_0</string>
+    <string name="library_AndroidIconics_owner">Mike Penz</string>
+    <string name="library_AndroidIconics_repositoryLink">https://github.com/mikepenz/Android-Iconics</string>
+    <string name="library_AndroidIconics_year">2014</string>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/values/styles_applicatheme.xml -->
+    <eat-comment/>
+    <style name="ApplicaTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:editTextStyle">@style/EditTextApplicaTheme</item>
+    </style>
+    <style name="ApplicaTheme.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="AutoCompleteTextViewApplicaTheme" parent="android:Widget.Holo.Light.AutoCompleteTextView">
+      <item name="android:dropDownSelector">@drawable/applicatheme_list_selector_holo_light</item>
+	    <item name="android:background">@drawable/applicatheme_edit_text_holo_light</item>
+  </style>
+    <style name="ButtonApplicaTheme" parent="android:Widget.Holo.Light.Button">
+	  <item name="android:background">@drawable/applicatheme_btn_default_holo_light</item>
+  </style>
+    <style name="EditTextApplicaTheme" parent="android:Widget.Holo.Light.EditText">
+        <item name="android:background">@drawable/applicatheme_edit_text_holo_light</item>
+    </style>
+    <style name="ImageButtonApplicaTheme" parent="android:Widget.Holo.Light.ImageButton">
+	  <item name="android:background">@drawable/applicatheme_btn_default_holo_light</item>
+  </style>
+    <style name="ProgressBarApplicaTheme" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+      <item name="android:progressDrawable">@drawable/applicatheme_progress_horizontal_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/applicatheme_progress_indeterminate_horizontal_holo_light</item>
+  </style>
+    <style name="SpinnerApplicaTheme" parent="android:Widget.Holo.Light.Spinner">
+      <item name="android:background">@drawable/applicatheme_spinner_background_holo_light</item>
+      <item name="android:dropDownSelector">@drawable/applicatheme_list_selector_holo_light</item>
+  </style>
+    <!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/values/themes_applicatheme.xml -->
+    <eat-comment/>
+    <style name="_ApplicaTheme" parent="android:Theme.Holo.Light">
+
+    <item name="android:editTextBackground">@drawable/applicatheme_edit_text_holo_light</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewApplicaTheme</item>
+
+    <item name="android:buttonStyle">@style/ButtonApplicaTheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonApplicaTheme</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerApplicaTheme</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarApplicaTheme</item>
+
+    <item name="android:fastScrollThumbDrawable">@drawable/applicatheme_fastscroll_thumb_holo</item>
+
+  </style>
+</resources>

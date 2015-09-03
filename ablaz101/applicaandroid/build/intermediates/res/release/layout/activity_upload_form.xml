@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:id="@+id/selectedFilesTop">
+
+        <include layout="@layout/widget_top_bar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/topBar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="10dp"
+            android:text="SELECTED FILES"
+            android:id="@+id/selectedFilesText"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/topBar"/>
+
+        <include layout="@layout/view_dark_line"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@id/selectedFilesText"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:layout_below="@id/selectedFilesTop">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Uploaded abc123.jpg = 100%"
+                android:id="@+id/uploadText"
+                android:layout_marginTop="10dp"/>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/uploadProgressBar"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.mikepenz.iconics.view.IconicsButton
+        android:text="{plus} Add Files"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:id="@+id/addFilesBtn"
+        android:layout_above="@+id/uploadAllBtn"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload All"
+        android:id="@+id/uploadAllBtn"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
+
+<!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_upload_form.xml -->

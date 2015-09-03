@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- School Image -->
+    <!-- Hide if Transaction fee-->
+    <ImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:id="@+id/cartRowSchoolImage"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- School Name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ateneo de Manila University"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/cartRowSchoolName"
+        android:layout_toRightOf="@id/cartRowSchoolImage"/>
+
+    <!-- Application Price -->
+    <!-- Bold and enlarge if total-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price: P600"
+        android:id="@+id/cartRowAppPrice"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/cartRowSchoolName"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_select_payment_row.xml -->

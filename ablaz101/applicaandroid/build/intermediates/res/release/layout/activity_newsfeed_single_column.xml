@@ -1,0 +1,66 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+
+    <!-- Article Image -->
+    <ImageView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/newsfeedRowArticleImage"/>
+
+    <!-- Article Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Article Title"
+        android:id="@+id/newsfeedRowArticleTitle"
+        android:layout_toRightOf="@id/newsfeedRowArticleImage"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginBottom="18dp"
+        android:layout_gravity="center" />
+
+    <!-- Article Snippet Description-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Lorem ipsum dolor sit amet consectetur adipiscing"
+        android:id="@+id/newsfeedDescription1"
+        android:layout_toRightOf="@id/newsfeedRowArticleImage"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="elit. Curabitur blandit quam bibendum..."
+        android:id="@+id/newsfeedDescription2"
+        android:layout_gravity="center" />
+
+    <!-- Article Date Posted On -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date: 04/04/15"
+        android:id="@+id/newsfeedRowDate"
+        android:layout_toRightOf="@id/newsfeedRowArticleImage"
+        android:layout_below="@id/newsfeedRowArticleTitle"
+        android:layout_gravity="left|bottom"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- Article Category-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category: Startups"
+        android:id="@+id/newsfeedRowCategory"
+        android:layout_toRightOf="@id/newsfeedRowArticleImage"
+        android:layout_below="@id/newsfeedRowDate"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"/>
+
+</FrameLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_newsfeed_single_column.xml -->

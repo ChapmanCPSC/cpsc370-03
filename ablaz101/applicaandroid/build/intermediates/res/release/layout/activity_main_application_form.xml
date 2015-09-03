@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <include layout="@layout/widget_top_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/topBar"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/formsListView"
+        android:layout_gravity="center_horizontal"
+        android:choiceMode="singleChoice"
+        android:layout_below="@id/topBar"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send All"
+        android:id="@+id/sendAllBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/formsListView"/>
+
+</RelativeLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_main_application_form.xml -->

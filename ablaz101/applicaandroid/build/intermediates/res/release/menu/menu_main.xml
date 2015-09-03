@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item android:id="@+id/action_search"
+        android:title="drawable search bar"
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:showAsAction="never"/>
+</menu><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/menu/menu_main.xml -->

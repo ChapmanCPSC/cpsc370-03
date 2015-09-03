@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="_ApplicaTheme" parent="android:Theme.Holo.Light">
+
+    <item name="android:editTextBackground">@drawable/applicatheme_edit_text_holo_light</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewApplicaTheme</item>
+
+    <item name="android:buttonStyle">@style/ButtonApplicaTheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonApplicaTheme</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerApplicaTheme</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarApplicaTheme</item>
+
+    <item name="android:fastScrollThumbDrawable">@drawable/applicatheme_fastscroll_thumb_holo</item>
+
+  </style>
+
+</resources>

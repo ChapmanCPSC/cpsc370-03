@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Main Content View-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white">
+
+                <include layout="@layout/widget_top_bar"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/topBar"/>
+
+            </RelativeLayout>
+
+        <ScrollView
+            android:id="@+id/ScrollView01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:id="@+id/profilePicture"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/applica_blue"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="King Alandy Dy"
+                    android:id="@+id/studentName"
+                    android:textColor="@android:color/black"
+                    android:layout_toRightOf="@id/profilePicture"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Student"
+                    android:id="@+id/studentTitle"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="10dp"
+                    android:layout_below="@id/studentName"
+                    android:layout_toRightOf="@id/profilePicture"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Name"
+                    android:id="@+id/nameTitle"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@id/profilePicture"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="First Name"
+                    android:ems="12"
+                    android:id="@+id/firstNameInput"
+                    android:layout_below="@id/profilePicture"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignStart="@+id/studentTitle"
+                    android:layout_toRightOf="@id/nameTitle"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="Middle Name"
+                    android:ems="12"
+                    android:id="@+id/middleNameInput"
+                    android:layout_below="@id/firstNameInput"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignStart="@+id/studentTitle"
+                    android:layout_toRightOf="@id/nameTitle"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="Last Name"
+                    android:ems="12"
+                    android:id="@+id/lastNameInput"
+                    android:layout_below="@id/middleNameInput"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignStart="@+id/studentTitle"
+                    android:layout_toRightOf="@id/nameTitle"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Mobile No."
+                    android:id="@+id/mobileTitle"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@id/lastNameInput"
+                    android:layout_alignBottom="@+id/mobileInput"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="10dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="Mobile Number"
+                    android:ems="12"
+                    android:id="@+id/mobileInput"
+                    android:layout_below="@id/lastNameInput"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignEnd="@+id/lastNameInput"
+                    android:layout_toEndOf="@+id/studentTitle"
+                    android:layout_toRightOf="@id/mobileTitle"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Birthdate"
+                    android:id="@+id/birthdayTitle"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@id/mobileTitle"
+                    android:layout_alignBottom="@+id/birthdayInput"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="10dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="mm-dd-yyyy"
+                    android:ems="12"
+                    android:id="@+id/birthdayInput"
+                    android:layout_below="@id/mobileInput"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignStart="@id/mobileInput"
+                    android:layout_alignEnd="@id/mobileInput"
+                    android:layout_toRightOf="@id/profilePicture"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Country"
+                    android:id="@+id/countryTitle"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@id/birthdayTitle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="18dp"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="Select Country"
+                    android:ems="12"
+                    android:id="@+id/countryInput"
+                    android:layout_below="@id/birthdayInput"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignEnd="@+id/lastNameInput"
+                    android:layout_toEndOf="@+id/studentTitle"
+                    android:layout_toRightOf="@id/profilePicture"
+                    android:layout_alignStart="@id/birthdayInput"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Region"
+                    android:id="@+id/regionTitle"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@id/countryInput"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="18dp"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="Select Region"
+                    android:ems="12"
+                    android:id="@+id/regionInput"
+                    android:layout_below="@id/countryInput"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignStart="@id/countryInput"
+                    android:layout_alignEnd="@+id/lastNameInput"
+                    android:layout_toRightOf="@id/profilePicture"
+                    android:layout_toEndOf="@+id/studentTitle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Province"
+                    android:id="@+id/provinceTitle"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@id/regionTitle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="26dp"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="Select Province"
+                    android:ems="12"
+                    android:id="@+id/provinceInput"
+                    android:layout_below="@id/regionInput"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignStart="@id/regionInput"
+                    android:layout_alignEnd="@+id/lastNameInput"
+                    android:layout_toRightOf="@id/profilePicture"
+                    android:layout_toEndOf="@+id/studentTitle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="City"
+                    android:id="@+id/cityTitle"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@id/provinceTitle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_alignBottom="@+id/cityInput"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="Select City"
+                    android:ems="12"
+                    android:id="@+id/cityInput"
+                    android:layout_below="@id/provinceInput"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignEnd="@+id/lastNameInput"
+                    android:layout_toEndOf="@+id/studentTitle"
+                    android:layout_toRightOf="@id/profilePicture"
+                    android:layout_alignStart="@id/provinceInput"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="Save Profile Form"
+                    android:ems="12"
+                    android:id="@+id/saveBtn"
+                    android:layout_below="@id/cityInput"
+                    android:layout_marginTop="10dp" />
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- Side Navigation Drawer UI -->
+    <ListView
+        android:id="@+id/navList"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|start"
+        android:background="#ffeeeeee"/>
+
+</android.support.v4.widget.DrawerLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_profile.xml -->

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:background="@color/applica_gray_text">
+
+    <TextView
+        android:layout_width="229dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="University of the Philippines Diliman"
+        android:id="@+id/slideMenuSchoolName"
+        android:layout_gravity="left|center_vertical"
+        android:textColor="@color/white"
+        android:layout_marginLeft="15dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="20dp"/>
+
+    <!-- aspirant, candidate, denied, accepted, incomplete-->
+    <!--denied-red applica_red-->
+    <!--accepted-green applica_green -->
+    <!--aspirant-gray applica_gray_price -->
+    <!--candidate-blue applica_blue or applica_blue_alt-->
+    <!--incomplete- yellow a-->
+
+    <TextView
+        android:layout_width="87dp"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:text="DENIED"
+        android:id="@+id/slideMenuStatusDenied"
+        android:layout_centerVertical="true"
+        android:paddingTop="3dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="3dp"
+        android:layout_marginRight="40dp"
+        android:background="@color/applica_red"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_toRightOf="@id/slideMenuSchoolName"
+        android:layout_gravity="right|center_vertical" />
+
+</FrameLayout>

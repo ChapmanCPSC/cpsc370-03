@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <include layout="@layout/widget_top_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/topBar"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Send a recommendation request to your preferred teacher."
+        android:id="@+id/sendRecRequestTitle"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/topBar"/>
+
+    <!-- Email Icon-->
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="36dp"
+        android:id="@+id/emailIcon"
+        android:layout_below="@id/sendRecRequestTitle"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sendRecRequestTitle"
+        android:layout_alignStart="@id/resetYourPassword"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:id="@+id/homeEmailElements">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:id="@+id/homeEmailIcon"
+            android:background="@color/applica_blue"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="18dp"/>
+
+        <!-- 10 spaces -->
+        <EditText
+            android:id="@+id/homeEmailInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="14"
+            android:inputType="textEmailAddress"
+            android:hint="          Teacher's Email"/>
+
+    </FrameLayout>
+
+</RelativeLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_recommendation.xml -->

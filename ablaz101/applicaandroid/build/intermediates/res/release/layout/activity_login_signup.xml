@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- Applica Logo-->
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:id="@+id/applicaLogo"
+        android:background="@color/applica_blue"
+        android:layout_gravity="center_horizontal"/>
+
+    <View
+        android:id="@+id/centerShim"
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- Sign Up Image-->
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:id="@+id/homeSignUpImage"
+        android:layout_below="@id/applicaLogo"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/centerShim"
+        android:background="@color/applica_gray_icon"/>
+
+    <!-- Log In Image-->
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:id="@+id/homeLoginImage"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/applicaLogo"
+        android:layout_toRightOf="@id/centerShim"
+        android:background="@color/applica_blue_alt"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/homeLoginImage"
+        android:layout_alignStart="@id/resetYourPassword"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:id="@+id/homeEmailElements">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:id="@+id/homeEmailIcon"
+            android:background="@color/applica_blue"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="18dp"/>
+
+        <!-- 10 spaces -->
+        <EditText
+            android:id="@+id/homeEmailInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="14"
+            android:inputType="textEmailAddress"
+            android:hint="          Your Email"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/homeEmailElements"
+        android:layout_alignStart="@id/resetYourPassword"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="40dp"
+        android:id="@+id/homePasswordElements">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:id="@+id/homePasswordIcon"
+            android:background="@color/applica_blue"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="18dp"/>
+
+        <!-- 4 spaces -->
+        <EditText
+            android:id="@+id/homePasswordInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="14"
+            android:inputType="textPassword"
+            android:hint="    Password"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Forgot?"
+            android:textColor="@color/applica_blue"
+            android:id="@+id/forgotPasswordTitle"
+            android:layout_toEndOf="@+id/homePasswordInput"
+            android:layout_alignTop="@+id/homePasswordInput"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_above="@+id/homeCheckIcon"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/homePasswordElements"
+        android:layout_alignStart="@id/resetYourPassword"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="40dp"
+        android:id="@+id/homeConfirmPasswordElements">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:id="@+id/homeCheckIcon"
+            android:background="@color/applica_blue"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="18dp"/>
+
+        <!-- 4 spaces -->
+        <EditText
+            android:id="@+id/homeConfirmPasswordInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="14"
+            android:inputType="textPassword"
+            android:hint="    Confirm Password"/>
+
+    </FrameLayout>
+
+</RelativeLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_login_signup.xml -->

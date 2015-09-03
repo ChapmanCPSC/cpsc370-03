@@ -1,0 +1,55 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+
+    <!-- Article Image -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/aboutTheSchoolBackgroundImage"
+        android:background="@color/applica_blue"/>
+
+    <!-- Article Title -->
+    <ImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:text="Article Title"
+        android:id="@+id/aboutTheSchoolSchoolImage"
+        android:layout_toRightOf="@id/newsfeedRowArticleImage"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginBottom="36dp"
+        android:layout_gravity="center"
+        android:background="@android:color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Name of School"
+        android:textStyle="bold"
+        android:id="@+id/newsfeedDescription2"
+        android:layout_below="@id/aboutTheSchoolSchoolImage"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_gravity="center"
+        android:textColor="@color/white"/>
+
+    <com.mikepenz.iconics.view.IconicsImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/followerIcon"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="50dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="123 followers"
+        android:id="@+id/followersText"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/white"/>
+
+</FrameLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/widget_school_frame.xml -->

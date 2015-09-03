@@ -1,0 +1,58 @@
+<android.support.v4.widget.DrawerLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/drawer_layout"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+    <!-- Main Content View-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/widget_top_bar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/topBar"/>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="310dp"
+            android:id="@+id/cartListView"
+            android:layout_below="@id/topBar"
+            android:layout_marginBottom="10dp"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp"
+            android:paddingBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Total: P650"
+            android:gravity="center"
+            android:id="@+id/cartTotal"
+            android:layout_below="@id/cartListView"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cartButtonCheckOut"
+            android:text="Checkout"
+            android:layout_below="@id/cartTotal"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+<!-- Side Navigation Drawer UI -->
+<ListView
+    android:id="@+id/navList"
+    android:layout_width="350dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="left|start"
+    android:background="#ffeeeeee"/>
+
+</android.support.v4.widget.DrawerLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_cart.xml -->

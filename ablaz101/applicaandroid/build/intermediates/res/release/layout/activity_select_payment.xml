@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <include layout="@layout/widget_top_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/topBar"
+        android:layout_marginBottom="10dp"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/selectPaymentListView"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Select Payment Method"
+        android:id="@+id/selectPaymentMethodText"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/selectPaymentListView"
+        android:layout_marginBottom="10dp"/>
+
+    <include layout="@layout/activity_select_payment_gcash"
+        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:id="@+id/gcashElements"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/selectPaymentMethodText"/>
+
+    <include layout="@layout/activity_select_payment_paypal"
+        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:id="@+id/paypalElements"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/gcashElements"/>
+
+
+</RelativeLayout><!-- From: file:/Users/Xavi/Desktop/workspace2016/applicaandroid/res/layout/activity_select_payment.xml -->
