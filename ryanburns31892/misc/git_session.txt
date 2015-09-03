@@ -1,0 +1,308 @@
+[cpsc@localhost ~]$ ls
+Android  Documents  Music     Public     UMLet   weka.log
+Desktop  Downloads  Pictures  Templates  Videos
+[cpsc@localhost ~]$ which git
+/usr/bin/git
+[cpsc@localhost ~]$ mkdir Dev
+[cpsc@localhost ~]$ cd Dev
+[cpsc@localhost Dev]$ mkdir test
+[cpsc@localhost Dev]$ cd test
+[cpsc@localhost test]$ git init
+Initialized empty Git repository in /home/cpsc/Dev/test/.git/
+[cpsc@localhost test]$ ls
+[cpsc@localhost test]$ ls -a
+.  ..  .git
+[cpsc@localhost test]$ git help
+usage: git [--version] [--help] [-c name=value]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p|--paginate|--no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           <command> [<args>]
+
+The most commonly used git commands are:
+   add        Add file contents to the index
+   bisect     Find by binary search the change that introduced a bug
+   branch     List, create, or delete branches
+   checkout   Checkout a branch or paths to the working tree
+   clone      Clone a repository into a new directory
+   commit     Record changes to the repository
+   diff       Show changes between commits, commit and working tree, etc
+   fetch      Download objects and refs from another repository
+   grep       Print lines matching a pattern
+   init       Create an empty Git repository or reinitialize an existing one
+   log        Show commit logs
+   merge      Join two or more development histories together
+   mv         Move or rename a file, a directory, or a symlink
+   pull       Fetch from and merge with another repository or a local branch
+   push       Update remote refs along with associated objects
+   rebase     Forward-port local commits to the updated upstream head
+   reset      Reset current HEAD to the specified state
+   rm         Remove files from the working tree and from the index
+   show       Show various types of objects
+   status     Show the working tree status
+   tag        Create, list, delete or verify a tag object signed with GPG
+
+'git help -a' and 'git help -g' lists available subcommands and some
+concept guides. See 'git help <command>' or 'git help <concept>'
+to read about a specific subcommand or concept.
+[cpsc@localhost test]$ nano README.txt
+[cpsc@localhost test]$ ls
+README.txt
+[cpsc@localhost test]$ git status
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	README.txt
+nothing added to commit but untracked files present (use "git add" to track)
+[cpsc@localhost test]$ git add README.txt
+[cpsc@localhost test]$ git status
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#	new file:   README.txt
+#
+[cpsc@localhost test]$ git commit
+[master (root-commit) 39f7856] this is a commit
+ Committer: Chapman CPSC <cpsc@localhost.localdomain>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.txt
+[cpsc@localhost test]$ git status
+# On branch master
+nothing to commit, working directory clean
+[cpsc@localhost test]$ nano README.txt 
+[cpsc@localhost test]$ git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   README.txt
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+[cpsc@localhost test]$ git add .
+[cpsc@localhost test]$ git commit -m 'this is an easier commit'
+[master cb320d3] this is an easier commit
+ Committer: Chapman CPSC <cpsc@localhost.localdomain>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 1 insertion(+)
+[cpsc@localhost test]$ git status
+# On branch master
+nothing to commit, working directory clean
+[cpsc@localhost test]$ 
+[cpsc@localhost test]$ 
+[cpsc@localhost test]$ git log README.txt
+commit cb320d31cf6274e0a3aae8432ae10924228d8782
+Author: Chapman CPSC <cpsc@localhost.localdomain>
+Date:   Wed Sep 2 20:03:08 2015 -0700
+
+    this is an easier commit
+
+commit 39f7856f61d5ef175450cc29a9506d6bc2f625e3
+Author: Chapman CPSC <cpsc@localhost.localdomain>
+Date:   Wed Sep 2 20:00:02 2015 -0700
+
+    this is a commit
+[cpsc@localhost test]$ git diff README.txt
+[cpsc@localhost test]$ git diff cb320d31cf6274e0a3aae8432ae10924228d8782
+[cpsc@localhost test]$ git diff cb320d31cf6274e0a3aae8432ae10924228d8782
+[cpsc@localhost test]$ git diff 39f7856f61d5ef175450cc29a9506d6bc2f625e3
+diff --git a/README.txt b/README.txt
+index cd9df15..5fb08bc 100644
+--- a/README.txt
++++ b/README.txt
+@@ -1 +1,2 @@
+ 1st line
++2nd line
+[cpsc@localhost test]$ 
+[cpsc@localhost test]$ 
+[cpsc@localhost test]$ 
+[cpsc@localhost test]$ git branch
+* master
+[cpsc@localhost test]$ git branch feature1
+[cpsc@localhost test]$ git branch
+  feature1
+* master
+[cpsc@localhost test]$ git checkout feature1
+Switched to branch 'feature1'
+[cpsc@localhost test]$ ls
+README.txt
+[cpsc@localhost test]$ nano README.txt 
+[cpsc@localhost test]$ nano README2.txt
+[cpsc@localhost test]$ git status
+# On branch feature1
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   README.txt
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	README2.txt
+no changes added to commit (use "git add" and/or "git commit -a")
+[cpsc@localhost test]$ git add .
+[cpsc@localhost test]$ git status
+# On branch feature1
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   README.txt
+#	new file:   README2.txt
+#
+[cpsc@localhost test]$ git commit -m 'made change to branch'
+[feature1 353a33a] made change to branch
+ Committer: Chapman CPSC <cpsc@localhost.localdomain>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 2 files changed, 2 insertions(+)
+ create mode 100644 README2.txt
+[cpsc@localhost test]$ ls
+README2.txt  README.txt
+[cpsc@localhost test]$ git checkout master
+Switched to branch 'master'
+[cpsc@localhost test]$ ls
+README.txt
+[cpsc@localhost test]$ cat README.txt 
+1st line
+2nd line
+[cpsc@localhost test]$ git merge feature1
+Updating cb320d3..353a33a
+Fast-forward
+ README.txt  | 1 +
+ README2.txt | 1 +
+ 2 files changed, 2 insertions(+)
+ create mode 100644 README2.txt
+[cpsc@localhost test]$ ls
+README2.txt  README.txt
+[cpsc@localhost test]$ git status
+# On branch master
+nothing to commit, working directory clean
+[cpsc@localhost test]$ 
+[cpsc@localhost test]$ 
+[cpsc@localhost test]$ 
+[cpsc@localhost test]$ git checkout feature1
+Switched to branch 'feature1'
+[cpsc@localhost test]$ nano README.txt 
+[cpsc@localhost test]$ git commit -a -m 'committing fourth line'
+[feature1 5d02d24] committing fourth line
+ Committer: Chapman CPSC <cpsc@localhost.localdomain>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 1 insertion(+)
+[cpsc@localhost test]$ git checkout master
+Switched to branch 'master'
+[cpsc@localhost test]$ nano README.txt 
+[cpsc@localhost test]$ git merge feature1
+Updating 353a33a..5d02d24
+error: Your local changes to the following files would be overwritten by merge:
+	README.txt
+Please, commit your changes or stash them before you can merge.
+Aborting
+[cpsc@localhost test]$ nano README.txt
+[cpsc@localhost test]$ git commit -a -m 'commiting fourth line'
+[master 539f753] commiting fourth line
+ Committer: Chapman CPSC <cpsc@localhost.localdomain>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 1 insertion(+)
+[cpsc@localhost test]$ git merge feature1
+Auto-merging README.txt
+CONFLICT (content): Merge conflict in README.txt
+Automatic merge failed; fix conflicts and then commit the result.
+[cpsc@localhost test]$ nano README.txt 
+[cpsc@localhost test]$ ls
+README2.txt  README.txt
+[cpsc@localhost test]$ git commit -a -m 'resolving conflict'
+[master f84b2e4] resolving conflict
+ Committer: Chapman CPSC <cpsc@localhost.localdomain>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+[cpsc@localhost test]$ git status
+# On branch master
+nothing to commit, working directory clean
+[cpsc@localhost test]$ cd ..
+[cpsc@localhost Dev]$ ls
+test
+[cpsc@localhost Dev]$ git clone https://github.com/ChapmanCPSC/cpsc370-03.git
+Cloning into 'cpsc370-03'...
+Username for 'https://github.com': ryanburns31892
+Password for 'https://ryanburns31892@github.com': 
+remote: Counting objects: 119, done.
+remote: Total 119 (delta 0), reused 0 (delta 0), pack-reused 119
+Receiving objects: 100% (119/119), 86.93 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (16/16), done.
+[cpsc@localhost Dev]$ ls
+cpsc370-03  test
+[cpsc@localhost Dev]$ cd cpsc370-03/
+[cpsc@localhost cpsc370-03]$ ls
+README.md  ryanburns31892  xaviablaza
+[cpsc@localhost cpsc370-03]$ cd ryanburns31892/
+[cpsc@localhost ryanburns31892]$ ls
+README.txt
+[cpsc@localhost ryanburns31892]$ 
