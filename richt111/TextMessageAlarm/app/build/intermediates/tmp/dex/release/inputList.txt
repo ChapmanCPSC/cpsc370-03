@@ -1,0 +1,8 @@
+D:\Android\Projects\TextMessageAlarm\app\build\intermediates\classes\release
+D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\support-annotations-22.2.0-87f5a75e1de9f212162c85b163eaa9811670bbdf.jar
+D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-de8c9001b2694f4e15fa640069ec1b212bf262b2.jar
+D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-49c1f74160c57104912475cceea81a5d6cf376c9.jar
+D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\internal_impl-22.2.0-f3f5f7cd94348a311d7f9764c619b8f5f38d83be.jar
+D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-c4b33b98ca4c629cafa91fac42bf6b779ed00e4f.jar
+D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-cb5148b97ab7d735890ded3c5c36955705fc53d3.jar
+D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-6fd66e6c9f1465672803f373d5b2e4505cc1458e.jar

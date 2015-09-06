@@ -1,0 +1,14 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="material_primary">#0288D1</color>
+    <color name="material_primary_dark">#0277BD</color>
+    <color name="material_accent">#8BC34A</color>
+    <color name="material_text_primary">#212121</color>
+    <color name="material_text_secondary">#727272</color>
+    <color name="material_text_title">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
+
+    <color name="row_selected">#BBCCDD</color>
+
+</resources>
