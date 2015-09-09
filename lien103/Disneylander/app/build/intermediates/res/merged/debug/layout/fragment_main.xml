@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_maps_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <TextView
+        android:id="@+id/WelcomeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="15sp"
+        android:paddingLeft="15sp"
+        android:paddingRight="15sp"
+        android:text="@string/welcome_message"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/WeatherTipTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="50dp"
+        android:text="@string/weather_tip"
+        android:textSize="15sp" />
+    
+   <TextView
+        android:id="@+id/CurrentTempuratureTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:text="@string/current_weather"
+        android:textSize="40sp" />
+
+</LinearLayout>
+
+	<!-- From: file:/Users/IsaacLien/StudioProjects/Disneylander/app/src/main/res/layout/fragment_main.xml -->

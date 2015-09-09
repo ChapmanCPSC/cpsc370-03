@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_maps_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:overScrollMode="always"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbars="horizontal" >
+
+    <com.example.disneylander.ui.TouchImageView
+        android:id="@+id/disneylandMapImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/dlmap"
+        android:gravity="center"
+        android:scrollbars="horizontal"
+        android:src="@drawable/disneyland_map" />
+
+</LinearLayout>
+<!-- From: file:/Users/IsaacLien/StudioProjects/Disneylander/app/src/main/res/layout/fragment_map.xml -->

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Disneylander</string>
+    <string name="title_section1">Home</string>
+    <string name="title_section2">To Do List</string>
+    <string name="title_section3">My Stats</string>
+    <string name="title_section4">Park Map</string>
+    <string name="title_section5">Rides List</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example"></string>
+    <string name="action_settings"></string>
+    <string name="weather_tip">The current weather at Disneyland is:</string>
+    <string name="current_weather">70°</string>
+    <string name="visited_times_tip">You have visited Disneyland:</string>
+    <string name="visited_times_number">43 times</string>
+    <string name="most_ridden_tip">Your most ridden ride is:</string>
+    <string name="most_ridden_ride">Pirates of the Cribbean</string>
+    <string name="average_visit_tip">You have been on this many rides total:</string>
+    <string name="average_visit_number">212</string>
+    <string name="welcome_message">Welcome to the Happiest App on Earth!</string>
+    <string name="title_activity_ride_details">RideDetailsActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="ride_times_tip">You have been on this ride:</string>
+    <string name="ride_num_times">11 times</string>
+    <string name="Addtodo_button">Add to To-Do List</string>
+    <string name="dlmap">Disneyland Map</string>
+    
+    <string name="open_weather_maps_app_id">47e9956ed2acdf1e04fa6ac900007429</string>
+     
+    <string name="weather_sunny">&#xf00d;</string>
+    <string name="weather_clear_night">&#xf02e;</string>
+     
+    <string name="weather_foggy">&#xf014;</string>
+    <string name="weather_cloudy">&#xf013;</string>
+    <string name="weather_rainy">&#xf019;</string>
+    <string name="weather_snowy">&#xf01b;</string>
+    <string name="weather_thunder">&#xf01e;</string>
+    <string name="weather_drizzle">&#xf01c;</string>
+     
+    <string name="place_not_found">Sorry, no weather data found.</string>    
+   
+
+</resources>

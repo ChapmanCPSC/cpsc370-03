@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_ride_details_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/NameOfRideTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:text=""
+        android:textSize="30sp" />
+    
+	<TextView
+        android:id="@+id/VisitedTipTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="50sp"
+        android:paddingRight="15sp"
+        android:text="@string/ride_times_tip"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/TimesVisitedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="5dp"
+        android:text="@string/ride_num_times"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="5dp"
+        android:text="Back" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:paddingTop="50sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal">
+
+        
+        <Button
+        android:id="@+id/addTodoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="5dp"
+        android:text="@string/Addtodo_button" />
+        
+         <Button
+        android:id="@+id/justRodeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="5dp"
+        android:text="I just rode it!" />
+        
+    </LinearLayout>
+    
+</LinearLayout>
