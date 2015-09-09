@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/vEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="17dp"
+        android:textSize="30sp"
+        android:text="@string/event"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/eEvent"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/vEvent"
+        android:layout_below="@+id/vEvent"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/vDate"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/eEvent"
+        android:layout_below="@+id/eEvent"
+        android:layout_marginTop="14dp"
+        android:text="@string/date"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/eDate"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/vDate"
+        android:layout_below="@+id/vDate"
+        android:ems="10"
+        android:inputType="date" />
+
+    <TextView
+        android:id="@+id/vTime"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/eDate"
+        android:layout_below="@+id/eDate"
+        android:layout_marginTop="15dp"
+        android:text="@string/time"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/eTime"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/vTime"
+        android:layout_below="@+id/vTime"
+        android:ems="10"
+        android:inputType="time" />
+
+    <TextView
+        android:id="@+id/vPlace"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/eTime"
+        android:layout_below="@+id/eTime"
+        android:layout_marginTop="14dp"
+        android:text="@string/place"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/ePlace"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/vPlace"
+        android:layout_below="@+id/vPlace"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/submitEvent"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ePlace"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:text="@string/submit" />
+
+    <Button
+        android:id="@+id/eventList"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/submitEvent"
+        android:layout_alignBottom="@+id/submitEvent"
+        android:layout_toRightOf="@+id/submitEvent"
+        android:text="List of Events" />
+
+    <Button
+        android:id="@+id/selectMembersBtn"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ePlace"
+        android:layout_below="@+id/ePlace"
+        android:layout_marginTop="15dp"
+        android:text="@string/select_members" />
+
+</RelativeLayout>
