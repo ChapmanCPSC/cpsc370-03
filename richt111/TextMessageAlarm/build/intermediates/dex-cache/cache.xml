@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-000171a3c76a6489a43152fd2f5051e985d52719.jar" />
+    </item>
+    <item
+        jar="D:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\support-annotations-23.0.1-9792d51791d92eddc0d9758885c1364396bdbf7e.jar" />
+    </item>
+    <item
+        jar="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\exploded-aar\com.afollestad\material-dialogs\0.7.9.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="278810b7c706bc3786d4dcb3f93f9afbb49e7c9a">
+        <dex dex="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-ec11f22247eb04247f0e0e1601fbbe70f1beb59d.jar" />
+    </item>
+    <item
+        jar="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\exploded-aar\com.android.support\design\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-aa9fae9a65bfd435b39d6c374c6a56df46d51360.jar" />
+    </item>
+    <item
+        jar="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-edb47fa822c1ef4a00cb73261a63c827307e8577.jar" />
+    </item>
+    <item
+        jar="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\internal_impl-23.0.1-bd5e12ed8ca560475a8cceb0478785c7a4bbf052.jar" />
+    </item>
+    <item
+        jar="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4356e230a981d1bbf047d848b91bc0d9b7c5bacc">
+        <dex dex="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-84f5a2c6e1f9522d42352e8be4152d8433c1b790.jar" />
+    </item>
+    <item
+        jar="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="39ae02ce40c3ac828abbf780ce0ff5d7a28b7d6a">
+        <dex dex="D:\Android\Projects\TextMessageAlarm\app\build\intermediates\pre-dexed\release\classes-df17b6080e72849fd2c2d952197edf2b9cccba25.jar" />
+    </item>
+
+</items>
