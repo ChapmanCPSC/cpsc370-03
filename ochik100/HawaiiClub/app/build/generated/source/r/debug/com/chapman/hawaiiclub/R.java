@@ -37,7 +37,7 @@ public final class R {
         public static final int eTime=0x7f080005;
         public static final int editListBtn=0x7f080025;
         public static final int eventBtn=0x7f080019;
-        public static final int eventList=0x7f080009;
+        public static final int eventList=0x7f08000a;
         public static final int frame=0x7f080016;
         public static final int homepage=0x7f08004a;
         public static final int homepage2=0x7f080047;
@@ -57,9 +57,9 @@ public final class R {
         public static final int sTime=0x7f080034;
         public static final int saveMember=0x7f08004c;
         public static final int save_event=0x7f08004b;
-        public static final int selectMembersBtn=0x7f08000a;
+        public static final int selectMembersBtn=0x7f080008;
         public static final int sendBtn=0x7f08001b;
-        public static final int submitEvent=0x7f080008;
+        public static final int submitEvent=0x7f080009;
         public static final int submitMember=0x7f080015;
         public static final int uDate=0x7f08001f;
         public static final int uEmail=0x7f08002b;
