@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/sEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="21dp"
+        android:layout_marginTop="19dp"
+        android:text="@string/event"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/viewEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sEvent"
+        android:layout_below="@+id/sEvent"
+        
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/sDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/viewEvent"
+        android:layout_below="@+id/viewEvent"
+        android:layout_marginTop="16dp"
+        android:text="@string/date"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/viewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sDate"
+        android:layout_below="@+id/sDate"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/sTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/viewDate"
+        android:layout_below="@+id/viewDate"
+        android:layout_marginTop="16dp"
+        android:text="@string/time"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/viewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sTime"
+        android:layout_below="@+id/sTime"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/sPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/viewTime"
+        android:layout_below="@+id/viewTime"
+        android:layout_marginTop="22dp"
+        android:text="@string/place"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/viewPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sPlace"
+        android:layout_below="@+id/sPlace"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/viewAttending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/viewPlace"
+        android:layout_below="@+id/viewPlace"
+        android:layout_marginTop="22dp"
+        android:text="@string/attending"
+        android:textSize="30sp" />
+    
+    <ListView 
+        android:id="@android:id/list"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewAttending"
+        android:layout_alignLeft="@+id/viewAttending">
+        
+    </ListView>
+
+    <Button
+        android:id="@+id/reminderBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/sEvent"
+        android:layout_marginRight="22dp"
+        android:text="@string/send_reminder" />
+
+</RelativeLayout>

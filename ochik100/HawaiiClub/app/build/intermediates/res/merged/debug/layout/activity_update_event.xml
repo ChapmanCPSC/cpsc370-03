@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/xEvent"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/event"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/xDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/xEvent"
+        android:layout_below="@+id/uEvent1"
+        android:layout_marginTop="15dp"
+        android:text="@string/date"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/uDate"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/xDate"
+        android:layout_below="@+id/xDate"
+        android:ems="10"
+        android:inputType="date" />
+
+    <TextView
+        android:id="@+id/xTime"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uDate"
+        android:layout_below="@+id/uDate"
+        android:layout_marginTop="16dp"
+        android:text="@string/time"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/uTime"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/xTime"
+        android:layout_below="@+id/xTime"
+        android:ems="10"
+        android:inputType="time" />
+
+    <TextView
+        android:id="@+id/xPlace"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uTime"
+        android:layout_below="@+id/uTime"
+        android:layout_marginTop="16dp"
+        android:text="@string/place"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/uPlace"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/xPlace"
+        android:layout_below="@+id/xPlace"
+        android:ems="10" />
+    
+    <ListView android:id="@android:id/list"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent" 
+        android:layout_below="@+id/xAttending"
+        android:layout_alignLeft="@+id/xAttending">
+    </ListView>
+
+    <TextView
+        android:id="@+id/xAttending"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uPlace"
+        android:layout_below="@+id/uPlace"
+        android:layout_marginTop="15dp"
+        android:text="@string/attending"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/editListBtn"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/xAttending"
+        android:layout_alignBottom="@+id/xAttending"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/xAttending"
+        android:text="@string/edit_attending" />
+
+    <TextView
+        android:id="@+id/uEvent1"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/xEvent"
+        android:layout_below="@+id/xEvent"
+        android:text="" />
+
+</RelativeLayout>
+<!-- From: file:/Users/Kelly/StudioProjects/HawaiiClub/app/src/main/res/layout/activity_update_event.xml -->

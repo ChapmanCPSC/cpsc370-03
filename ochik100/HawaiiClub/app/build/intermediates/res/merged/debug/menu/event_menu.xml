@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/addEvent" android:title="Add Event" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/homepage2" android:title="Back" android:showAsAction="ifRoom"></item>
+    
+
+</menu>
+<!-- From: file:/Users/Kelly/StudioProjects/HawaiiClub/app/src/main/res/menu/event_menu.xml -->

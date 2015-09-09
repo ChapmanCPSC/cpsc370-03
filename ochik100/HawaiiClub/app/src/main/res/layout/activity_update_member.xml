@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/uName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zName"
+        android:layout_below="@+id/zName"
+        android:textSize="30sp"
+        android:inputType="text"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/zNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uName"
+        android:layout_below="@+id/uName"
+        android:layout_marginTop="14dp"
+        android:text="@string/number"
+        android:textSize="30sp" />
+    
+    <EditText
+        android:id="@+id/uNumber"
+        android:inputType="phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zNumber"
+        android:layout_below="@+id/zNumber"
+        android:textSize="30sp"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/zEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uNumber"
+        android:layout_below="@+id/uNumber"
+        android:layout_marginTop="24dp"
+        android:textSize="30sp"
+        android:text="@string/email" />
+
+    <EditText
+        android:id="@+id/uEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zEmail"
+        android:layout_below="@+id/zEmail"
+        android:ems="10"
+        android:textSize="30sp"
+        android:inputType="textEmailAddress" />
+
+    <TextView
+        android:id="@+id/zName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="46dp"
+        android:text="@string/name"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/zID"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uEmail"
+        android:layout_below="@+id/uEmail"
+        android:layout_marginTop="28dp"
+        android:text="@string/ID" />
+
+    <EditText
+        android:id="@+id/uID"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zID"
+        android:layout_below="@+id/zID"
+        android:ems="10"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/zMajor"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uID"
+        android:layout_below="@+id/uID"
+        android:layout_marginTop="29dp"
+        android:text="@string/major" />
+
+    <EditText
+        android:id="@+id/uMajor"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zMajor"
+        android:layout_below="@+id/zMajor"
+        android:ems="10" />
+
+</RelativeLayout>
