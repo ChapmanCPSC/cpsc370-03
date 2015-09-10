@@ -7,9 +7,8 @@ import junit.framework.TestCase;
  */
 public class WeatherAPIWrapperTest extends TestCase
 {
-
     public void testGetCurrentWeather() throws Exception
     {
-
+        System.out.println(WeatherAPIWrapper.GetCurrentWeather("92866"));
     }
 }
