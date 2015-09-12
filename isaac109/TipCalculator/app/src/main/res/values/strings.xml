@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Tip Calculator</string>
+
+    <string name="title">Ryan\'s Tip Calculator!</string>
+    <string name="action_settings">Settings</string>
+    <string name="cost">How much did the meal cost?</string>
+    <string name="tip">The tip will be:</string>
+    <string name="total">The Total will be:</string>
+</resources>
