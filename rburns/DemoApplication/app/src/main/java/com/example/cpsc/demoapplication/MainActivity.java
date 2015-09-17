@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import com.example.cpsc.demoapplication.fragments.HomeFragment;
 import com.example.cpsc.demoapplication.fragments.NavigationDrawerFragment;
+import com.example.cpsc.demoapplication.fragments.WeatherFragment;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks
@@ -56,6 +57,9 @@ public class MainActivity extends Activity
             case 0:
                 f = new HomeFragment();
                 break;
+            case 1:
+                f = new WeatherFragment();
+                break;
             default:
                 f = new HomeFragment();
                 break;
@@ -71,7 +75,9 @@ public class MainActivity extends Activity
             case 0:
                 mTitle = getString(R.string.home);
                 break;
-
+            case 1:
+                mTitle = getString(R.string.weather);
+                break;
         }
     }
 

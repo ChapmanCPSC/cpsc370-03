@@ -19,4 +19,5 @@
     <string name="temp">Temp:</string>
     <string name="high">High:</string>
     <string name="low">Low:</string>
+    <string name="weather">Weather</string>
 </resources>
