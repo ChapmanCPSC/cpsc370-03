@@ -13,4 +13,10 @@
     <string name="action_settings">Settings</string>
     <string name="home">Home</string>
     <string name="hello_world">Hello World</string>
+    <string name="enter_zip">Enter Zip Here</string>
+    <string name="submit">Submit</string>
+    <string name="area">Area:</string>
+    <string name="temp">Temp:</string>
+    <string name="high">High:</string>
+    <string name="low">Low:</string>
 </resources>
