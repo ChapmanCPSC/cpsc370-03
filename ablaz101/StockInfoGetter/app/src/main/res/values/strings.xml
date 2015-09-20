@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">StockInfoGetter</string>
+    <string name="action_settings">Settings</string>
+    <string name="stock_lookup">Stock Lookup</string>
+    <string name="enter_company_name">Enter company name</string>
+    <string name="submit">Submit</string>
+    <string name="high">High:</string>
+    <string name="low">Low:</string>
+    <string name="open">Open:</string>
+</resources>
