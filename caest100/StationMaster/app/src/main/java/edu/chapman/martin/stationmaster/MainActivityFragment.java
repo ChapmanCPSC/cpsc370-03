@@ -1,5 +1,6 @@
 package edu.chapman.martin.stationmaster;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,6 +14,10 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.chapman.martin.stationmaster.adapters.CustomAdapter;
 import edu.chapman.martin.stationmaster.models.StationStatusResultModel;
 import edu.chapman.martin.stationmaster.models.TrainData;
 
@@ -24,9 +29,10 @@ public class MainActivityFragment extends Fragment
     View rootView;
     EditText codeField;
     Button submitButton;
-    ScrollView trainInfo;
+    ListView trainInfo;
     TextView trainNoLb;
     TextView dueAtLbl;
+    Context context;
 
     public MainActivityFragment()
     {
@@ -39,9 +45,10 @@ public class MainActivityFragment extends Fragment
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         codeField = (EditText) rootView.findViewById(R.id.et_stationCode);
-        trainInfo = (ScrollView) rootView.findViewById(R.id.sv_trainInfo);
+        trainInfo = (ListView) rootView.findViewById(R.id.lv_trainInfo);
         trainNoLb = (TextView) rootView.findViewById(R.id.tv_trainNoLbl);
         dueAtLbl = (TextView) rootView.findViewById(R.id.tv_dueAtLbl);
+
 
 
         Button submitButton = (Button) rootView.findViewById(R.id.btn_submit);
@@ -54,10 +61,19 @@ public class MainActivityFragment extends Fragment
                 if (!stationCode.isEmpty())
                 {
                     new StationInfoTask().execute(stationCode);
+
                 }
             }
         });
         return rootView;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        context = getActivity().getApplicationContext();
+        //CustomAdapter trainAdapter = new CustomAdapter(context, null);
     }
 
     private class StationInfoTask extends AsyncTask<String, Void, StationStatusResultModel>
@@ -82,8 +98,18 @@ public class MainActivityFragment extends Fragment
         {
             super.onPostExecute(result);
             TrainData[] rowSource = result.response.results[0].data;
-            LinearLayout trains = StationAPIWrapper.formatResults(rowSource, codeField.getContext(), rootView);
-            trainInfo.addView(trains);
+            ArrayList<TrainData> trainDataList = new ArrayList<TrainData>();
+
+            for(TrainData train : rowSource){
+                trainDataList.add(train);
+            }
+
+            CustomAdapter trainAdapter = new CustomAdapter(context, trainDataList);
+            trainInfo.setAdapter(trainAdapter);
+
+            //StationAPIWrapper.formatResults(rowSource, codeField.getContext(), rootView);
+
+            //trainInfo.addView(trains);
 
         }
     }
