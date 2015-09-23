@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">movie</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title">Title:</string>
+    <string name="dTitle">No Title</string>
+    <string name="year">Release Year:</string>
+    <string name="dYear">No Year</string>
+    <string name="rating">Rated:</string>
+    <string name="dRating">No Rating</string>
+    <string name="time">Runtime:</string>
+    <string name="dTime">No Runtime</string>
+    <string name="plot">Plot:</string>
+    <string name="dPlot">No Plot</string>
+    <string name="awards">Awards:</string>
+    <string name="dAwards">No Awards</string>
+    <string name="mScore">MetaCritic Score:</string>
+    <string name="dMScore">No Score</string>
+    <string name="imdbScore">IMDB Score:</string>
+    <string name="dimdbScore">No Score</string>
+</resources>
