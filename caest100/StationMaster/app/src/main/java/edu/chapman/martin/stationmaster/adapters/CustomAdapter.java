@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.chapman.martin.stationmaster.MainActivity;
 import edu.chapman.martin.stationmaster.MainActivityFragment;
 import edu.chapman.martin.stationmaster.R;
 import edu.chapman.martin.stationmaster.models.TrainData;
@@ -20,11 +23,30 @@ import edu.chapman.martin.stationmaster.models.TrainData;
  */
 public class CustomAdapter extends BaseAdapter{
     private LayoutInflater inflater;
-    private List<TrainData> trainData;
+    private ArrayList<TrainData> trainData;
+    private ArrayList<TrainData> trainDataTemp;
+    private Context context;
 
-    public CustomAdapter(Context context, List<TrainData> trainData){
+    public CustomAdapter(Context context, ArrayList<TrainData> trainData){
         this.inflater = LayoutInflater.from(context);
-        this.trainData = trainData;
+        this.trainDataTemp = trainData;
+        this.context = context;
+
+        this.trainData = new ArrayList<TrainData>();
+
+        int size = trainDataTemp.size();
+        for(int i = 0; i < size; i++){
+            TrainData train = trainDataTemp.get(i);
+            String trainno = train.trainno.trim();
+            if(isNumeric(trainno)){
+                this.trainData.add(train);
+            }
+        }
+    }
+
+    public static boolean isNumeric(String str)
+    {
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
 
     @Override
@@ -67,6 +89,7 @@ public class CustomAdapter extends BaseAdapter{
         String trainno = train.trainno.trim();
         String scheduled = train.scheduled.trim();
         String remarks = train.remarks_noboarding.trim();
+
         holder.trainNo.setText(trainno);
         holder.dueAt.setText(scheduled);
         holder.status.setText(remarks);
