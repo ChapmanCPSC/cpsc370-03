@@ -8,6 +8,6 @@
     <string name="trainNoLbl">Train Number:</string>
     <string name="dueAt">Due At:</string>
     <string name="status">Status:</string>
-    <string name="stationDisplayDefault">Train Information:</string>
+    <string name="stationDisplayDefault"><u>Train Information:</u></string>
     <string name="btnLookUp">View All Station Codes</string>
 </resources>
