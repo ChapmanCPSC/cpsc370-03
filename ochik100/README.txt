@@ -1,3 +1,6 @@
-HawaiiClub android app was created in CPSC 370 Android Application Development
- - Fall 2014. Note: application was meant for a tablet. 
+Kelly Ochikubo
+CPSC 370
+Advanced Android Application Development
+
+This is where my projects are contained for the semester. 
  

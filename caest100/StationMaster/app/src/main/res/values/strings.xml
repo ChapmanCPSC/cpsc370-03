@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">StationMaster</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="stationHint">Enter Station Code to View Trains</string>
+    <string name="submit">Submit</string>
+    <string name="trainNo">No.:</string>
+    <string name="trainNoLbl">Train Number:</string>
+    <string name="dueAt">Due At:</string>
+    <string name="status">Status:</string>
+    <string name="stationDisplayDefault">Train Information:</string>
+    <string name="btnLookUp">View All Station Codes</string>
+</resources>

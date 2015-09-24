@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GasMeUp</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="destiation">Enter the location of your destination</string>
+    <string name="search">SEARCH</string>
+    <string name="destination">Destination Location</string>
+    <string name="origin">Origin Location</string>
+    <string name="distance">Distance: </string>
+    <string name="duration">Duration: </string>
+    <string name="clear">CLEAR</string>
+</resources>
