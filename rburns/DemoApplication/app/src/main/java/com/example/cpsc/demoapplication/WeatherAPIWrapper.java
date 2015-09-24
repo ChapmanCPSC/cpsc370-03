@@ -10,10 +10,10 @@ public class WeatherAPIWrapper
 {
     private static String baseUrl = "http://api.openweathermap.org/data/2.5/";
 
-    public static WeatherResultModel GetCurrentWeather(String zip)
+    public static WeatherResultModel GetCurrentWeather(String zip, String unitType)
     {
         String method = "weather";
-        String queryString = "?zip="+zip+"&units=imperial";
+        String queryString = "?zip="+zip+"&units="+unitType;
         String fullUrl = baseUrl+method+queryString;
 
         String response="";

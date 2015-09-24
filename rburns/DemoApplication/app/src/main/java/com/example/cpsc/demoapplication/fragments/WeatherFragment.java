@@ -2,6 +2,8 @@ package com.example.cpsc.demoapplication.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +13,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.cpsc.demoapplication.MainActivity;
+import com.example.cpsc.demoapplication.activities.MainActivity;
 import com.example.cpsc.demoapplication.R;
-import com.example.cpsc.demoapplication.WeatherAPIWrapper;
 import com.example.cpsc.demoapplication.models.WeatherResultModel;
 import com.example.cpsc.demoapplication.tasks.GetWeatherTask;
 
@@ -22,6 +23,8 @@ import com.example.cpsc.demoapplication.tasks.GetWeatherTask;
  */
 public class WeatherFragment extends Fragment
 {
+    private final String ZIP_KEY = "zip";
+
     EditText zipField;
     TextView areaView;
     TextView tempView;
@@ -29,17 +32,26 @@ public class WeatherFragment extends Fragment
     TextView lowView;
     ProgressBar loadingView;
 
+    SharedPreferences prefs;
+
     public WeatherFragment()
     {
-
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
+        prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+
         View rootView = inflater.inflate(R.layout.fragment_weather, container, false);
 
         zipField = (EditText) rootView.findViewById(R.id.et_zip);
+
+        String storedZip = prefs.getString(ZIP_KEY, "");
+        zipField.setText(storedZip);
+
         areaView = (TextView) rootView.findViewById(R.id.tv_area);
         tempView = (TextView) rootView.findViewById(R.id.tv_temp);
         hiView = (TextView) rootView.findViewById(R.id.tv_high);
@@ -55,6 +67,8 @@ public class WeatherFragment extends Fragment
                 String zip = zipField.getText().toString();
                 if (!zip.isEmpty())
                 {
+                    storeZip(zip);
+
                     GetWeatherTask weatherTask = new GetWeatherTask(WeatherFragment.this);
                     weatherTask.execute(zip);
                 }
@@ -65,7 +79,8 @@ public class WeatherFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity)
+    {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(1);
     }
@@ -83,5 +98,12 @@ public class WeatherFragment extends Fragment
         tempView.setText(String.valueOf(result.main.temp));
         hiView.setText(String.valueOf(result.main.temp_max));
         lowView.setText(String.valueOf(result.main.temp_min));
+    }
+
+    private void storeZip(String zip)
+    {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(ZIP_KEY, zip);
+        editor.commit();
     }
 }

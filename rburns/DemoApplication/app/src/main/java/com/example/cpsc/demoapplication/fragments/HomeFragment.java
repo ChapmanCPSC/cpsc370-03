@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cpsc.demoapplication.MainActivity;
+import com.example.cpsc.demoapplication.activities.MainActivity;
 import com.example.cpsc.demoapplication.R;
 
 /**

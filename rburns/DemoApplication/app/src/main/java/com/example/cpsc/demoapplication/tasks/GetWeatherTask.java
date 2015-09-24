@@ -1,6 +1,8 @@
 package com.example.cpsc.demoapplication.tasks;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 
 import com.example.cpsc.demoapplication.WeatherAPIWrapper;
 import com.example.cpsc.demoapplication.fragments.WeatherFragment;
@@ -28,7 +30,10 @@ public class GetWeatherTask extends AsyncTask<String, Void, WeatherResultModel>
     @Override
     protected WeatherResultModel doInBackground(String... params)
     {
-        WeatherResultModel model = WeatherAPIWrapper.GetCurrentWeather(params[0]);
+        SharedPreferences defaultPrefs = PreferenceManager.getDefaultSharedPreferences(_fragment.getActivity());
+        String units = defaultPrefs.getString("temp_units", "imperial");
+
+        WeatherResultModel model = WeatherAPIWrapper.GetCurrentWeather(params[0], units);
         return model;
     }
 

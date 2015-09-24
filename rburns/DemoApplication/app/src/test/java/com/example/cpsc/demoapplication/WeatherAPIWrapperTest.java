@@ -11,7 +11,7 @@ public class WeatherAPIWrapperTest extends TestCase
 {
     public void testGetCurrentWeather() throws Exception
     {
-        WeatherResultModel model = WeatherAPIWrapper.GetCurrentWeather("92866");
+        WeatherResultModel model = WeatherAPIWrapper.GetCurrentWeather("92866", "imperial");
         System.out.println(String.format("Temp:%s\nHi:%s\nLow:%s\nArea:%s", model.main.temp, model.main.temp_max, model.main.temp_min, model.name));
     }
 }
