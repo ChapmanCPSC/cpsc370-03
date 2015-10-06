@@ -51,4 +51,14 @@ public class QuoteModel
 
     // The opening price of the company's stock at the start of the trading session
     public double Open;
+
+    public QuoteModel(double high, double low, double open) {
+        this.High = high;
+        this.Low = low;
+        this.Open = open;
+    }
+
+    public QuoteModel() {
+
+    }
 }

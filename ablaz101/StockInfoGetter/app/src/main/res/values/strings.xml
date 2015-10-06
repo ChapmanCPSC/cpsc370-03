@@ -7,4 +7,5 @@
     <string name="high">High:</string>
     <string name="low">Low:</string>
     <string name="open">Open:</string>
+    <string name="preferred_stocks">Preferred Stocks</string>
 </resources>

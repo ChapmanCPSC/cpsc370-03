@@ -1,6 +1,4 @@
-package me.ablaz101.cpsc370.stockinfogetter;
-
-import com.google.gson.Gson;
+package me.ablaz101.cpsc370.stockinfogetter.web;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,8 +61,6 @@ public class StockInfoAPIWrapper
      */
     public static QuoteModel GetStockQuote(String symbol)
     {
-        String[] split = symbol.split(",");
-        symbol = split[0];
         final String method = "Quote/";
         String queryString = "?symbol="+symbol;
         String fullUrl = baseUrl+method+responseFormat+queryString;

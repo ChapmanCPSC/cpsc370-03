@@ -11,12 +11,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import me.ablaz101.cpsc370.stockinfogetter.db.StockInfoDataProvider;
+import me.ablaz101.cpsc370.stockinfogetter.models.QuoteModel;
+import me.ablaz101.cpsc370.stockinfogetter.tasks.LookupBackgroundTask;
+import me.ablaz101.cpsc370.stockinfogetter.tasks.QuoteBackgroundTask;
+
 
 public class MainActivity extends ActionBarActivity
 {
 
     EditText companyField;
     ListView companyList;
+    ListView preferredStocksList;
     TextView hiView;
     TextView lowView;
     TextView openView;
@@ -26,34 +32,50 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Get fields
         companyField = (EditText) findViewById(R.id.et_company_name);
         hiView = (TextView) findViewById(R.id.tv_high);
         lowView = (TextView) findViewById(R.id.tv_low);
         openView = (TextView) findViewById(R.id.tv_open);
 
+        // Get lists
         companyList = (ListView) findViewById(R.id.lv_lookups);
+        preferredStocksList = (ListView) findViewById(R.id.lv_preferred_stocks);
+
+        // Set onItemClickListener for companyList (API Call for Quote)
         companyList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv_symbol = (TextView) view.findViewById(R.id.tv_symbol);
                 String symbol = tv_symbol.getText().toString();
-
-
-                // TODO background task
-                new QuoteBackgroundTask(hiView, lowView, openView).execute(symbol);
+                String[] split = symbol.split(",");
+                symbol = split[0];
+                final QuoteBackgroundTask qbt = new QuoteBackgroundTask(getApplicationContext());
+                qbt.onFinish = new Runnable()
+                {
+                    @Override
+                    public void run() {
+                        hiView.setText(String.valueOf(qbt._result.High));
+                        lowView.setText(String.valueOf(qbt._result.Low));
+                        openView.setText(String.valueOf(qbt._result.Open));
+                    }
+                };
+                qbt.execute(symbol);
             }
         });
 
+        // Get submit button
         Button submitButton = (Button) findViewById(R.id.btn_submit);
+
+        // Set onClickListner for submit button (API Call for Lookup List)
         submitButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
                 String companyName = companyField.getText().toString();
                 if (!companyName.isEmpty()) {
-                    // TODO background task
-                    new LookupBackgroundTask(v.getContext(), companyList).execute(companyName);
+                    new LookupBackgroundTask(v.getContext(), companyList, preferredStocksList).execute(companyName);
                 }
             }
         });

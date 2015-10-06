@@ -1,4 +1,4 @@
-package me.ablaz101.cpsc370.stockinfogetter;
+package me.ablaz101.cpsc370.stockinfogetter.web;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

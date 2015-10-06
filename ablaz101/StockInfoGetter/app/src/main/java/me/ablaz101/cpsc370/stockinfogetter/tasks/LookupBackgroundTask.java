@@ -1,9 +1,11 @@
-package me.ablaz101.cpsc370.stockinfogetter;
+package me.ablaz101.cpsc370.stockinfogetter.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ListView;
 
+import me.ablaz101.cpsc370.stockinfogetter.web.StockInfoAPIWrapper;
+import me.ablaz101.cpsc370.stockinfogetter.adapters.LookupResultAdapter;
 import me.ablaz101.cpsc370.stockinfogetter.models.LookupResultModel;
 
 /**
@@ -12,10 +14,12 @@ import me.ablaz101.cpsc370.stockinfogetter.models.LookupResultModel;
 public class LookupBackgroundTask extends AsyncTask<String, Void, LookupResultModel[]>
 {
     public Context context;
-    public ListView listView;
-    public LookupBackgroundTask(Context context, ListView listView) {
+    public ListView companyList;
+    public ListView preferredStockList;
+    public LookupBackgroundTask(Context context, ListView companyList, ListView preferredStockList) {
         this.context = context;
-        this.listView = listView;
+        this.companyList = companyList;
+        this.preferredStockList = preferredStockList;
     }
 
     @Override
@@ -30,7 +34,7 @@ public class LookupBackgroundTask extends AsyncTask<String, Void, LookupResultMo
     protected void onPostExecute(LookupResultModel[] lookupResults) {
         // Populate ListView
         if (lookupResults != null) {
-            listView.setAdapter(new LookupResultAdapter(context, lookupResults));
+            companyList.setAdapter(new LookupResultAdapter(context, preferredStockList, lookupResults));
         }
     }
 }
