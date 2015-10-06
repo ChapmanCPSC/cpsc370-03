@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import com.example.cpsc.demoapplication.R;
 import com.example.cpsc.demoapplication.fragments.HomeFragment;
 import com.example.cpsc.demoapplication.fragments.NavigationDrawerFragment;
+import com.example.cpsc.demoapplication.fragments.RecentFragment;
 import com.example.cpsc.demoapplication.fragments.WeatherFragment;
 
 public class MainActivity extends Activity
@@ -62,6 +63,9 @@ public class MainActivity extends Activity
             case 1:
                 f = new WeatherFragment();
                 break;
+            case 2:
+                f = new RecentFragment();
+                break;
             default:
                 f = new HomeFragment();
                 break;
@@ -79,6 +83,9 @@ public class MainActivity extends Activity
                 break;
             case 1:
                 mTitle = getString(R.string.weather);
+                break;
+            case 2:
+                mTitle = getString(R.string.recent);
                 break;
         }
     }

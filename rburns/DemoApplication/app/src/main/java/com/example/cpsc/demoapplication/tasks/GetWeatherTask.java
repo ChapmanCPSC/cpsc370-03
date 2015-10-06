@@ -1,5 +1,6 @@
 package com.example.cpsc.demoapplication.tasks;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -11,36 +12,34 @@ import com.example.cpsc.demoapplication.models.WeatherResultModel;
 /**
  * Created by ryanb on 9/21/2015.
  */
-public class GetWeatherTask extends AsyncTask<String, Void, WeatherResultModel>
+public class GetWeatherTask extends AsyncTask<String, Void, Void>
 {
-    WeatherFragment _fragment;
+    Context _ctx;
+    public Runnable onFinish;
+    public WeatherResultModel _result;
 
-    public GetWeatherTask(WeatherFragment fragment)
+    public GetWeatherTask(Context ctx)
     {
-        _fragment = fragment;
+        _ctx = ctx;
     }
 
     @Override
-    protected void onPreExecute()
+    protected Void doInBackground(String... params)
     {
-        super.onPreExecute();
-        _fragment.loadingStarted();
-    }
-
-    @Override
-    protected WeatherResultModel doInBackground(String... params)
-    {
-        SharedPreferences defaultPrefs = PreferenceManager.getDefaultSharedPreferences(_fragment.getActivity());
+        SharedPreferences defaultPrefs = PreferenceManager.getDefaultSharedPreferences(_ctx);
         String units = defaultPrefs.getString("temp_units", "imperial");
 
-        WeatherResultModel model = WeatherAPIWrapper.GetCurrentWeather(params[0], units);
-        return model;
+        _result = WeatherAPIWrapper.GetCurrentWeather(params[0], units);
+        return null;
     }
 
     @Override
-    protected void onPostExecute(WeatherResultModel weatherResultModel)
+    protected void onPostExecute(Void params)
     {
-        super.onPostExecute(weatherResultModel);
-        _fragment.loadingFinished(weatherResultModel);
+        super.onPostExecute(params);
+        if (onFinish!=null)
+        {
+            onFinish.run();
+        }
     }
 }

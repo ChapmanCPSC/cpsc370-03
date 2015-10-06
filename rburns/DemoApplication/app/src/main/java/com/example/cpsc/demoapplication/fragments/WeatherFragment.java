@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.example.cpsc.demoapplication.activities.MainActivity;
 import com.example.cpsc.demoapplication.R;
+import com.example.cpsc.demoapplication.db.WeatherDataProvider;
+import com.example.cpsc.demoapplication.models.RecentLocationModel;
 import com.example.cpsc.demoapplication.models.WeatherResultModel;
 import com.example.cpsc.demoapplication.tasks.GetWeatherTask;
 
@@ -67,9 +69,23 @@ public class WeatherFragment extends Fragment
                 String zip = zipField.getText().toString();
                 if (!zip.isEmpty())
                 {
+                    //store it in sharedprefs
                     storeZip(zip);
 
-                    GetWeatherTask weatherTask = new GetWeatherTask(WeatherFragment.this);
+                    //store a recent location in DB
+                    RecentLocationModel location = new RecentLocationModel(zip);
+                    WeatherDataProvider.InsertRecentLocation(location, getActivity());
+
+                    final GetWeatherTask weatherTask = new GetWeatherTask(getActivity());
+                    weatherTask.onFinish = new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            loadingFinished(weatherTask._result);
+                        }
+                    };
+                    loadingStarted();
                     weatherTask.execute(zip);
                 }
             }
