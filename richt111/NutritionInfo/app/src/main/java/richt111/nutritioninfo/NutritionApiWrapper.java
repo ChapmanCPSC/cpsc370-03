@@ -14,7 +14,7 @@ public class NutritionApiWrapper {
     public static NutritionResultModel GetNutritionInfo(String food) {
 
         String parameters[] = {"item_name", "nf_calories", "nf_total_fat", "nf_total_carbohydrate",
-            "nf_protein"};
+            "nf_protein", "nf_sugars", "nf_dietary_fiber", "nf_sodium", "nf_cholesterol"};
 
         String queryString = "?fields=";
         String response = "";

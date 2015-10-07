@@ -16,17 +16,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/card_food_save"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_plus"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"/>
 
             <TextView
                 android:id="@+id/card_food_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/card_food_save"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:textColor="@android:color/black"/>
 
             <View
                 android:id="@+id/card_divider"
@@ -46,7 +56,8 @@
                 android:layout_below="@id/card_divider"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="17dp"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/card_food_fat"
@@ -55,7 +66,8 @@
                 android:layout_below="@id/card_food_calories"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="17dp"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/card_food_carbs"
@@ -64,7 +76,8 @@
                 android:layout_below="@id/card_food_fat"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="17dp"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/card_food_protein"
@@ -74,8 +87,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="17dp"
                 android:layout_marginBottom="16dp"
-                android:textSize="12sp"/>
-
+                android:textSize="12sp"
+                android:textColor="@android:color/black"/>
 
         </RelativeLayout>
 

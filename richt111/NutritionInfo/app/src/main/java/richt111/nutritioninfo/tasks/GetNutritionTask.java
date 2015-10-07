@@ -3,23 +3,23 @@ package richt111.nutritioninfo.tasks;
 
 import android.os.AsyncTask;
 
-import richt111.nutritioninfo.MainActivity;
 import richt111.nutritioninfo.NutritionApiWrapper;
+import richt111.nutritioninfo.fragments.SearchFragment;
 import richt111.nutritioninfo.models.NutritionResultModel;
 
 public class GetNutritionTask extends AsyncTask<String, Void, NutritionResultModel> {
 
-    private MainActivity activity;
+    private SearchFragment fragment;
 
-    public GetNutritionTask(MainActivity activity) {
-        this.activity = activity;
+    public GetNutritionTask(SearchFragment fragment) {
+        this.fragment = fragment;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
-        activity.loadingStarted();
+        fragment.loadingStarted();
     }
 
     @Override
@@ -33,6 +33,6 @@ public class GetNutritionTask extends AsyncTask<String, Void, NutritionResultMod
     protected void onPostExecute(NutritionResultModel nutritionResultModel) {
         super.onPostExecute(nutritionResultModel);
 
-        activity.loadingFinished(nutritionResultModel);
+        fragment.loadingFinished(nutritionResultModel);
     }
 }
