@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import com.example.cpsc.lienapp.fragments.HomeFragment;
 import com.example.cpsc.lienapp.fragments.NavigationDrawerFragment;
 import com.example.cpsc.lienapp.fragments.NameSearchFragment;
+import com.example.cpsc.lienapp.fragments.RecentFragment;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks
@@ -59,6 +60,9 @@ public class MainActivity extends Activity
                 break;
             case 1:
                 f = new NameSearchFragment();
+                break;
+            case 2:
+                f = new RecentFragment();
                 break;
             default:
                 f = new HomeFragment();

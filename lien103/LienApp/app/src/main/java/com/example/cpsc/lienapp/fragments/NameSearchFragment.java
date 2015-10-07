@@ -13,7 +13,10 @@ import android.widget.TextView;
 
 import com.example.cpsc.lienapp.MainActivity;
 import com.example.cpsc.lienapp.R;
+import com.example.cpsc.lienapp.db.EmailDataProvider;
+import com.example.cpsc.lienapp.db.RecentEmailModel;
 import com.example.cpsc.lienapp.models.NameResultModel;
+import com.example.cpsc.lienapp.tasks.GetEmailTask;
 import com.example.cpsc.lienapp.tasks.GetNameInfoTask;
 
 public class NameSearchFragment extends Fragment
@@ -48,11 +51,28 @@ public class NameSearchFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                String zip = nameField.getText().toString();
-                if (!zip.isEmpty())
+                String enteredEmail = nameField.getText().toString();
+                if (!enteredEmail.isEmpty())
                 {
-                    GetNameInfoTask weatherTask = new GetNameInfoTask(NameSearchFragment.this);
-                    weatherTask.execute(zip);
+                    //store the entered email address in the database
+                    RecentEmailModel email = new RecentEmailModel(enteredEmail);
+                    EmailDataProvider.InsertRecentEmail(email, getActivity());
+
+                    //Todo: testing this line bloe
+                    //GetNameInfoTask nameTask = new GetNameInfoTask(NameSearchFragment.this);
+                    //nameTask.execute(enteredEmail);
+
+                    final GetEmailTask weatherTask = new GetEmailTask(getActivity());
+                    weatherTask.onFinish = new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            loadingFinished(weatherTask._result);
+                        }
+                    };
+                    loadingStarted();
+                    weatherTask.execute(enteredEmail);
                 }
             }
         });

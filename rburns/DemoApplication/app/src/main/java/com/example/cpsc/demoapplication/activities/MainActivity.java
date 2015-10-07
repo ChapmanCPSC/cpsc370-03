@@ -69,6 +69,7 @@ public class MainActivity extends Activity
             default:
                 f = new HomeFragment();
                 break;
+
         }
 
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
