@@ -63,35 +63,20 @@ public class StationAPIWrapper
             String trainNo = train.trainno.trim();
             String dueAt = train.scheduled.trim();
             String status = train.remarks_noboarding.trim();
+
             if(trainNo.length() > 0){
                 LayoutInflater inflater = (LayoutInflater)   context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                //LinearLayout parent = new LinearLayout(context);
-                //parent.setOrientation(LinearLayout.VERTICAL);
 
                 View child = inflater.inflate(R.layout.lvlayout, null);
-                //child.setOrientation(LinearLayout.HORIZONTAL);
 
                 TextView tv_trainNo = (TextView) rootView.findViewById(R.id.tv_rowTrainNo);
                 TextView tv_dueAt = (TextView) rootView.findViewById(R.id.tv_rowDueAt);
                 TextView tv_status = (TextView) rootView.findViewById(R.id.tv_rowStatus);
 
-                //tv_trainNo.setWidth(trainNoLbl.getWidth());
-                //tv_dueAt.setWidth(dueAtLbl.getWidth());
-                //tv_status.setWidth(statusLbl.getWidth());
-
                 tv_trainNo.setText(trainNo);
                 tv_dueAt.setText(dueAt);
                 tv_status.setText(status);
 
-                /*tv_trainNo.setGravity(Gravity.CENTER_HORIZONTAL);
-                tv_dueAt.setGravity(Gravity.CENTER_HORIZONTAL);
-                tv_status.setGravity(Gravity.CENTER_HORIZONTAL);*/
-
-                //child.addView(tv_trainNo);
-                //child.addView(tv_dueAt);
-                //child.addView(tv_status);
-
-                //parent.addView(child);
                 ListView ll_main = (ListView) rootView.findViewById(R.id.lv_trainInfo);
                 ll_main.addView(child);
             }

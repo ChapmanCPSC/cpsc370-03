@@ -10,4 +10,8 @@
     <string name="status">Status:</string>
     <string name="stationDisplayDefault"><u>Train Information:</u></string>
     <string name="btnLookUp">View All Station Codes</string>
+    <string name="favorites">View Trains at Favorite Stations</string>
+    <string name="trainNoFav">Train #</string>
+    <string name="stationCodeLbl">Station: </string>
+    <string name="moreStationInfo"><u>View Detailed Station Information</u></string>
 </resources>

@@ -1,33 +1,27 @@
 package edu.chapman.martin.stationmaster.adapters;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import edu.chapman.martin.stationmaster.MainActivity;
-import edu.chapman.martin.stationmaster.MainActivityFragment;
 import edu.chapman.martin.stationmaster.R;
 import edu.chapman.martin.stationmaster.models.TrainData;
 
 /**
  * Created by Martin on 9/22/2015.
  */
-public class CustomAdapter extends BaseAdapter{
+public class StatusDisplayAdapter extends BaseAdapter{
     private LayoutInflater inflater;
     private ArrayList<TrainData> trainData;
     private ArrayList<TrainData> trainDataTemp;
     private Context context;
 
-    public CustomAdapter(Context context, ArrayList<TrainData> trainData){
+    public StatusDisplayAdapter(Context context, ArrayList<TrainData> trainData){
         this.inflater = LayoutInflater.from(context);
         this.trainDataTemp = trainData;
         this.context = context;
@@ -86,8 +80,10 @@ public class CustomAdapter extends BaseAdapter{
         }
 
         TrainData train = trainData.get(position);
-        String trainno = train.trainno.trim();
-        String scheduled = train.scheduled.trim();
+
+        //String trainno = train.trainno.substring(train.trainno.lastIndexOf(' ') + 1);
+        String trainno = train.trainno.replaceAll(" +", "");
+        String scheduled = train.scheduled.replaceAll(" +", "");
         String remarks = train.remarks_noboarding.trim();
 
         holder.trainNo.setText(trainno);
