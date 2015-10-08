@@ -41,6 +41,14 @@
                 android:text="@string/submit"/>
         </LinearLayout>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/favorites"
+            android:id="@+id/btn_favorites"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
         <ProgressBar
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -56,6 +64,13 @@
             android:gravity="center_horizontal"
             android:text="@string/stationDisplayDefault"
             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/moreStationInfo"
+            android:visibility="invisible"
+            android:id="@+id/tv_moreStationInfo"/>
     </LinearLayout>
 
     <LinearLayout
@@ -97,9 +112,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_labels"
-        android:layout_margin="0dp">
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentBottom="true">
     </ListView>
-
 
 
 </RelativeLayout>

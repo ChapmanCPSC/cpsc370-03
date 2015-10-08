@@ -51,23 +51,23 @@ public class SavedLocationAdapter extends ArrayAdapter<SaveLocationModel>{
             @Override
             public void run() {
                 locationName.setText(location.getLocationName());
-                distTimeView.setText(location.getAddress());
-                //distTimeView.setText(distanceTask.result.routes[0].legs[0].distance
-                  //      + " (" + distanceTask.result.routes[0].legs[0].duration + ")" );
+                //distTimeView.setText(location.getAddress());
+                distTimeView.setText(distanceTask.result.routes[0].legs[0].distance.text
+                        + " (" + distanceTask.result.routes[0].legs[0].duration.text + ")" );
             }
         };
-        distanceTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
-                location.getLocationName(), location.getAddress());
+        //distanceTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+          //      location.getLocationName(), location.getAddress());
 
-        /*String address;
+        String address;
         try {
             address = maps.getAddress(_location);
-            address = address.replace(",", " ").replace(" ", "+");
+            address = address.replace(".", "").replace(",","").replace(" ", "+");
             //getDistanceTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, address, location.getAddress());
             distanceTask.execute(address, location.getAddress());
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         return row;
     }
 }
