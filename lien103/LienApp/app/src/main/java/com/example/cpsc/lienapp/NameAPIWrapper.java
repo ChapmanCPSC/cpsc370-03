@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 
 public class NameAPIWrapper
 {
-    private static String baseUrl = "https://gender-api.com/get?name=";//static portion of web API url
+    private static String baseUrl = "https://gender-api.com/get?email=";//static portion of web API url
     private static String apiKey = "&key=FxfclXCkKNtMnFCsFF";
 
     public static NameResultModel GetNameInfo(String name)//name is passed in here
