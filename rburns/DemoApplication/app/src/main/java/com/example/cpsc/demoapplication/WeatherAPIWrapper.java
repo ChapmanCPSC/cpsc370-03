@@ -1,6 +1,7 @@
 
 package com.example.cpsc.demoapplication;
 
+import com.example.cpsc.demoapplication.models.ForecastResultModel;
 import com.example.cpsc.demoapplication.models.WeatherResultModel;
 import com.google.gson.Gson;
 
@@ -29,6 +30,25 @@ public class WeatherAPIWrapper
             e.printStackTrace();
             return null;
         }
+    }
 
+    public static ForecastResultModel GetForecast(String zip)
+    {
+        String method = "forecast/daily";
+        String queryString = "?zip="+zip+"&cnt=10";
+        String fullUrl = baseUrl+method+queryString;
+
+        String response="";
+        try
+        {
+            response = new WebRequest(fullUrl).get();
+            ForecastResultModel model = new Gson().fromJson(response, ForecastResultModel.class);
+            return model;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -16,6 +16,7 @@ import com.example.cpsc.demoapplication.fragments.HomeFragment;
 import com.example.cpsc.demoapplication.fragments.NavigationDrawerFragment;
 import com.example.cpsc.demoapplication.fragments.RecentFragment;
 import com.example.cpsc.demoapplication.fragments.WeatherFragment;
+import com.example.cpsc.demoapplication.services.RainCheckService;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks
@@ -45,6 +46,8 @@ public class MainActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        RainCheckService.StartChecker(this);
     }
 
     @Override
