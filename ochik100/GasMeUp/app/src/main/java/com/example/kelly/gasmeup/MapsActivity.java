@@ -130,7 +130,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String address = addresses.get(0).getAddressLine(0);
         String city = addresses.get(0).getAddressLine(1);
         String country = addresses.get(0).getAddressLine(2);
-        String final_address = address+". "+city+","+country;
+        String final_address = address+". "+city+", "+country;
         return final_address;
     }
 
@@ -254,7 +254,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(modify)
                 .setTitle(R.string.recent_searches);
-        builder.create().show();
+        final AlertDialog ad = builder.create();
+        ad.show();
 
         ListView favorites =(ListView) modify.findViewById(R.id.lv_favorites);
         Button add = (Button) modify.findViewById(R.id.btn_add);
@@ -283,6 +284,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                 LocationDataProvider.InsertSavedLocation(
                                         new SaveLocationModel(location, address), MapsActivity.this);
+                                ad.cancel();
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

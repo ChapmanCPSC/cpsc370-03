@@ -40,8 +40,8 @@ public class LocationDataProvider {
         if(c.moveToNext()){
             SaveLocationModel existing = SaveLocationEntry.MakeModel(c);
 
-            if(!model.getLocationName().equalsIgnoreCase(existing.getLocationName())){
-                existing.setLocationName(existing.getLocationName());
+            if(!model.getAddress().equalsIgnoreCase(existing.getAddress())){
+                existing.setLocationName(model.getLocationName());
             }
 
             ContentValues newValues = SaveLocationEntry.MakeContentValues(existing);
