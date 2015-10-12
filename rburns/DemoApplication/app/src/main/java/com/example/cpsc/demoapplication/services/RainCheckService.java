@@ -23,7 +23,7 @@ import org.joda.time.LocalDate;
 public class RainCheckService extends IntentService
 {
 
-    private static final int INTERVAL = 60000 * 60;
+    private static final int INTERVAL = 60000 * 60 * 24;
 
     public RainCheckService()
     {
@@ -33,8 +33,6 @@ public class RainCheckService extends IntentService
     @Override
     protected void onHandleIntent(Intent intent)
     {
-        Log.i("TEST", "Service Run");
-
         ForecastResultModel forecast = WeatherAPIWrapper.GetForecast("92866");
 
         if (forecast!=null && forecast.list!=null)
