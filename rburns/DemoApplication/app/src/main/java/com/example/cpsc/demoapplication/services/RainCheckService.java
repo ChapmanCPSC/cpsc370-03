@@ -23,7 +23,7 @@ import org.joda.time.LocalDate;
 public class RainCheckService extends IntentService
 {
 
-    private static final int INTERVAL = 60000;
+    private static final int INTERVAL = 60000 * 60;
 
     public RainCheckService()
     {
@@ -37,14 +37,17 @@ public class RainCheckService extends IntentService
 
         ForecastResultModel forecast = WeatherAPIWrapper.GetForecast("92866");
 
-        for (ForecastResultModel.ForecastItem item : forecast.list)
+        if (forecast!=null && forecast.list!=null)
         {
-            for (ForecastResultModel.WeatherItem weather : item.weather)
+            for (ForecastResultModel.ForecastItem item : forecast.list)
             {
-                if (weather.main.equals("Rain"))
+                for (ForecastResultModel.WeatherItem weather : item.weather)
                 {
-                    showRainNofification(item, forecast.city.name);
-                    return;
+                    if (weather.main.equals("Rain"))
+                    {
+                        showRainNofification(item, forecast.city.name);
+                        return;
+                    }
                 }
             }
         }
