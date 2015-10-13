@@ -15,6 +15,7 @@ import com.example.cpsc.demoapplication.R;
 import com.example.cpsc.demoapplication.fragments.HomeFragment;
 import com.example.cpsc.demoapplication.fragments.NavigationDrawerFragment;
 import com.example.cpsc.demoapplication.fragments.RecentFragment;
+import com.example.cpsc.demoapplication.fragments.UITestFragment;
 import com.example.cpsc.demoapplication.fragments.WeatherFragment;
 import com.example.cpsc.demoapplication.services.RainCheckService;
 
@@ -69,6 +70,9 @@ public class MainActivity extends Activity
             case 2:
                 f = new RecentFragment();
                 break;
+            case 3:
+                f = new UITestFragment();
+                break;
             default:
                 f = new HomeFragment();
                 break;
@@ -90,6 +94,9 @@ public class MainActivity extends Activity
                 break;
             case 2:
                 mTitle = getString(R.string.recent);
+                break;
+            case 3:
+                mTitle = getString(R.string.ui_test);
                 break;
         }
     }

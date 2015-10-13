@@ -22,4 +22,5 @@
     <string name="weather">Weather</string>
     <string name="temp_units">Temperature Units</string>
     <string name="recent">Recent</string>
+    <string name="ui_test">UI Test</string>
 </resources>
