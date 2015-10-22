@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
 import com.example.cpsc.demoapplication.R;
+import com.example.cpsc.demoapplication.fragments.CardsFragment;
 import com.example.cpsc.demoapplication.fragments.HomeFragment;
 import com.example.cpsc.demoapplication.fragments.NavigationDrawerFragment;
 import com.example.cpsc.demoapplication.fragments.RecentFragment;
@@ -73,6 +74,9 @@ public class MainActivity extends Activity
             case 3:
                 f = new UITestFragment();
                 break;
+            case 4:
+                f = new CardsFragment();
+                break;
             default:
                 f = new HomeFragment();
                 break;
@@ -97,6 +101,9 @@ public class MainActivity extends Activity
                 break;
             case 3:
                 mTitle = getString(R.string.ui_test);
+                break;
+            case 4:
+                mTitle = getString(R.string.cards);
                 break;
         }
     }
