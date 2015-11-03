@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
+    <item
+        android:onClick="settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never"/>
+
+    <item
+        android:onClick="chat"
+        android:orderInCategory="100"
+        android:title="Chat"
+        app:showAsAction="never"/>
+
+    <item
+        android:onClick="account"
+        android:orderInCategory="100"
+        android:title="Account"
+        app:showAsAction="never"/>
+</menu>
