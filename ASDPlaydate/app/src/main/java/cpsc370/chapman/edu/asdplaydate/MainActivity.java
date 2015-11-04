@@ -2,6 +2,7 @@ package cpsc370.chapman.edu.asdplaydate;
 
 import java.util.Locale;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,14 +11,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
+import cpsc370.chapman.edu.asdplaydate.activities.ChatActivity;
 import cpsc370.chapman.edu.asdplaydate.fragments.FindFragment;
 import cpsc370.chapman.edu.asdplaydate.fragments.InboxFragment;
 import cpsc370.chapman.edu.asdplaydate.fragments.ResultListFragment;
@@ -87,7 +84,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     public void chat(MenuItem item)
     {
-        //MARTIN HI
+        Intent i = new Intent(this, ChatActivity.class);
+        i.putExtra("userID", 12345); //// TODO: 11/3/2015 change the hardcoded userID to a get command from user data object
+        startActivity(i);
     }
 
     public void account(MenuItem item)
