@@ -2,6 +2,7 @@ package cpsc370.chapman.edu.asdplaydate;
 
 import java.util.Locale;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import cpsc370.chapman.edu.asdplaydate.activites.SettingsActivity;
+import cpsc370.chapman.edu.asdplaydate.activites.TempSettingsActivity;
 import cpsc370.chapman.edu.asdplaydate.fragments.FindFragment;
 import cpsc370.chapman.edu.asdplaydate.fragments.InboxFragment;
 import cpsc370.chapman.edu.asdplaydate.fragments.ResultListFragment;
@@ -83,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     public void settings(MenuItem item)
     {
         //ISAAC HI
+        Intent myIntent = new Intent(MainActivity.this, TempSettingsActivity.class);
+        MainActivity.this.startActivity(myIntent);
     }
 
     public void chat(MenuItem item)

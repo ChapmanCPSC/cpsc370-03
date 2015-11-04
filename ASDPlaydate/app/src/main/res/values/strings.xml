@@ -10,4 +10,6 @@
     <string name="action_settings">Settings</string>
     <string name="find">Find</string>
     <string name="chat">Chat</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_temp_settings">TempSettingsActivity</string>
 </resources>
