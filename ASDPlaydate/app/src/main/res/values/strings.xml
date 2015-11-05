@@ -19,4 +19,5 @@
     <string name="broadcast">Broadcast</string>
     <string name="ask_to_chat">Ask to Chat</string>
     <string name="list">LIST</string>
+    <string name="request_chat">Send Chat\nRequest</string>
 </resources>
