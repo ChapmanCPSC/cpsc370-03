@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="part1" type="id">part1</item>
-    <item name="part2" type="id">part2</item>
-    <item name="parent_name" type="id">parent_name</item>
-    <item name="last_message" type="id">last_message</item>
+    <item name="ll_chatrequestlist_info" type="id"/>
+    <item name="tv_parent_name" type="id"/>
+    <item name="tv_last_message" type="id"/>
+    <item name="ll_chatrequestlist_buttons" type="id"/>
+    <item name="rv_chatrequestlist" type="id"/>
 </resources>

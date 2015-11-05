@@ -35,7 +35,7 @@ public class InboxFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
 
-        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_chatrequestlist);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -46,7 +46,7 @@ public class InboxFragment extends Fragment
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        //TODO: Data set
+        //TODO: Get data from somewhere here
 
         ChatRequestListRecyclerItem[] myDataSet= {
                 new ChatRequestListRecyclerItem("John Smith", "I have a red Angels hat on", true),

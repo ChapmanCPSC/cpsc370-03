@@ -1,5 +1,6 @@
 package edu.chapman.cpsc370.asdplaydate;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +19,15 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     {
         public TextView parentName;
         public TextView lastMsg;
-        public LinearLayout linearLayout;
+        public LinearLayout buttons;
 
         public ViewHolder(View v)
         {
             super(v);
 
-            this.parentName = (TextView) v.findViewById(R.id.parent_name);
-            this.lastMsg = (TextView) v.findViewById(R.id.last_message);
-            this.linearLayout = (LinearLayout) v.findViewById(R.id.part2);
+            this.parentName = (TextView) v.findViewById(R.id.tv_parent_name);
+            this.lastMsg = (TextView) v.findViewById(R.id.tv_last_message);
+            this.buttons = (LinearLayout) v.findViewById(R.id.ll_chatrequestlist_buttons);
         }
     }
 
@@ -42,7 +43,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                                                    int viewType)
     {
         // create a new view
-        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext())
+        CardView v = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_chatrequest_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
@@ -58,12 +59,12 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
         // - replace the contents of the view with that element
 //        holder.mCardView.setText(mDataset[position]);
 
-        //TODO: fill data here
+        //TODO: Fill data here
         holder.parentName.setText(mDataset[position].getParentName());
         holder.lastMsg.setText(mDataset[position].getLastMsg());
 
         if (mDataset[position].isHasAccepted()) {
-            holder.linearLayout.setVisibility(View.GONE);
+            holder.buttons.setVisibility(View.GONE);
         }
     }
 
