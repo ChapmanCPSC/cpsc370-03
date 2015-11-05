@@ -25,4 +25,10 @@
     <string name="tv_chatInfoName">Chat With John</string>
     <string name="userImageLbl">User Image</string>
     <string name="title_activity_chat">Chat</string>
+    <string name="email">Email Address</string>
+    <string name="con_pass">Confirm Password</string>
+    <string name="pass">Password</string>
+    <string name="create_acc">Create Account</string>
+    <string name="already_acc"><u>Already have an account? Login here</u></string>
+    <string name="login">Login</string>
 </resources>

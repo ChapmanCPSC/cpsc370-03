@@ -11,9 +11,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import cpsc370.chapman.edu.asdplaydate.fragments.CreateAccountFragment;
 import cpsc370.chapman.edu.asdplaydate.activities.ChatActivity;
 import cpsc370.chapman.edu.asdplaydate.fragments.FindFragment;
 import cpsc370.chapman.edu.asdplaydate.fragments.InboxFragment;
@@ -91,7 +97,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     public void account(MenuItem item)
     {
-        //GARRETT HI
+        Intent intent = new Intent(MainActivity.this,AccountActivity.class);
+        MainActivity.this.startActivity(intent);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter

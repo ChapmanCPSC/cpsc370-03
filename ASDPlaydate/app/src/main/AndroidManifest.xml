@@ -36,6 +36,9 @@
             android:theme="@style/AppTheme"
             android:configChanges="orientation|screenSize">
         </activity>
+        <activity android:name=".AccountActivity"
+                  android:label="Create an Account">
+        </activity>
     </application>
 
 </manifest>
