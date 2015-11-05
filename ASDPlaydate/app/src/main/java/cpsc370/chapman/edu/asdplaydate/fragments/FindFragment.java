@@ -235,7 +235,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         ResultListFragment list = new ResultListFragment();
         android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.pager, list);
+        //ft.replace(R.id.pager, list);
+        ft.hide(this);
+        ft.show(list);
         ft.addToBackStack(null);
         ft.commit();
     }
@@ -252,7 +254,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 openList();
                 break;
             default:
-                inflateBroadcastDialog();
                 break;
         }
     }
