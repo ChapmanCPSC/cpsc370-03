@@ -9,33 +9,40 @@ public class ChatRequestListRecyclerItem
     private String lastMsg;
     private boolean hasAccepted;
 
-    public ChatRequestListRecyclerItem(String parentName, String lastMsg, boolean hasAccepted) {
+    public ChatRequestListRecyclerItem(String parentName, String lastMsg, boolean hasAccepted)
+    {
         this.parentName = parentName;
         this.lastMsg = lastMsg;
         this.hasAccepted = hasAccepted;
     }
 
-    public String getParentName() {
+    public String getParentName()
+    {
         return parentName;
     }
 
-    public void setParentName(String parentName) {
+    public void setParentName(String parentName)
+    {
         this.parentName = parentName;
     }
 
-    public String getLastMsg() {
+    public String getLastMsg()
+    {
         return lastMsg;
     }
 
-    public void setLastMsg(String lastMsg) {
+    public void setLastMsg(String lastMsg)
+    {
         this.lastMsg = lastMsg;
     }
 
-    public boolean isHasAccepted() {
+    public boolean isHasAccepted()
+    {
         return hasAccepted;
     }
 
-    public void setHasAccepted(boolean hasAccepted) {
+    public void setHasAccepted(boolean hasAccepted)
+    {
         this.hasAccepted = hasAccepted;
     }
 }

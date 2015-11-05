@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatRequestListRecyclerAdapter.ViewHolder>
 {
-    private ChatRequestListRecyclerItem[] mDataset;
+    private List<ChatRequestListRecyclerItem> mItems;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -32,15 +34,15 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ChatRequestListRecyclerAdapter(ChatRequestListRecyclerItem[] myDataset)
+    public ChatRequestListRecyclerAdapter(List<ChatRequestListRecyclerItem> mItems)
     {
-        mDataset = myDataset;
+        this.mItems = mItems;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
     public ChatRequestListRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType)
+                                                                        int viewType)
     {
         // create a new view
         CardView v = (CardView) LayoutInflater.from(parent.getContext())
@@ -60,10 +62,11 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
 //        holder.mCardView.setText(mDataset[position]);
 
         //TODO: Fill data here
-        holder.parentName.setText(mDataset[position].getParentName());
-        holder.lastMsg.setText(mDataset[position].getLastMsg());
+        holder.parentName.setText(mItems.get(position).getParentName());
+        holder.lastMsg.setText(mItems.get(position).getLastMsg());
 
-        if (mDataset[position].isHasAccepted()) {
+        if (mItems.get(position).isHasAccepted())
+        {
             holder.buttons.setVisibility(View.GONE);
         }
     }
@@ -72,6 +75,6 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     @Override
     public int getItemCount()
     {
-        return mDataset.length;
+        return mItems.size();
     }
 }
