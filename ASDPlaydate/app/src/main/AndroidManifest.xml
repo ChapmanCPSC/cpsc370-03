@@ -39,6 +39,18 @@
         <activity android:name=".AccountActivity"
                   android:label="Create an Account">
         </activity>
+        <activity
+            android:name=".activites.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name=".activites.ProfileActivity"
+            android:label="@string/title_activity_profile" >
+        </activity>
+        <activity
+            android:name=".activites.TempSettingsActivity"
+            android:label="@string/title_activity_temp_settings" >
+        </activity>
     </application>
 
 </manifest>

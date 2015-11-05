@@ -31,4 +31,6 @@
     <string name="create_acc">Create Account</string>
     <string name="already_acc"><u>Already have an account? Login here</u></string>
     <string name="login">Login</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_temp_settings">TempSettingsActivity</string>
 </resources>

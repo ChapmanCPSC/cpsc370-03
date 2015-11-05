@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import cpsc370.chapman.edu.asdplaydate.fragments.CreateAccountFragment;
 import cpsc370.chapman.edu.asdplaydate.activities.ChatActivity;
+import cpsc370.chapman.edu.asdplaydate.activites.SettingsActivity;
+import cpsc370.chapman.edu.asdplaydate.activites.TempSettingsActivity;
 import cpsc370.chapman.edu.asdplaydate.fragments.FindFragment;
 import cpsc370.chapman.edu.asdplaydate.fragments.InboxFragment;
 import cpsc370.chapman.edu.asdplaydate.fragments.ResultListFragment;
@@ -86,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     public void settings(MenuItem item)
     {
         //ISAAC HI
+        Intent myIntent = new Intent(MainActivity.this, TempSettingsActivity.class);
+        MainActivity.this.startActivity(myIntent);
     }
 
     public void chat(MenuItem item)
