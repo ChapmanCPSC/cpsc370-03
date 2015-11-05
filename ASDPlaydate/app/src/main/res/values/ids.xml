@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="part1" type="id">part1</item>
+    <item name="part2" type="id">part2</item>
+    <item name="parent_name" type="id">parent_name</item>
+    <item name="last_message" type="id">last_message</item>
+</resources>
