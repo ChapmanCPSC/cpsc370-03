@@ -30,6 +30,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.ChatActivity"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/AppTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>

@@ -20,4 +20,9 @@
     <string name="ask_to_chat">Ask to Chat</string>
     <string name="list">LIST</string>
     <string name="request_chat">Send Chat\nRequest</string>
+    <string name="btnSend">Send</string>
+    <string name="et_sendMessageHint">Enter a Message</string>
+    <string name="tv_chatInfoName">Chat With John</string>
+    <string name="userImageLbl">User Image</string>
+    <string name="title_activity_chat">Chat</string>
 </resources>
