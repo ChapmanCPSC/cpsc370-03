@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name = "editTextBG" type="color">#e5e5ff</item>
+    <item name = "link" type="color">#0645AD</item>
+</resources>
