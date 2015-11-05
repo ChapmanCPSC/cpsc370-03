@@ -1,8 +1,7 @@
-package cpsc370.chapman.edu.asdplaydate.fragments;
+package edu.chapman.cpsc370.asdplaydate.fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import cpsc370.chapman.edu.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.R;
 /**
  * Created by TheHollowManV on 11/4/2015.
  */

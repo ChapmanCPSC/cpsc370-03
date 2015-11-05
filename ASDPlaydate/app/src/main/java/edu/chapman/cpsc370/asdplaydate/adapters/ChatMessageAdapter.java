@@ -1,4 +1,4 @@
-package cpsc370.chapman.edu.asdplaydate.adapters;
+package edu.chapman.cpsc370.asdplaydate.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpsc370.chapman.edu.asdplaydate.R;
-import cpsc370.chapman.edu.asdplaydate.models.ChatMessage;
+import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.models.ChatMessage;
 
 /**
  * Created by Martin on 11/3/2015.

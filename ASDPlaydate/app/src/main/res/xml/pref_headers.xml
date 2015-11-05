@@ -3,27 +3,27 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="cpsc370.chapman.edu.asdplaydate.activites.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="edu.chapman.cpsc370.asdplaydate.activities.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_profile"/>
 
     <header
-        android:fragment="cpsc370.chapman.edu.asdplaydate.activites.SettingsActivity$NotificationPreferenceFragment"
+        android:fragment="edu.chapman.cpsc370.asdplaydate.activities.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications"/>
 
     <header
-        android:fragment="cpsc370.chapman.edu.asdplaydate.activites.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="edu.chapman.cpsc370.asdplaydate.activities.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_search_radius"/>
 
     <header
-        android:fragment="cpsc370.chapman.edu.asdplaydate.activites.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="edu.chapman.cpsc370.asdplaydate.activities.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_broadcast_message"/>
 
     <header
-        android:fragment="cpsc370.chapman.edu.asdplaydate.activites.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="edu.chapman.cpsc370.asdplaydate.activities.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_prompt_before_boradcast"/>
 
     <header
-        android:fragment="cpsc370.chapman.edu.asdplaydate.activites.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="edu.chapman.cpsc370.asdplaydate.activities.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_logout"/>
 
 </preference-headers>

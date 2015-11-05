@@ -1,4 +1,4 @@
-package cpsc370.chapman.edu.asdplaydate.activities;
+package edu.chapman.cpsc370.asdplaydate.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import cpsc370.chapman.edu.asdplaydate.R;
-import cpsc370.chapman.edu.asdplaydate.adapters.ChatMessageAdapter;
-import cpsc370.chapman.edu.asdplaydate.models.ChatMessage;
+import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.adapters.ChatMessageAdapter;
+import edu.chapman.cpsc370.asdplaydate.models.ChatMessage;
 
 public class ChatActivity extends AppCompatActivity
 {

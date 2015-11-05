@@ -1,4 +1,4 @@
-package cpsc370.chapman.edu.asdplaydate.models;
+package edu.chapman.cpsc370.asdplaydate.models;
 
 /**
  * Created by Martin on 11/3/2015.

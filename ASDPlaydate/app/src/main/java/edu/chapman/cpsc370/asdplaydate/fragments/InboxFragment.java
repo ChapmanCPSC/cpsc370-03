@@ -1,4 +1,4 @@
-package cpsc370.chapman.edu.asdplaydate.fragments;
+package edu.chapman.cpsc370.asdplaydate.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cpsc370.chapman.edu.asdplaydate.ChatRequestListRecyclerAdapter;
-import cpsc370.chapman.edu.asdplaydate.ChatRequestListRecyclerItem;
-import cpsc370.chapman.edu.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.ChatRequestListRecyclerAdapter;
+import edu.chapman.cpsc370.asdplaydate.ChatRequestListRecyclerItem;
+import edu.chapman.cpsc370.asdplaydate.R;
 
 public class InboxFragment extends Fragment
 {

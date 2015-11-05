@@ -1,4 +1,4 @@
-package cpsc370.chapman.edu.asdplaydate;
+package edu.chapman.cpsc370.asdplaydate;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

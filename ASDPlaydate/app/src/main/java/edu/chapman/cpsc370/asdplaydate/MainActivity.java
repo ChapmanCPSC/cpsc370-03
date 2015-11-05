@@ -1,4 +1,4 @@
-package cpsc370.chapman.edu.asdplaydate;
+package edu.chapman.cpsc370.asdplaydate;
 
 import java.util.Locale;
 
@@ -11,21 +11,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import cpsc370.chapman.edu.asdplaydate.fragments.CreateAccountFragment;
-import cpsc370.chapman.edu.asdplaydate.activities.ChatActivity;
-import cpsc370.chapman.edu.asdplaydate.activites.SettingsActivity;
-import cpsc370.chapman.edu.asdplaydate.activites.TempSettingsActivity;
-import cpsc370.chapman.edu.asdplaydate.fragments.FindFragment;
-import cpsc370.chapman.edu.asdplaydate.fragments.InboxFragment;
-import cpsc370.chapman.edu.asdplaydate.fragments.ResultListFragment;
+import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
+import edu.chapman.cpsc370.asdplaydate.activities.TempSettingsActivity;
+import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
+import edu.chapman.cpsc370.asdplaydate.fragments.InboxFragment;
+import edu.chapman.cpsc370.asdplaydate.fragments.ResultListFragment;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener
 {
