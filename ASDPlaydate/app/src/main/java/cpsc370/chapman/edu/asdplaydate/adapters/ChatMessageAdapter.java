@@ -21,6 +21,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage>
 {
     Context context;
     List<ChatMessage> messages;
+    LinearLayout ll_bubbleContainer;
 
     public ChatMessageAdapter(Context context, ArrayList<ChatMessage> messages)
     {
@@ -46,19 +47,17 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage>
 
         TextView tv_message = (TextView) rootView.findViewById(R.id.tv_Message);
         TextView tv_dateTime = (TextView) rootView.findViewById(R.id.tv_dateTime);
-        LinearLayout ll_bubbleContainer = (LinearLayout) rootView.findViewById(R.id.ll_bubbleContainer);
+        ll_bubbleContainer = (LinearLayout) rootView.findViewById(R.id.ll_bubbleContainer);
 
         tv_message.setText(message.getMessageText());
         tv_dateTime.setText(message.getDateTime());
 
-        if (message.isMe())
-        {
-            ll_bubbleContainer.setBackgroundResource(R.drawable.msgbox_me);
-
-        } else
-        {
-            ll_bubbleContainer.setBackgroundResource(R.drawable.msgbox_notme);
-        }
         return rootView;
+    }
+
+    @Override
+    public void add(ChatMessage object)
+    {
+        super.add(object);
     }
 }
