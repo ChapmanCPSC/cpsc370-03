@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_parent_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_child_info"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_child_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:text="8 yr old"/>
+        <TextView
+            android:id="@+id/tv_child_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:text="Johnnie"/>
+        <TextView
+            android:id="@+id/tv_child_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(M)"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_optional_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High functioning Autism"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_profile_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.4 miles from you"/>
+
+    <Button
+        android:id="@+id/btn_chat_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/ask_to_chat"/>
+
+</LinearLayout>
