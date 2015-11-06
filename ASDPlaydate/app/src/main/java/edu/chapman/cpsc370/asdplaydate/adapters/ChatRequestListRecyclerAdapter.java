@@ -16,6 +16,8 @@ import edu.chapman.cpsc370.asdplaydate.R;
 
 public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatRequestListRecyclerAdapter.ViewHolder>
 {
+    public static final int HAS_ACCEPTED= 0;
+    public static final int NOT_ACCEPTED = 1;
     private List<ChatRequestListRecyclerItem> mItems;
 
     // Provide a reference to the views for each data item
@@ -25,7 +27,6 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     {
         public TextView parentName;
         public TextView lastMsg;
-        public LinearLayout buttons;
 
         public ViewHolder(View v)
         {
@@ -33,7 +34,6 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
 
             this.parentName = (TextView) v.findViewById(R.id.tv_parent_name);
             this.lastMsg = (TextView) v.findViewById(R.id.tv_last_message);
-            this.buttons = (LinearLayout) v.findViewById(R.id.ll_chatrequestlist_buttons);
         }
     }
 
@@ -54,6 +54,12 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
         // set the view's size, margins, paddings and layout parameters
 
         disableTouchTheft(v);
+
+        if (viewType == HAS_ACCEPTED)
+        {
+            v.findViewById(R.id.ll_chatrequestlist_buttons).setVisibility(View.GONE);
+        }
+
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -89,11 +95,6 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
         //TODO: Fill data here
         holder.parentName.setText(mItems.get(position).getParentName());
         holder.lastMsg.setText(mItems.get(position).getLastMsg());
-
-        if (mItems.get(position).isHasAccepted())
-        {
-            holder.buttons.setVisibility(View.GONE);
-        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -102,4 +103,18 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     {
         return mItems.size();
     }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        if (mItems.get(position).isHasAccepted())
+        {
+            return HAS_ACCEPTED;
+        }
+        else
+        {
+            return NOT_ACCEPTED;
+        }
+    }
+
 }
