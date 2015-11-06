@@ -33,22 +33,13 @@ public class AccountActivity extends FragmentActivity
         fragmentTransaction.commit();
 
     }
-    public void login()
-    {
-        Toast.makeText(getApplicationContext(), "TODO: Check account info and login to main page",
-                Toast.LENGTH_LONG).show();
-    }
     public void loadLogin()
     {
         Fragment f = new LoginFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragmentView, f);
+        fragmentTransaction.replace(R.id.fragmentView, f);
         fragmentTransaction.commit();
     }
-    public void createAccount()
-    {
-        Toast.makeText(getApplicationContext(), "TODO: Open Profile Page and Save Account Info",
-                Toast.LENGTH_LONG).show();
-    }
+
 }
