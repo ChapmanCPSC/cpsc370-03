@@ -19,6 +19,7 @@ import edu.chapman.cpsc370.asdplaydate.SwipeableRecyclerViewTouchListener;
 
 public class InboxFragment extends Fragment
 {
+    private List<ChatRequestListRecyclerItem> mItems = new ArrayList<ChatRequestListRecyclerItem>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -52,9 +53,9 @@ public class InboxFragment extends Fragment
 
         // specify an adapter (see also next example)
         //TODO: Get data from somewhere here
-        final List<ChatRequestListRecyclerItem> mItems = new ArrayList<ChatRequestListRecyclerItem>();
         mItems.add(new ChatRequestListRecyclerItem("John Smith", "I have a red Angels hat on", true));
         mItems.add(new ChatRequestListRecyclerItem("Carry Johnson", "Would like to chat", false));
+        mItems.add(new ChatRequestListRecyclerItem("Faia Mezeine", "Would like to chat", false));
 
         mAdapter = new ChatRequestListRecyclerAdapter(mItems);
         mRecyclerView.setAdapter(mAdapter);
@@ -63,10 +64,24 @@ public class InboxFragment extends Fragment
                 new SwipeableRecyclerViewTouchListener(mRecyclerView,
                         new SwipeableRecyclerViewTouchListener.SwipeListener()
                         {
+
                             @Override
-                            public boolean canSwipe(int position)
+                            public boolean canSwipeLeft(int position)
                             {
-                                return true;
+                                return false;
+                            }
+
+                            @Override
+                            public boolean canSwipeRight(int position)
+                            {
+                                if (mItems.get(position).isHasAccepted())
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    return true;
+                                }
                             }
 
                             @Override
@@ -93,25 +108,5 @@ public class InboxFragment extends Fragment
                         });
 
         mRecyclerView.addOnItemTouchListener(swipeTouchListener);
-        disableTouchTheft(mRecyclerView);
-    }
-
-    public static void disableTouchTheft(View view)
-    {
-        view.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent)
-            {
-                view.getParent().requestDisallowInterceptTouchEvent(true);
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
-                {
-                    case MotionEvent.ACTION_UP:
-                        view.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-                return false;
-            }
-        });
     }
 }

@@ -3,6 +3,7 @@ package edu.chapman.cpsc370.asdplaydate;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -49,8 +50,29 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                 .inflate(R.layout.card_chatrequest_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
+        disableTouchTheft(v);
+
         ViewHolder vh = new ViewHolder(v);
         return vh;
+    }
+
+    public static void disableTouchTheft(View view)
+    {
+        view.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
+                {
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     // Replace the contents of a view (invoked by the layout manager)

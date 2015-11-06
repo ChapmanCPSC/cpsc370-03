@@ -61,7 +61,6 @@ import java.util.List;
  * <p>This class Requires API level 12 or later due to use of {@link
  * android.view.ViewPropertyAnimator}.</p>
  */
-
 public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTouchListener
 {
     // Cached ViewConfiguration and system-wide constant values
@@ -89,6 +88,9 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
     private View mDownView;
     private boolean mPaused;
     private float mFinalDelta;
+
+    private boolean mSwipingLeft;
+    private boolean mSwipingRight;
 
     /**
      * Constructs a new swipe touch listener for the given {@link android.support.v7.widget.RecyclerView}
@@ -197,7 +199,9 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
                     mDownX = motionEvent.getRawX();
                     mDownY = motionEvent.getRawY();
                     mDownPosition = mRecyclerView.getChildPosition(mDownView);
-                    if (mSwipeListener.canSwipe(mDownPosition))
+                    mSwipingLeft = mSwipeListener.canSwipeLeft(mDownPosition);
+                    mSwipingRight = mSwipeListener.canSwipeRight(mDownPosition);
+                    if (mSwipingLeft || mSwipingRight)
                     {
                         mVelocityTracker = VelocityTracker.obtain();
                         mVelocityTracker.addMovement(motionEvent);
@@ -315,6 +319,11 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
                     mSwipingSlop = (deltaX > 0 ? mSlop : -mSlop);
                 }
 
+                if (deltaX < 0 && !mSwipingLeft)
+                    mSwiping = false;
+                if (deltaX > 0 && !mSwipingRight)
+                    mSwiping = false;
+
                 if (mSwiping)
                 {
                     mDownView.setTranslationX(deltaX - mSwipingSlop);
@@ -361,10 +370,10 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
 
                     if (mFinalDelta > 0)
                     {
-                        mSwipeListener.onDismissedBySwipeRight(mRecyclerView, dismissPositions);
+                        mSwipeListener.onDismissedBySwipeLeft(mRecyclerView, dismissPositions);
                     } else
                     {
-                        mSwipeListener.onDismissedBySwipeLeft(mRecyclerView, dismissPositions);
+                        mSwipeListener.onDismissedBySwipeRight(mRecyclerView, dismissPositions);
                     }
 
                     // Reset mDownPosition to avoid MotionEvent.ACTION_UP trying to start a dismiss
@@ -417,9 +426,14 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
     public interface SwipeListener
     {
         /**
-         * Called to determine whether the given position can be swiped.
+         * Called to determine whether the given position can be swiped to the left.
          */
-        boolean canSwipe(int position);
+        boolean canSwipeLeft(int position);
+
+        /**
+         * Called to determine whether the given position can be swiped to the right.
+         */
+        boolean canSwipeRight(int position);
 
         /**
          * Called when the item has been dismissed by swiping to the left.
