@@ -1,4 +1,4 @@
-package edu.chapman.cpsc370.asdplaydate;
+package edu.chapman.cpsc370.asdplaydate.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import edu.chapman.cpsc370.asdplaydate.R;
 
 /**
  * Created by Alec Richter on 11/3/2015.

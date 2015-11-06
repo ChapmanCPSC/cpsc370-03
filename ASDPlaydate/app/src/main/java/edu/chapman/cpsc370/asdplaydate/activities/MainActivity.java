@@ -1,4 +1,4 @@
-package edu.chapman.cpsc370.asdplaydate;
+package edu.chapman.cpsc370.asdplaydate.activities;
 
 import java.util.Locale;
 
@@ -14,8 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
-import edu.chapman.cpsc370.asdplaydate.activities.TempSettingsActivity;
+import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
 import edu.chapman.cpsc370.asdplaydate.fragments.InboxFragment;
 import edu.chapman.cpsc370.asdplaydate.fragments.ResultListFragment;
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     public void account(MenuItem item)
     {
-        Intent intent = new Intent(MainActivity.this,AccountActivity.class);
+        Intent intent = new Intent(MainActivity.this,ChatActivity.AccountActivity.class);
         MainActivity.this.startActivity(intent);
     }
 

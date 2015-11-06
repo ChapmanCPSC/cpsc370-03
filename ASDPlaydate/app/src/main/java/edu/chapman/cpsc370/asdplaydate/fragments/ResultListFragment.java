@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import edu.chapman.cpsc370.asdplaydate.R;
-import edu.chapman.cpsc370.asdplaydate.ResultListRecyclerAdapter;
+import edu.chapman.cpsc370.asdplaydate.adapters.ResultListRecyclerAdapter;
 
 public class ResultListFragment extends Fragment
 {

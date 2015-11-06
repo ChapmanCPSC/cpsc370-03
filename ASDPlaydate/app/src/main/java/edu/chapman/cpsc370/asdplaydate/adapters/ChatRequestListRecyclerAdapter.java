@@ -1,4 +1,4 @@
-package edu.chapman.cpsc370.asdplaydate;
+package edu.chapman.cpsc370.asdplaydate.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
+
+import edu.chapman.cpsc370.asdplaydate.ChatRequestListRecyclerItem;
+import edu.chapman.cpsc370.asdplaydate.R;
 
 public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatRequestListRecyclerAdapter.ViewHolder>
 {

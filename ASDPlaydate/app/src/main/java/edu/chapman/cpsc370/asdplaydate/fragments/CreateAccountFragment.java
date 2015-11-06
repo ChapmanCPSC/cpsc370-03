@@ -1,10 +1,7 @@
 package edu.chapman.cpsc370.asdplaydate.fragments;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import edu.chapman.cpsc370.asdplaydate.AccountActivity;
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
+
 /**
  * Created by TheHollowManV on 11/4/2015.
  */
@@ -55,7 +53,7 @@ public class CreateAccountFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                ((AccountActivity)getActivity()).loadLogin();
+                ((ChatActivity.AccountActivity)getActivity()).loadLogin();
             }
         });
         return rootView;
