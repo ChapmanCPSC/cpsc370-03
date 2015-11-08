@@ -5,4 +5,7 @@
     <item name="tv_last_message" type="id"/>
     <item name="ll_chatrequestlist_buttons" type="id"/>
     <item name="rv_chatrequestlist" type="id"/>
+    <item name="b_deny_req" type="id"/>
+    <item name="b_accept_req" type="id"/>
+    <item name="b_profile" type="id"/>
 </resources>

@@ -1,12 +1,15 @@
 package edu.chapman.cpsc370.asdplaydate.adapters;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
 import java.util.List;
@@ -23,17 +26,65 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder
+    public static class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener
     {
         public TextView parentName;
         public TextView lastMsg;
+        public ViewHolderClicks mListener;
 
-        public ViewHolder(View v)
+        public ViewHolder(View cardView, ViewHolderClicks listener)
         {
-            super(v);
+            super(cardView);
 
-            this.parentName = (TextView) v.findViewById(R.id.tv_parent_name);
-            this.lastMsg = (TextView) v.findViewById(R.id.tv_last_message);
+            this.parentName = (TextView) cardView.findViewById(R.id.tv_parent_name);
+            this.lastMsg = (TextView) cardView.findViewById(R.id.tv_last_message);
+            mListener = listener;
+
+            // OnClickListeners set below for each child in the cardView
+            cardView.setOnClickListener(this);
+
+            View profileButton = cardView.findViewById(R.id.b_profile);
+            profileButton.setClickable(true);
+            profileButton.setOnClickListener(this);
+
+            View denyButton = cardView.findViewById(R.id.b_deny_req);
+            denyButton.setClickable(true);
+            denyButton.setOnClickListener(this);
+
+            View acceptButton = cardView.findViewById(R.id.b_accept_req);
+            acceptButton.setClickable(true);
+            acceptButton.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            int id = v.getId();
+            int pos = getLayoutPosition();
+            if (id == R.id.b_deny_req)
+            {
+                mListener.denyRequest(pos);
+            }
+            else if (id == R.id.b_accept_req)
+            {
+                mListener.acceptRequest(pos);
+            }
+            else if (id == R.id.b_profile)
+            {
+                mListener.showProfileDialog(pos);
+            }
+            else // Clicking the cardView body
+            {
+                mListener.showChat(pos);
+            }
+        }
+
+        public interface ViewHolderClicks
+        {
+            void denyRequest(int position);
+            void acceptRequest(int position);
+            void showProfileDialog(int position);
+            void showChat(int position);
         }
     }
 
@@ -49,19 +100,56 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                                                                         int viewType)
     {
         // create a new view
-        CardView v = (CardView) LayoutInflater.from(parent.getContext())
+        final CardView vi = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_chatrequest_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
-        disableTouchTheft(v);
+        disableTouchTheft(vi);
 
         if (viewType == HAS_ACCEPTED)
         {
-            v.findViewById(R.id.ll_chatrequestlist_buttons).setVisibility(View.GONE);
+            vi.findViewById(R.id.ll_chatrequestlist_buttons).setVisibility(View.GONE);
         }
 
+        ViewHolder vh = new ViewHolder(vi, new ViewHolder.ViewHolderClicks()
+        {
+            @Override
+            public void denyRequest(int position)
+            {
+                ObjectAnimator slideOutRight = ObjectAnimator.ofFloat(vi, "translationX", 1000f);
+                ObjectAnimator fadeOut = ObjectAnimator.ofFloat(vi, "alpha", 0);
+                slideOutRight.setDuration(250);
+                fadeOut.setDuration(250);
+                AnimatorSet set = new AnimatorSet();
+                set.playTogether(slideOutRight, fadeOut);
+                set.setInterpolator(new AccelerateInterpolator());
+                set.start();
+                mItems.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, mItems.size());
+            }
 
-        ViewHolder vh = new ViewHolder(v);
+            @Override
+            public void acceptRequest(int position)
+            {
+                // You can get the person's name here using:
+                // TextView parentName = (TextView) vi.findViewById(R.id.tv_parent_name)
+                // Untested, but should work.
+                //TODO: Show first time chat window
+            }
+
+            @Override
+            public void showProfileDialog(int position)
+            {
+                //TODO: Show profile dialog
+            }
+
+            @Override
+            public void showChat(int position)
+            {
+                //TODO: Show chat window (not first-time), already accepted
+            }
+        });
         return vh;
     }
 
@@ -107,7 +195,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     @Override
     public int getItemViewType(int position)
     {
-        if (mItems.get(position).isHasAccepted())
+        if (mItems.get(position).isAccepted())
         {
             return HAS_ACCEPTED;
         }

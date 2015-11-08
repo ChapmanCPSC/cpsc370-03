@@ -7,13 +7,13 @@ public class ChatRequestListRecyclerItem
 {
     private String parentName;
     private String lastMsg;
-    private boolean hasAccepted;
+    private boolean accepted;
 
-    public ChatRequestListRecyclerItem(String parentName, String lastMsg, boolean hasAccepted)
+    public ChatRequestListRecyclerItem(String parentName, String lastMsg, boolean accepted)
     {
         this.parentName = parentName;
         this.lastMsg = lastMsg;
-        this.hasAccepted = hasAccepted;
+        this.accepted = accepted;
     }
 
     public String getParentName()
@@ -36,13 +36,13 @@ public class ChatRequestListRecyclerItem
         this.lastMsg = lastMsg;
     }
 
-    public boolean isHasAccepted()
+    public boolean isAccepted()
     {
-        return hasAccepted;
+        return accepted;
     }
 
-    public void setHasAccepted(boolean hasAccepted)
+    public void setAccepted(boolean hasAccepted)
     {
-        this.hasAccepted = hasAccepted;
+        this.accepted = accepted;
     }
 }

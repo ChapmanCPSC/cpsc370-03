@@ -43,6 +43,7 @@
             android:layout_gravity="right|center_vertical">
 
             <ImageButton
+                android:id="@id/b_profile"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginRight="5dp"
@@ -51,6 +52,7 @@
                 android:background="@drawable/profile_button"/>
 
             <ImageButton
+                android:id="@id/b_deny_req"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginRight="5dp"
@@ -59,6 +61,7 @@
                 android:background="@drawable/cross_button"/>
 
             <ImageButton
+                android:id="@id/b_accept_req"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="10dp"

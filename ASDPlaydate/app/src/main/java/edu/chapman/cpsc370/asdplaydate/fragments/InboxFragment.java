@@ -54,8 +54,8 @@ public class InboxFragment extends Fragment
         //TODO: Get data from somewhere here
         mItems.add(new ChatRequestListRecyclerItem("John Smith", "I have a red Angels hat on", true));
         mItems.add(new ChatRequestListRecyclerItem("Carry Johnson", "Would like to chat", false));
-        mItems.add(new ChatRequestListRecyclerItem("Faia K", "That is awesome!", true));
-        mItems.add(new ChatRequestListRecyclerItem("Chris Shirelis ", "Would like to chat", false));
+        mItems.add(new ChatRequestListRecyclerItem("Faia Raige", "That is awesome!", true));
+        mItems.add(new ChatRequestListRecyclerItem("Chris Shiherlis ", "Would like to chat", false));
         mItems.add(new ChatRequestListRecyclerItem("Terrence Fletcher", "Were you dragging or rushing?", true));
 
         mAdapter = new ChatRequestListRecyclerAdapter(mItems);
@@ -75,7 +75,7 @@ public class InboxFragment extends Fragment
                             @Override
                             public boolean canSwipeRight(int position)
                             {
-                                if (mItems.get(position).isHasAccepted())
+                                if (mItems.get(position).isAccepted())
                                 {
                                     return false;
                                 }
