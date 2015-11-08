@@ -49,10 +49,15 @@
         android:id="@+id/ll_chatInfoDisplay">
 
         <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@id/b_profile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_margin="10dp"
-            android:contentDescription="@string/userImageLbl"/>
+            android:padding="10dp"
+            android:src="@drawable/ic_account_circle_black_48dp"
+            android:background="@drawable/profile_button"
+            android:contentDescription="@string/view_profile_dialog_title"
+            android:onClick="viewProfile"/>
 
         <TextView
             android:id="@+id/tv_chatInfoName"

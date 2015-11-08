@@ -2,10 +2,12 @@ package edu.chapman.cpsc370.asdplaydate.adapters;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -95,7 +96,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ChatRequestListRecyclerAdapter(List<ChatRequestListRecyclerItem> mItems, Context ctx, RecyclerView mRecyclerView)
+    public ChatRequestListRecyclerAdapter(List<ChatRequestListRecyclerItem> mItems, Context ctx)
     {
         this.mItems = mItems;
         this.ctx = ctx;
@@ -107,6 +108,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     public ChatRequestListRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                                         int viewType)
     {
+        Log.i("RecyclerAdapter", "onCreateViewHolder");
         // create a new view
         final CardView vi = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_chatrequest_list_item, parent, false);
@@ -146,14 +148,23 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                 i.putExtra("parentName", thisItem.getParentName());
                 ctx.startActivity(i);
                 thisItem.setAccepted(true);
-                mRecyclerView.getAdapter().notifyDataSetChanged();
+                notifyItemChanged(position);
+                vi.findViewById(R.id.ll_chatrequestlist_buttons).setVisibility(View.GONE);
             }
 
             @Override
             public void showProfileDialog(int position)
             {
-                //TODO: Show profile dialog
-                Toast.makeText(ctx, "Profile Shown", Toast.LENGTH_SHORT).show();
+                ChatRequestListRecyclerItem thisItem = mItems.get(position);
+                String parentName = thisItem.getParentName();
+                String message = parentName + "\n\n8 yr old Johnnie\nHigh functioning Autism";
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+                        .setTitle(R.string.view_profile_dialog_title)
+                        .setPositiveButton(R.string.button_ok, null)
+                        .setMessage(message);
+
+                builder.show();
             }
 
             @Override

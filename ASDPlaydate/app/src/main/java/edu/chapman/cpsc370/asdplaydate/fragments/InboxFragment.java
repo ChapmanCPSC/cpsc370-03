@@ -60,7 +60,7 @@ public class InboxFragment extends Fragment
         mItems.add(new ChatRequestListRecyclerItem(1237, "Chris Shiherlis ", "Would like to chat", false));
         mItems.add(new ChatRequestListRecyclerItem(1238, "Terrence Fletcher", "Were you dragging or rushing?", true));
 
-        mAdapter = new ChatRequestListRecyclerAdapter(mItems, this.getActivity(), mRecyclerView);
+        mAdapter = new ChatRequestListRecyclerAdapter(mItems, this.getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =

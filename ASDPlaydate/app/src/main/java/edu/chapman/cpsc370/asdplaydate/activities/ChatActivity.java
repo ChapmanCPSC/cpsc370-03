@@ -1,6 +1,7 @@
 package edu.chapman.cpsc370.asdplaydate.activities;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -78,8 +79,6 @@ public class ChatActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                //Snackbar.make(view, "Message Sent", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
                 ChatMessage message = new ChatMessage();
 
                 Time today = new Time(Time.getCurrentTimezone());
@@ -97,23 +96,29 @@ public class ChatActivity extends AppCompatActivity
         });
     }
 
+    public void viewProfile(View view)
+    {
+        Intent i = getIntent();
+        long userID = i.getLongExtra("userID", 0);
+        String parentName = i.getStringExtra("parentName");
+
+        //TODO get user profile info from database
+        //for now, fill artificial data
+
+        String message = parentName + "\n\n8 yr old Johnnie\nHigh functioning Autism";
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle(R.string.view_profile_dialog_title)
+                .setPositiveButton(R.string.button_ok, null)
+                .setMessage(message);
+
+        builder.show();
+    }
+
     public void displayMessage(ChatMessage message)
     {
         messageAdapter.add(message);
         messageAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                this.finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     /**
