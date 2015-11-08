@@ -6,11 +6,11 @@ import com.parse.ParseObject;
 @ParseClassName("Children")
 public class Child extends ParseObject
 {
-    private final String ATTR_PARENT = "parent";
-    private final String ATTR_FIRST_NAME = "first_name";
-    private final String ATTR_AGE = "age";
-    private final String ATTR_GENDER = "gender";
-    private final String ATTR_DESCRIPTION = "description";
+    public static final String ATTR_PARENT = "parent";
+    public static final String ATTR_FIRST_NAME = "first_name";
+    public static final String ATTR_AGE = "age";
+    public static final String ATTR_GENDER = "gender";
+    public static final String ATTR_DESCRIPTION = "description";
 
     public Child(){}
 

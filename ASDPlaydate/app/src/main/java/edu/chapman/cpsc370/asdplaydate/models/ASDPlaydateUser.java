@@ -3,12 +3,13 @@ package edu.chapman.cpsc370.asdplaydate.models;
 import com.parse.ParseClassName;
 import com.parse.ParseUser;
 
-@ParseClassName("ASDPlaydateUsers")
+@ParseClassName("_User")
 public class ASDPlaydateUser extends ParseUser
 {
-    private final String ATTR_FIRST_NAME = "first_name";
-    private final String ATTR_LAST_NAME = "last_name";
-    private final String ATTR_CITY_NAME = "city";
+    public static final String ATTR_ID = "objectId";
+    public static final String ATTR_FIRST_NAME = "first_name";
+    public static final String ATTR_LAST_NAME = "last_name";
+    public static final String ATTR_CITY_NAME = "city";
 
     public ASDPlaydateUser(){}
 

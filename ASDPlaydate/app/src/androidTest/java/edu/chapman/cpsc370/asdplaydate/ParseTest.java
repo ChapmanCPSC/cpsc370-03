@@ -30,91 +30,105 @@ import edu.chapman.cpsc370.asdplaydate.models.Child;
 public class ParseTest extends AndroidTestCase
 {
     private final String LOGTAG = "ParseTest";
-    private final String TEST_SESSION = "LMwzxUCed5";
+    private final String TEST_SESSION = "r:ZRl9rxwXytLShOWg7j8euzw2t";
+
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+        BaseApplication app = (BaseApplication) getContext().getApplicationContext();
+        app.setupParse();
+    }
 
     @Test
     public void testAddUser() throws Exception
     {
-        setup();
-
-        final CountDownLatch signal = new CountDownLatch(1);
-
-        final ASDPlaydateUser user = new ASDPlaydateUser("rburns4@chapman.edu", "test", "Ryan", "Burns", "Santa Ana");
-        final Child c = new Child(user, "Lilly3",10, Child.Gender.FEMALE, "High Functioning");
-        user.signUpInBackground(new SignUpCallback()
+        //get list of children
+        List<Child> beforeChildren = new ArrayList<Child>();
+        try
         {
-            @Override
-            public void done(ParseException e)
-            {
-                if (e!=null)
-                {
-                    Assert.fail(e.getMessage());
-                }
-                else
-                {
-                    Log.i(LOGTAG, "Logged In");
+            beforeChildren = getChildren();
+        }
+        catch (ParseException pe)
+        {
+            Assert.fail(pe.getMessage());
+        }
 
-                    c.saveInBackground(new SaveCallback()
-                    {
-                        @Override
-                        public void done(ParseException e)
-                        {
-                            if (e!=null)
-                            {
-                                Assert.fail(e.getMessage());
-                            }
-                            else
-                            {
-                                Log.i(LOGTAG, "Child saved");
+        //get list of users
+        List<ParseUser> beforeUsers = new ArrayList<ParseUser>();
+        try
+        {
+            beforeUsers = getUsers();
+        }
+        catch (ParseException pe)
+        {
+            Assert.fail(pe.getMessage());
+        }
 
-                                List<Child> children = new ArrayList<Child>();
+        ASDPlaydateUser user = new ASDPlaydateUser("rburns7@chapman.edu", "test", "Ryan", "Burns", "Santa Ana");
+        Child child = new Child(user, "Lilly3",10, Child.Gender.FEMALE, "High Functioning");
+        user.signUp();
+        child.save();
 
-                                try
-                                {
-                                    //assert that children exist
-                                    children = getChildren();
-                                }
-                                catch (ParseException pe)
-                                {
-                                    Assert.fail(pe.getMessage());
-                                }
+        //get list of users
+        List<ParseUser> afterUsers = new ArrayList<ParseUser>();
+        try
+        {
+            afterUsers = getUsers();
+        }
+        catch (ParseException pe)
+        {
+            Assert.fail(pe.getMessage());
+        }
 
-                                assertTrue("No child was created", children.size()>0);
+        assertTrue("No user was created", afterUsers.size() > beforeUsers.size());
 
-                            }
-                            signal.countDown();
-                        }
-                    });
+        //get new list of children. make sure one more
+        List<Child> afterChildren = new ArrayList<Child>();
 
-                }
-            }
-        });
+        try
+        {
+            afterChildren = getChildren();
+        }
+        catch (ParseException pe)
+        {
+            Assert.fail(pe.getMessage());
+        }
 
-        signal.await();
+        assertTrue("No child was created", afterChildren.size() > beforeChildren.size());
     }
 
     @Test
-    public void testGetChildren() throws Exception
+    public void testUpdateProfile() throws Exception
     {
-        final CountDownLatch signal = new CountDownLatch(1);
+        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.become(TEST_SESSION);
+        String name = user.getFirstName();
+        assertNotNull(name);
+        assertNotSame(name, "");
 
-        ASDPlaydateUser.becomeInBackground(TEST_SESSION, new LogInCallback()
-        {
-            @Override
-            public void done(ParseUser user, ParseException e)
-            {
-                if (e != null)
-                {
-                    Log.e(LOGTAG, "Error getting children", e);
-                }
-                else
-                {
-                }
-                signal.countDown();
-            }
-        });
+        String newName = name.charAt(0) == 'R' ? "ryan" : "Ryan";
 
-        signal.await();
+        user.setFirstName(newName);
+        user.save();
+
+        ASDPlaydateUser gotUser = getUser(user.getObjectId());
+        assertEquals(newName, gotUser.getFirstName());
+    }
+
+    private ASDPlaydateUser getUser(String objectId) throws Exception
+    {
+        ParseQuery<ParseUser> q = ASDPlaydateUser.getQuery();
+        q.whereEqualTo(ASDPlaydateUser.ATTR_ID, objectId);
+
+        List<ParseUser> users = q.find();
+
+        return (ASDPlaydateUser) users.get(0);
+    }
+
+    private List<ParseUser> getUsers() throws ParseException
+    {
+        ParseQuery<ParseUser> q = ParseUser.getQuery();
+        return q.find();
     }
 
     private List<Child> getChildren() throws ParseException
@@ -123,9 +137,4 @@ public class ParseTest extends AndroidTestCase
         return q.find();
     }
 
-    private void setup()
-    {
-        BaseApplication app = (BaseApplication) getContext().getApplicationContext();
-        app.setupParse();
-    }
 }
