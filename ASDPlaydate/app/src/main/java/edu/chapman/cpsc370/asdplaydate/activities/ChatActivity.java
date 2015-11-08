@@ -1,16 +1,24 @@
 package edu.chapman.cpsc370.asdplaydate.activities;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.adapters.ChatMessageAdapter;
@@ -24,6 +32,7 @@ public class ChatActivity extends AppCompatActivity
     FloatingActionButton fab_sendMessage;
     ChatMessageAdapter messageAdapter;
     EditText et_message;
+    TextView tv_chatInfoName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,9 +40,16 @@ public class ChatActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        Intent i = getIntent();
+        long userID = i.getLongExtra("userID", 0);
+        String parentName = i.getStringExtra("parentName");
+
         fab_sendMessage = (FloatingActionButton) findViewById(R.id.fab_sendMessage);
         lv_displayMessages = (ListView) findViewById(R.id.lv_displayMessages);
         et_message = (EditText) findViewById(R.id.et_message);
+        tv_chatInfoName = (TextView) findViewById(R.id.tv_chatInfoName);
+        parentName = "Chat With " + parentName;
+        tv_chatInfoName.setText(parentName);
 
         messageAdapter = new ChatMessageAdapter(this, null);
 
@@ -85,6 +101,19 @@ public class ChatActivity extends AppCompatActivity
     {
         messageAdapter.add(message);
         messageAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
