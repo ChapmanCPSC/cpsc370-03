@@ -232,13 +232,17 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     private void openList()
     {
-        ResultListFragment list = new ResultListFragment();
+        FindFragmentContainer parent = (FindFragmentContainer) getParentFragment();
+        parent.flipFragment();
+
+        /*ResultListFragment list = new ResultListFragment();
         android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
         //ft.replace(R.id.pager, list);
         ft.hide(this);
         ft.show(list);
         ft.addToBackStack(null);
         ft.commit();
+        */
     }
 
     @Override
