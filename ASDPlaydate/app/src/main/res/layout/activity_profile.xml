@@ -26,23 +26,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="First Name"
             android:ems="10"
-            android:id="@+id/editParentFname"/>
+            android:id="@+id/editParentFname"
+            android:hint="First Name"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Last Name"
             android:ems="10"
-            android:id="@+id/editParentLname"/>
+            android:id="@+id/editParentLname"
+            android:hint="First Name"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText3"
-            android:text="Primary City"/>
+            android:hint="Primary City"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,9 +55,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="First Name"
             android:ems="10"
-            android:id="@+id/editChildFname"/>
+            android:id="@+id/editChildFname"
+            android:hint="First Name"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -65,13 +65,12 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editYear"
-            android:text="Birth Year"/>
+            android:hint="Birth Year"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:orientation="horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -88,21 +87,33 @@
                 android:id="@+id/radioButtonFemale"
                 android:layout_gravity="center_horizontal"
                 android:checked="false"/>
-        </LinearLayout>
+
+        </RadioGroup>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editConditionInformation"
-            android:text="(optional) Relevant Condition Information"/>
+            android:hint="(optional) Relevant Condition Information"/>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Profile"
-            android:id="@+id/buttonSaveProfile"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal|right"
+            android:gravity="right">
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_saveProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_done_white_48dp"
+                android:layout_margin="0dp"/>
+        </LinearLayout>
 
     </LinearLayout>
+
 
 </RelativeLayout>

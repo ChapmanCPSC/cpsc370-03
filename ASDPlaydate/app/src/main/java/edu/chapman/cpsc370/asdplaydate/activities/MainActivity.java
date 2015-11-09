@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     public void settings(MenuItem item)
     {
         //ISAAC HI
-        Intent myIntent = new Intent(MainActivity.this, TempSettingsActivity.class);
+        Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
         MainActivity.this.startActivity(myIntent);
     }
 

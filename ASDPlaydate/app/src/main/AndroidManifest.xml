@@ -41,15 +41,11 @@
                   android:label="Create an Account">
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
-        <activity
             android:name=".activities.ProfileActivity"
             android:label="@string/title_activity_profile" >
         </activity>
         <activity
-            android:name=".activities.TempSettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_temp_settings" >
         </activity>
     </application>
