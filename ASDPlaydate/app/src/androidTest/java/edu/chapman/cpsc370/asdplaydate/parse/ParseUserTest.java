@@ -1,25 +1,14 @@
-package edu.chapman.cpsc370.asdplaydate;
+package edu.chapman.cpsc370.asdplaydate.parse;
 
-import android.test.AndroidTestCase;
-import android.util.Log;
-
-import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
@@ -27,21 +16,10 @@ import edu.chapman.cpsc370.asdplaydate.models.Child;
 /**
  * Created by ryanburns on 11/7/15.
  */
-public class ParseTest extends AndroidTestCase
+public class ParseUserTest extends ParseTest
 {
-    private final String LOGTAG = "ParseTest";
-    private final String TEST_SESSION = "r:ZRl9rxwXytLShOWg7j8euzw2t";
-
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        BaseApplication app = (BaseApplication) getContext().getApplicationContext();
-        app.setupParse();
-    }
-
     @Test
-    public void testAddUser() throws Exception
+    public void testSignUp() throws Exception
     {
         //get list of children
         List<Child> beforeChildren = new ArrayList<Child>();
