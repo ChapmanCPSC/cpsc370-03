@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.chapman.cpsc370.asdplaydate.activities.ChatActivity"
+            android:name=".activities.ChatActivity"
             android:label="@string/title_activity_chat"
             android:theme="@style/AppTheme"
             android:configChanges="orientation|screenSize">

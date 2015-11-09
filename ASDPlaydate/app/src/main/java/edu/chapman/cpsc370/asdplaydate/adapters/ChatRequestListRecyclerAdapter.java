@@ -2,8 +2,12 @@ package edu.chapman.cpsc370.asdplaydate.adapters;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,12 +20,15 @@ import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
 
 public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatRequestListRecyclerAdapter.ViewHolder>
 {
     public static final int HAS_ACCEPTED= 0;
     public static final int NOT_ACCEPTED = 1;
     private List<ChatRequestListRecyclerItem> mItems;
+    private RecyclerView mRecyclerView;
+    private Context ctx;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -89,9 +96,11 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ChatRequestListRecyclerAdapter(List<ChatRequestListRecyclerItem> mItems)
+    public ChatRequestListRecyclerAdapter(List<ChatRequestListRecyclerItem> mItems, Context ctx)
     {
         this.mItems = mItems;
+        this.ctx = ctx;
+        this.mRecyclerView = mRecyclerView;
     }
 
     // Create new views (invoked by the layout manager)
@@ -99,6 +108,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     public ChatRequestListRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                                         int viewType)
     {
+        Log.i("RecyclerAdapter", "onCreateViewHolder");
         // create a new view
         final CardView vi = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_chatrequest_list_item, parent, false);
@@ -132,22 +142,44 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             @Override
             public void acceptRequest(int position)
             {
-                // You can get the person's name here using:
-                // TextView parentName = (TextView) vi.findViewById(R.id.tv_parent_name)
-                // Untested, but should work.
-                //TODO: Show first time chat window
+                ChatRequestListRecyclerItem thisItem = mItems.get(position);
+                Intent i = new Intent(ctx, ChatActivity.class);
+                i.putExtra("userID", thisItem.getUserID());
+                i.putExtra("parentName", thisItem.getParentName());
+                ctx.startActivity(i);
+                thisItem.setAccepted(true);
+                notifyItemChanged(position);
+                vi.findViewById(R.id.ll_chatrequestlist_buttons).setVisibility(View.GONE);
             }
 
             @Override
             public void showProfileDialog(int position)
             {
-                //TODO: Show profile dialog
+                ChatRequestListRecyclerItem thisItem = mItems.get(position);
+                String parentName = thisItem.getParentName();
+                String message = parentName + "\n\n8 yr old Johnnie\nHigh functioning Autism";
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+                        .setTitle(R.string.view_profile_dialog_title)
+                        .setPositiveButton(R.string.button_ok, null)
+                        .setMessage(message);
+
+                builder.show();
             }
 
             @Override
             public void showChat(int position)
             {
                 //TODO: Show chat window (not first-time), already accepted
+                ChatRequestListRecyclerItem thisItem = mItems.get(position);
+
+                if (thisItem.isAccepted())
+                {
+                    Intent i = new Intent(ctx, ChatActivity.class);
+                    i.putExtra("userID", thisItem.getUserID());
+                    i.putExtra("parentName", thisItem.getParentName());
+                    ctx.startActivity(i);
+                }
             }
         });
         return vh;

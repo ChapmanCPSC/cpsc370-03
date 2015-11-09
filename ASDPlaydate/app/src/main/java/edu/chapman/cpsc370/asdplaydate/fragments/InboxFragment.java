@@ -52,13 +52,15 @@ public class InboxFragment extends Fragment
 
         // specify an adapter (see also next example)
         //TODO: Get data from somewhere here
-        mItems.add(new ChatRequestListRecyclerItem("John Smith", "I have a red Angels hat on", true));
-        mItems.add(new ChatRequestListRecyclerItem("Carry Johnson", "Would like to chat", false));
-        mItems.add(new ChatRequestListRecyclerItem("Faia Raige", "That is awesome!", true));
-        mItems.add(new ChatRequestListRecyclerItem("Chris Shiherlis ", "Would like to chat", false));
-        mItems.add(new ChatRequestListRecyclerItem("Terrence Fletcher", "Were you dragging or rushing?", true));
 
-        mAdapter = new ChatRequestListRecyclerAdapter(mItems);
+        //Martin 11/8/15 added userID to recycler item for future use by chat activity
+        mItems.add(new ChatRequestListRecyclerItem(1234, "John Smith", "I have a red Angels hat on", true));
+        mItems.add(new ChatRequestListRecyclerItem(1235, "Carry Johnson", "Would like to chat", false));
+        mItems.add(new ChatRequestListRecyclerItem(1236, "Faia Raige", "That is awesome!", true));
+        mItems.add(new ChatRequestListRecyclerItem(1237, "Chris Shiherlis ", "Would like to chat", false));
+        mItems.add(new ChatRequestListRecyclerItem(1238, "Terrence Fletcher", "Were you dragging or rushing?", true));
+
+        mAdapter = new ChatRequestListRecyclerAdapter(mItems, this.getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =
