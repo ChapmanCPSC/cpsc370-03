@@ -1,6 +1,7 @@
 package edu.chapman.cpsc370.asdplaydate.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import edu.chapman.cpsc370.asdplaydate.MainActivity;
 import edu.chapman.cpsc370.asdplaydate.R;
 
 /**
@@ -40,7 +42,7 @@ public class LoginFragment extends Fragment
 
     void login()
     {
-        Toast.makeText(getActivity(), "TODO: Check account info and login to main page",
-                Toast.LENGTH_LONG).show();
+        Intent myIntent = new Intent(getActivity(), MainActivity.class);
+        getActivity().startActivity(myIntent);
     }
 }
