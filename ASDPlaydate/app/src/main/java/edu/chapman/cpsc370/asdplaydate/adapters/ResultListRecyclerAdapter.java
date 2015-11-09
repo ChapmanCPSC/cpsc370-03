@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +60,7 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
         TextView childAge;
         TextView childCondition;
         TextView distance;
-        Button requestChat;
+        ImageView requestChat;
 
         ResultItemViewHolder(View itemView) {
             super(itemView);
@@ -69,7 +70,7 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
             childAge = (TextView) itemView.findViewById(R.id.result_list_child_age);
             childCondition = (TextView) itemView.findViewById(R.id.result_list_child_condition);
             distance = (TextView) itemView.findViewById(R.id.result_list_distance);
-            requestChat = (Button) itemView.findViewById(R.id.result_list_request_chat_button);
+            requestChat = (ImageView) itemView.findViewById(R.id.result_list_request_chat_button);
         }
     }
 }
