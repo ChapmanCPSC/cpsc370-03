@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{enumerate}
+\begin{document}
+\title{ASD Playdate\\Software Requirement Specification}
+\date{}
+\maketitle
+
+\noindent ASD Playdate is an app designed for parents of children with Autism Spectrum Disorder (ASD). It allows parents to find other families of children with similar conditions to socialize and interact with.
+
+\section*{Setup \& Settings}
+	\begin{enumerate}
+		\item A user \textbf{shall} be able to create a user account with an email and password for login credentials.
+		\item A user \textbf{shall} be able to create a parent profile for themselves including the following information:
+			\begin{itemize}
+				\item First name
+				\item Last name
+				\item Primary city
+				\item Child profile
+				\begin{itemize}
+					\item First name
+					\item Age
+					\item Sex
+					\item Optional information about their condition
+				\end{itemize}
+			\end{itemize}
+		\item A user \textbf{shall} be able to login with a user name and password.
+		\item A user \textbf{shall} be able to edit their parent profile at any time after the initial setup.
+		\item A user \textbf{shall} be able to edit their child's profile at any time after the initial setup.
+		\item A user \textbf{shall} be able to edit their default search radius.
+		\item A user \textbf{shall} be able to edit their default location broadcast duration.
+		\item A user \textbf{shall} be able to toggle on or off broadcast confirmations.
+		\item A user \textbf{shall} be able to logout.
+		\newcounter{enumTemp}
+		\setcounter{enumTemp}{\theenumi}
+	\end{enumerate}
+
+\section*{Broadcasting \& Querying}
+	\begin{enumerate}
+		\setcounter{enumi}{\theenumTemp}
+		\item A user \textbf{shall} be able to broadcast their location along with the following information:
+		\begin{itemize}
+			\item Broadcast duration
+			\item Optional request message
+		\end{itemize}
+		\item A user \textbf{shall} be able to view broadcasts by other users within their search radius in both a map view and a list view, only after they have broadcasted their own location.
+		\item A user \textbf{should} be able to search a location and view broadcasts by other users within their search radius of that location in both a map view and a list view, only after they have broadcasted their own location.
+		\item A user \textbf{shall} be able to view a detailed view of another user's broadcast containing:
+			\begin{itemize}
+				\item Broadcasting user's first name
+				\item Broadcasting user's child's profile information
+				\item Optional message included in broadcast
+			\end{itemize}
+
+		\setcounter{enumTemp}{\theenumi}
+	\end{enumerate}
+\section*{Invites \& Messaging}
+	\begin{enumerate}
+		\setcounter{enumi}{\theenumTemp}
+		\item A user \textbf{shall} be able to send a chat invite to a user in their query results.
+		\item A user \textbf{shall} be able to accept or reject a chat invitation.
+		\item A user \textbf{shall} be able to view a list of their current chat requests.
+		\item A user \textbf{shall} be able to view a list of their pending chat invitations.
+		\item A user \textbf{shall} be notified via push notifications when receiving new chat invitations or messages.
+		\item The app \textbf{should} display the number of unread messages.
+		\item Chat requests \textbf{shall} expire after the requested user's broadcast duration.
+		\item A user \textbf{shall} be able to chat with another user, if the invite is accepted.
+		\item A user \textbf{shall} be able to view a list of their current chats.
+		\item Chats \textbf{shall} expire after 24 hours.
+	\end{enumerate}
+
+\end{document}
