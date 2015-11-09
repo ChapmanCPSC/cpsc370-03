@@ -1,8 +1,8 @@
 package edu.chapman.cpsc370.asdplaydate.fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,7 +47,7 @@ public class ResultListFragment extends Fragment
 
         // Set layout manager for recycler view
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.result_list_recycler_view);
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
 
         setRecyclerAdapter();
@@ -55,7 +55,7 @@ public class ResultListFragment extends Fragment
 
     private void setRecyclerAdapter()
     {
-        adapter = new ResultListRecyclerAdapter(getContext());
+        adapter = new ResultListRecyclerAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

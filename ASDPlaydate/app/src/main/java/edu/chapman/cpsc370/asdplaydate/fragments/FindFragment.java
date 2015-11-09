@@ -2,10 +2,10 @@ package edu.chapman.cpsc370.asdplaydate.fragments;
 
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +75,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         setUpMap();
 
         createLocationRequest();
-        googleApiClient = new GoogleApiClient.Builder(getContext())
+        googleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -196,7 +196,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         broadcastCheckBox = (CheckBox) broadcast.findViewById(R.id.cb_dont_ask_again);
         broadcastCheckBox.setOnCheckedChangeListener(onCheckedChangeListener);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(broadcast)
                 .setNeutralButton(R.string.go, new DialogInterface.OnClickListener()
                 {
@@ -212,7 +212,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                         // TODO: constructor for MarkerLabelAdapter will pass a model of the data
                         createHashMap();
                         placeMarkers(hash);
-                        MarkerLabelAdapter mla = new MarkerLabelAdapter(getContext(), hash);
+                        MarkerLabelAdapter mla = new MarkerLabelAdapter(getActivity(), hash);
                         googleMap.setInfoWindowAdapter(mla);
 
                     }

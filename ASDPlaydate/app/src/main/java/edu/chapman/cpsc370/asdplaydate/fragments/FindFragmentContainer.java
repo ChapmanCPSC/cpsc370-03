@@ -1,7 +1,7 @@
 package edu.chapman.cpsc370.asdplaydate.fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +39,8 @@ public class FindFragmentContainer extends Fragment {
 
     }
 
-    public void flipFragment() {
-
+    public void flipFragment()
+    {
         // Flip back to the map
         if (showingResultList) {
             showingResultList = false;
@@ -50,16 +50,13 @@ public class FindFragmentContainer extends Fragment {
 
         // Flip to result list
         showingResultList = true;
-
         getChildFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(
+                        R.animator.flip_right_in, R.animator.flip_right_out,
+                        R.animator.flip_left_in, R.animator.flip_left_out)
                 .replace(R.id.find_container, new ResultListFragment())
                 .addToBackStack(null)
-                /* This part doesn't work with the support.v4 Fragments
-                .setCustomAnimations(
-                    R.animator.flip_right_in, R.animator.flip_right_out,
-                    R.animator.flip_left_in, R.animator.flip_left_out)
-                 */
                 .commit();
     }
 }
