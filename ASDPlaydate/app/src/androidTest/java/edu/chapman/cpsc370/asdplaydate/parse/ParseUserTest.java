@@ -5,6 +5,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import junit.framework.Assert;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,62 +19,43 @@ import edu.chapman.cpsc370.asdplaydate.models.Child;
  */
 public class ParseUserTest extends ParseTest
 {
+    private final String TEST_USERNAME = "rburns7@chapman.edu";
+    private final String TEST_PASSWORD = "test";
+
     @Test
     public void testSignUp() throws Exception
     {
-        //get list of children
-        List<Child> beforeChildren = new ArrayList<Child>();
-        try
-        {
-            beforeChildren = getChildren();
-        }
-        catch (ParseException pe)
-        {
-            Assert.fail(pe.getMessage());
-        }
+        //create user and child
+        String username = "rburns9@chapman.edu";
+        String password = "test";
+        String first = "Ryan";
+        String last = "Burns";
+        String city = "Santa Ana";
 
-        //get list of users
-        List<ParseUser> beforeUsers = new ArrayList<ParseUser>();
-        try
-        {
-            beforeUsers = getUsers();
-        }
-        catch (ParseException pe)
-        {
-            Assert.fail(pe.getMessage());
-        }
+        String childFirst = "Lilly3";
+        int childAge = 10;
+        Child.Gender childGender = Child.Gender.FEMALE;
+        String childDesc = "High Functioning";
 
-        ASDPlaydateUser user = new ASDPlaydateUser("rburns7@chapman.edu", "test", "Ryan", "Burns", "Santa Ana");
-        Child child = new Child(user, "Lilly3",10, Child.Gender.FEMALE, "High Functioning");
+        ASDPlaydateUser user = new ASDPlaydateUser(username, password, first, last, city);
+        Child child = new Child(user, childFirst, childAge, childGender, childDesc);
         user.signUp();
         child.save();
 
-        //get list of users
-        List<ParseUser> afterUsers = new ArrayList<ParseUser>();
-        try
-        {
-            afterUsers = getUsers();
-        }
-        catch (ParseException pe)
-        {
-            Assert.fail(pe.getMessage());
-        }
+        //logout
+        ASDPlaydateUser.logOut();
 
-        assertTrue("No user was created", afterUsers.size() > beforeUsers.size());
+        //login as same user
+        ASDPlaydateUser user2 = (ASDPlaydateUser) ASDPlaydateUser.logIn(username, password);
 
-        //get new list of children. make sure one more
-        List<Child> afterChildren = new ArrayList<Child>();
+        //make sure they are the same
+        assertEquals(first, user2.getFirstName());
 
-        try
-        {
-            afterChildren = getChildren();
-        }
-        catch (ParseException pe)
-        {
-            Assert.fail(pe.getMessage());
-        }
+        //get child from that user
+        Child child2 = getChildWithParent(user2);
 
-        assertTrue("No child was created", afterChildren.size() > beforeChildren.size());
+        //make sure child matches
+        assertEquals(childFirst, child2.getFirstName());
     }
 
     @Test
@@ -91,6 +73,22 @@ public class ParseUserTest extends ParseTest
 
         ASDPlaydateUser gotUser = getUser(user.getObjectId());
         assertEquals(newName, gotUser.getFirstName());
+    }
+
+    @Test
+    public void testLogin() throws Exception
+    {
+        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.logIn(TEST_USERNAME, TEST_PASSWORD);
+        assertNotNull(user);
+        Child child = getChildWithParent(user);
+        assertNotNull(child);
+    }
+
+    private Child getChildWithParent(ASDPlaydateUser parent) throws Exception
+    {
+        ParseQuery<Child> q = new ParseQuery<Child>(Child.class);
+        q.whereEqualTo(Child.ATTR_PARENT, parent);
+        return q.find().get(0);
     }
 
     private ASDPlaydateUser getUser(String objectId) throws Exception
