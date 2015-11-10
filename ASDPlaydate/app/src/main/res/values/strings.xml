@@ -39,4 +39,6 @@
     <string name="button_ok">OK</string>
     <string name="duration_min">1 min</string>
     <string name="duration_max">120 min</string>
+    <string name="title_activity_settings_v2">Settings</string>
+    <string name="title_activity_profile_activity_v2">Profile</string>
 </resources>
