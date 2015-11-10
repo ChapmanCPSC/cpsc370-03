@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     public void account(MenuItem item)
     {
-        Intent intent = new Intent(MainActivity.this,ChatActivity.AccountActivity.class);
+        Intent intent = new Intent(MainActivity.this, AccountActivity.class);
         MainActivity.this.startActivity(intent);
     }
 

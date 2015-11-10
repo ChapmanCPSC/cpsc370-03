@@ -24,7 +24,7 @@ import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
 
 public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatRequestListRecyclerAdapter.ViewHolder>
 {
-    public static final int HAS_ACCEPTED= 0;
+    public static final int HAS_ACCEPTED = 0;
     public static final int NOT_ACCEPTED = 1;
     private List<ChatRequestListRecyclerItem> mItems;
     private RecyclerView mRecyclerView;
@@ -39,7 +39,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
         public TextView lastMsg;
         public ViewHolderClicks mListener;
 
-        public ViewHolder(View cardView, ViewHolderClicks listener)
+        public ViewHolder(View cardView, boolean accepted, ViewHolderClicks listener)
         {
             super(cardView);
 
@@ -48,7 +48,10 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             mListener = listener;
 
             // OnClickListeners set below for each child in the cardView
-            cardView.setOnClickListener(this);
+            if (accepted)
+            {
+                cardView.setOnClickListener(this);
+            }
 
             View profileButton = cardView.findViewById(R.id.b_profile);
             profileButton.setClickable(true);
@@ -116,12 +119,17 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
 
         disableTouchTheft(vi);
 
+        boolean accepted = true;
         if (viewType == HAS_ACCEPTED)
         {
             vi.findViewById(R.id.ll_chatrequestlist_buttons).setVisibility(View.GONE);
         }
+        else
+        {
+            accepted = false;
+        }
 
-        ViewHolder vh = new ViewHolder(vi, new ViewHolder.ViewHolderClicks()
+        ViewHolder vh = new ViewHolder(vi, accepted, new ViewHolder.ViewHolderClicks()
         {
             @Override
             public void denyRequest(int position)

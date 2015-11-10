@@ -53,7 +53,7 @@ public class ChatRequestListRecyclerItem
         return accepted;
     }
 
-    public void setAccepted(boolean hasAccepted)
+    public void setAccepted(boolean accepted)
     {
         this.accepted = accepted;
     }
