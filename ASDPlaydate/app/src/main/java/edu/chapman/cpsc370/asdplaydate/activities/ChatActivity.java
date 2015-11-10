@@ -120,38 +120,4 @@ public class ChatActivity extends AppCompatActivity
         messageAdapter.add(message);
         messageAdapter.notifyDataSetChanged();
     }
-
-    /**
-     * Created by TheHollowManV on 11/4/2015.
-     */
-    public static class AccountActivity extends FragmentActivity
-    {
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState)
-        {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_account);
-
-            loadFragment();
-        }
-        void loadFragment()
-        {
-            Fragment f = new CreateAccountFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.fragmentView, f);
-            fragmentTransaction.commit();
-
-        }
-        public void loadLogin()
-        {
-            Fragment f = new LoginFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentView, f);
-            fragmentTransaction.commit();
-        }
-
-    }
 }

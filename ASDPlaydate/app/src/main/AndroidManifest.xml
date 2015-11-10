@@ -39,8 +39,8 @@
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name=".activities.ChatActivity$AccountActivity"
-            android:label="Create an Account" >
+            android:name=".activities.AccountActivity"
+            android:label="@string/create_acc" >
         </activity>
         <activity
             android:name=".activities.SettingsActivity"

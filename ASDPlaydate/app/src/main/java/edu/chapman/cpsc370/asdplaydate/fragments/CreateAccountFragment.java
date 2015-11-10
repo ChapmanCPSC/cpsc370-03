@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.activities.AccountActivity;
 import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
 
 /**
@@ -53,7 +54,7 @@ public class CreateAccountFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                ((ChatActivity.AccountActivity)getActivity()).loadLogin();
+                ((AccountActivity)getActivity()).loadLogin();
             }
         });
         return rootView;
