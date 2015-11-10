@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,13 +47,15 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     GoogleMap googleMap;
     Location myLocation;
     GoogleApiClient googleApiClient;
-    Button broadcast, list;
+    Button broadcast;
+    SeekBar broadcastDuration;
+    FloatingActionButton list, broadcastGo;
     AlertDialog broadcastDialog;
     FrameLayout broadcastBar;
     LocationRequest mLocationRequest;
     CheckBox broadcastCheckBox;
-    TextView tv;
     HashMap<LatLng, String> hash;
+    TextView tv;
 
     private static final long INTERVAL = 1000 * 10;
     private static final long FASTEST_INTERVAL = 1000 * 5;
@@ -63,17 +69,21 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                              Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+
         map = (MapView) rootView.findViewById(R.id.mapView);
+        tv = (TextView) rootView.findViewById(R.id.tv_broadcast_bar);
         broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
         broadcast = (Button) rootView.findViewById(R.id.btn_broadcast);
         broadcast.setOnClickListener(this);
-        list = (Button) rootView.findViewById(R.id.btn_list);
+        list = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
+        list.hide();
         list.setOnClickListener(this);
+        broadcastDuration = (SeekBar) rootView.findViewById(R.id.sb_broadcast_duration);
+
         map.onCreate(savedInstanceState);
         map.onResume();
         googleMap = map.getMap();
         setUpMap();
-
         createLocationRequest();
         googleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
@@ -81,13 +91,13 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 .addApi(LocationServices.API)
                 .build();
 
-        tv = (TextView) rootView.findViewById(R.id.tv_broadcast_bar);
-
         //LocationManager lm = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         //lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
         return rootView;
     }
+
+
 
     protected void createLocationRequest()
     {
@@ -96,8 +106,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
-
-
 
     private LocationListener locationListener = new LocationListener()
     {
@@ -195,31 +203,34 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         View broadcast = inflater.inflate(R.layout.broadcast_dialog, null);
         broadcastCheckBox = (CheckBox) broadcast.findViewById(R.id.cb_dont_ask_again);
         broadcastCheckBox.setOnCheckedChangeListener(onCheckedChangeListener);
+        broadcastGo = (FloatingActionButton) broadcast.findViewById(R.id.fab_go);
+        broadcastGo.setOnClickListener(onClickListener);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setView(broadcast)
-                .setNeutralButton(R.string.go, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        dialog.cancel();
-
-                        ObjectAnimator slideDown = ObjectAnimator.ofFloat(broadcastBar, "translationY", 200);
-                        slideDown.setDuration(500).start();
-
-                        // Fake data
-                        // TODO: constructor for MarkerLabelAdapter will pass a model of the data
-                        createHashMap();
-                        placeMarkers(hash);
-                        MarkerLabelAdapter mla = new MarkerLabelAdapter(getActivity(), hash);
-                        googleMap.setInfoWindowAdapter(mla);
-
-                    }
-                });
+                .setView(broadcast);
         broadcastDialog = builder.create();
         broadcastDialog.show();
     }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            broadcastDialog.cancel();
+
+            ObjectAnimator slideDown = ObjectAnimator.ofFloat(broadcastBar, "translationY", 200);
+            slideDown.setDuration(500).start();
+
+            list.show();
+
+            // TODO: constructor for MarkerLabelAdapter will pass a model of the data
+            createHashMap();
+            placeMarkers(hash);
+            MarkerLabelAdapter mla = new MarkerLabelAdapter(getActivity(), hash);
+            googleMap.setInfoWindowAdapter(mla);
+        }
+    };
 
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
     {
@@ -235,14 +246,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         FindFragmentContainer parent = (FindFragmentContainer) getParentFragment();
         parent.flipFragment();
 
-        /*ResultListFragment list = new ResultListFragment();
-        android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-        //ft.replace(R.id.pager, list);
-        ft.hide(this);
-        ft.show(list);
-        ft.addToBackStack(null);
-        ft.commit();
-        */
     }
 
     @Override
@@ -253,7 +256,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             case R.id.btn_broadcast:
                 inflateBroadcastDialog();
                 break;
-            case R.id.btn_list:
+            case R.id.fab_list:
                 openList();
                 break;
             default:
