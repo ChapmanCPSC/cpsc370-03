@@ -18,11 +18,11 @@ public class SettingsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_temp_settings);
+        setContentView(R.layout.activity_settings);
 
         //Temp code while testing back butto
-        //ActionBar actionBar = getActionBar();
-        //actionBar.setDisplayHomeAsUpEnabled(true);
+      //  ActionBar actionBar = getActionBar();
+      //  actionBar.setDisplayHomeAsUpEnabled(true);
 
 
         //Find Views By ID
