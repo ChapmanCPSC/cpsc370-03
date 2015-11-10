@@ -57,6 +57,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     HashMap<LatLng, String> hash;
     TextView tv;
 
+    View rootView;
+    boolean firstLoad = true;
+
     private static final long INTERVAL = 1000 * 10;
     private static final long FASTEST_INTERVAL = 1000 * 5;
 
@@ -68,31 +71,37 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+        if(firstLoad)
+        {
+            // Skip the setup the next time onCreateView is called
+            firstLoad = false;
 
-        map = (MapView) rootView.findViewById(R.id.mapView);
-        tv = (TextView) rootView.findViewById(R.id.tv_broadcast_bar);
-        broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
-        broadcast = (Button) rootView.findViewById(R.id.btn_broadcast);
-        broadcast.setOnClickListener(this);
-        list = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
-        list.hide();
-        list.setOnClickListener(this);
-        broadcastDuration = (SeekBar) rootView.findViewById(R.id.sb_broadcast_duration);
+            rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        map.onCreate(savedInstanceState);
-        map.onResume();
-        googleMap = map.getMap();
-        setUpMap();
-        createLocationRequest();
-        googleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+            map = (MapView) rootView.findViewById(R.id.mapView);
+            tv = (TextView) rootView.findViewById(R.id.tv_broadcast_bar);
+            broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
+            broadcast = (Button) rootView.findViewById(R.id.btn_broadcast);
+            broadcast.setOnClickListener(this);
+            list = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
+            list.hide();
+            list.setOnClickListener(this);
+            broadcastDuration = (SeekBar) rootView.findViewById(R.id.sb_broadcast_duration);
 
-        //LocationManager lm = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        //lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            map.onCreate(savedInstanceState);
+            map.onResume();
+            googleMap = map.getMap();
+            setUpMap();
+            createLocationRequest();
+            googleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+
+            //LocationManager lm = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+            //lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        }
 
         return rootView;
     }
