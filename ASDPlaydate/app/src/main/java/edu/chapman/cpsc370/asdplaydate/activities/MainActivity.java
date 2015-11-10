@@ -83,13 +83,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         MainActivity.this.startActivity(myIntent);
     }
 
-    public void chat(MenuItem item)
-    {
-        Intent i = new Intent(this, ChatActivity.class);
-        i.putExtra("userID", 12345); //// TODO: 11/3/2015 change the hardcoded userID to a get command from user data object
-        startActivity(i);
-    }
-
     public void account(MenuItem item)
     {
         Intent intent = new Intent(MainActivity.this, AccountActivity.class);

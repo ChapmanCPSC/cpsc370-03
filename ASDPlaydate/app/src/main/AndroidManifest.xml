@@ -25,7 +25,8 @@
         <activity
             android:name=".activities.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +37,11 @@
             android:name=".activities.ChatActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_chat"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.chapman.cpsc370.asdplaydate.activities.MainActivity"/>
         </activity>
         <activity
             android:name=".activities.AccountActivity"

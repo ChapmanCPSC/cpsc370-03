@@ -1,30 +1,18 @@
 package edu.chapman.cpsc370.asdplaydate.activities;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.adapters.ChatMessageAdapter;
-import edu.chapman.cpsc370.asdplaydate.fragments.CreateAccountFragment;
-import edu.chapman.cpsc370.asdplaydate.fragments.LoginFragment;
 import edu.chapman.cpsc370.asdplaydate.models.ChatMessage;
 
 public class ChatActivity extends AppCompatActivity
@@ -119,5 +107,19 @@ public class ChatActivity extends AppCompatActivity
     {
         messageAdapter.add(message);
         messageAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

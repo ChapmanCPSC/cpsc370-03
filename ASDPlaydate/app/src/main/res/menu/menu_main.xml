@@ -9,12 +9,6 @@
         app:showAsAction="never"/>
 
     <item
-        android:onClick="chat"
-        android:orderInCategory="100"
-        android:title="Chat"
-        app:showAsAction="never"/>
-
-    <item
         android:onClick="account"
         android:orderInCategory="100"
         android:title="Account"
