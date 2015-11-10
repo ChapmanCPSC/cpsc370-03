@@ -21,8 +21,8 @@ public class SettingsActivity extends AppCompatActivity
         setContentView(R.layout.activity_temp_settings);
 
         //Temp code while testing back butto
-      //  ActionBar actionBar = getActionBar();
-      //  actionBar.setDisplayHomeAsUpEnabled(true);
+        //ActionBar actionBar = getActionBar();
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
 
         //Find Views By ID

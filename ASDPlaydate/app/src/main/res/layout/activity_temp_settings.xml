@@ -59,6 +59,12 @@
                 android:text="Default Search Radius"
                 android:id="@+id/textViewSearchRadius"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textViewMileUpdate"/>
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -107,6 +113,12 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Default Broadcast Duration"
                 android:id="@+id/textView3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textViewDurationUpdate"/>
 
             <LinearLayout
                 android:orientation="horizontal"

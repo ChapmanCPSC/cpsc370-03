@@ -36,7 +36,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/editParentLname"
-            android:hint="First Name"/>
+            android:hint="Last Name"/>
 
         <EditText
             android:layout_width="match_parent"
