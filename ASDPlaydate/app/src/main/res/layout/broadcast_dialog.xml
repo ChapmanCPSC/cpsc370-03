@@ -15,6 +15,11 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"/>
 
+    <TextView
+        android:id="@+id/tv_duration_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -31,7 +36,8 @@
             android:id="@+id/sb_broadcast_duration"
             android:layout_width="225dp"
             android:layout_height="wrap_content"
-            android:max="120"/>
+            android:progress="60"
+            android:max="119"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

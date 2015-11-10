@@ -3,21 +3,17 @@ package edu.chapman.cpsc370.asdplaydate.fragments;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -47,15 +43,14 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     GoogleMap googleMap;
     Location myLocation;
     GoogleApiClient googleApiClient;
-    Button broadcast;
     SeekBar broadcastDuration;
-    FloatingActionButton list, broadcastGo;
+    TextView progressValue;
+    FloatingActionButton list, broadcastGo, broadcast;
     AlertDialog broadcastDialog;
     FrameLayout broadcastBar;
     LocationRequest mLocationRequest;
     CheckBox broadcastCheckBox;
     HashMap<LatLng, String> hash;
-    TextView tv;
 
     View rootView;
     boolean firstLoad = true;
@@ -77,11 +72,17 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             firstLoad = false;
 
             rootView = inflater.inflate(R.layout.fragment_map, container, false);
+        map = (MapView) rootView.findViewById(R.id.mapView);
+        broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
+        broadcast = (FloatingActionButton) rootView.findViewById(R.id.fab_broadcast);
+        broadcast.setOnClickListener(this);
+        list = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
+        list.hide();
+        list.setOnClickListener(this);
 
             map = (MapView) rootView.findViewById(R.id.mapView);
-            tv = (TextView) rootView.findViewById(R.id.tv_broadcast_bar);
             broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
-            broadcast = (Button) rootView.findViewById(R.id.btn_broadcast);
+            broadcast = (FloatingActionButton) rootView.findViewById(R.id.fab_broadcast);
             broadcast.setOnClickListener(this);
             list = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
             list.hide();
@@ -214,6 +215,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         broadcastCheckBox.setOnCheckedChangeListener(onCheckedChangeListener);
         broadcastGo = (FloatingActionButton) broadcast.findViewById(R.id.fab_go);
         broadcastGo.setOnClickListener(onClickListener);
+        broadcastDuration = (SeekBar) broadcast.findViewById(R.id.sb_broadcast_duration);
+        broadcastDuration.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        progressValue = (TextView) broadcast.findViewById(R.id.tv_duration_progress);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(broadcast);
@@ -241,6 +245,27 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         }
     };
 
+    private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener()
+    {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+        {
+            progressValue.setText((progress+1) + " " + getString(R.string.minutes));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar)
+        {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar)
+        {
+
+        }
+    };
+
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
     {
         @Override
@@ -262,7 +287,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         switch (v.getId())
         {
-            case R.id.btn_broadcast:
+            case R.id.fab_broadcast:
                 inflateBroadcastDialog();
                 break;
             case R.id.fab_list:
