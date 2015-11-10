@@ -46,13 +46,16 @@
             android:layout_below="@id/result_list_child_condition"
             android:paddingTop="15dp" />
 
-        <Button
+        <ImageView
             android:id="@+id/result_list_request_chat_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="@string/request_chat" />
+            android:src="@drawable/ic_chat" />
 
     </RelativeLayout>
 
