@@ -1,6 +1,5 @@
 package edu.chapman.cpsc370.asdplaydate.activities;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,8 +11,6 @@ import edu.chapman.cpsc370.asdplaydate.R;
 
 public class SettingsActivity extends AppCompatActivity
 {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -21,8 +18,8 @@ public class SettingsActivity extends AppCompatActivity
         setContentView(R.layout.activity_settings);
 
         //Temp code while testing back butto
-      //  ActionBar actionBar = getActionBar();
-      //  actionBar.setDisplayHomeAsUpEnabled(true);
+        //  ActionBar actionBar = getActionBar();
+        //  actionBar.setDisplayHomeAsUpEnabled(true);
 
 
         //Find Views By ID

@@ -43,15 +43,7 @@
             android:label="Create an Account" >
         </activity>
         <activity
-            android:name=".activities.ProfileActivity"
-            android:label="@string/title_activity_profile" >
-        </activity>
-        <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_temp_settings" >
-        </activity>
-        <activity
-            android:name=".activities.SettingsV2"
             android:label="@string/title_activity_settings_v2"
             android:parentActivityName=".activities.MainActivity" >
             <meta-data
@@ -59,12 +51,12 @@
                 android:value="edu.chapman.cpsc370.asdplaydate.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.ProfileActivityV2"
+            android:name=".activities.ProfileActivity"
             android:label="@string/title_activity_profile_activity_v2"
-            android:parentActivityName=".activities.SettingsV2" >
+            android:parentActivityName=".activities.SettingsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.chapman.cpsc370.asdplaydate.activities.SettingsV2" />
+                android:value=".activities.SettingsActivity" />
         </activity>
     </application>
 

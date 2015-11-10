@@ -5,9 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 
@@ -18,14 +16,14 @@ public class ProfileActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_profile_activity);
 
         //Find Views By ID
         FloatingActionButton saveProfileButton = (FloatingActionButton) findViewById(R.id.fab_saveProfile);//find list view
         final TextView defaultSearchRadius = (TextView) findViewById(R.id.textViewSearchRadius);
 
 
-      //  searchRadiusSeekBar.setOnSeekBarChangeListener(customSeekBarListener); //seek bar test code
+        //  searchRadiusSeekBar.setOnSeekBarChangeListener(customSeekBarListener); //seek bar test code
 
         //Click Listeners
 
@@ -71,5 +69,4 @@ public class ProfileActivity extends AppCompatActivity
         });
     */
     }
-
 }
