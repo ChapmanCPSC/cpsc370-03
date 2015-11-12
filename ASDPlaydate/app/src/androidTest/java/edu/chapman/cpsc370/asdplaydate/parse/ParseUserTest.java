@@ -26,16 +26,16 @@ public class ParseUserTest extends ParseTest
     public void testSignUp() throws Exception
     {
         //create user and child
-        String username = "rburns9@chapman.edu";
+        String username = "rburns10@chapman.edu";
         String password = "test";
         String first = "Ryan";
         String last = "Burns";
         String city = "Santa Ana";
 
-        String childFirst = "Lilly3";
-        int childAge = 10;
+        String childFirst = "Lilly565";
+        int childAge = 12;
         Child.Gender childGender = Child.Gender.FEMALE;
-        String childDesc = "High Functioning";
+        String childDesc = "Low Functioning";
 
         ASDPlaydateUser user = new ASDPlaydateUser(username, password, first, last, city);
         Child child = new Child(user, childFirst, childAge, childGender, childDesc);

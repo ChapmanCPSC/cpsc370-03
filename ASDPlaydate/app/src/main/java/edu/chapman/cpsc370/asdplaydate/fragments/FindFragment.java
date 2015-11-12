@@ -218,7 +218,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         broadcastDuration = (SeekBar) broadcast.findViewById(R.id.sb_broadcast_duration);
         broadcastDuration.setOnSeekBarChangeListener(onSeekBarChangeListener);
         progressValue = (TextView) broadcast.findViewById(R.id.tv_duration_progress);
-
+        progressValue.setText("60" + " " + getString(R.string.minutes));
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(broadcast);
         broadcastDialog = builder.create();
@@ -232,7 +232,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         {
             broadcastDialog.cancel();
 
-            ObjectAnimator slideDown = ObjectAnimator.ofFloat(broadcastBar, "translationY", 200);
+            ObjectAnimator slideDown = ObjectAnimator.ofFloat(broadcastBar, "translationY", 2000);
             slideDown.setDuration(500).start();
 
             list.show();
