@@ -9,6 +9,8 @@ import org.joda.time.DateTimeZone;
 
 import java.util.Date;
 
+import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
+
 @ParseClassName("Broadcasts")
 public class Broadcast extends ParseObject
 {
@@ -64,16 +66,11 @@ public class Broadcast extends ParseObject
 
     public void setExpireDate(DateTime expireDate)
     {
-        DateTime dt = expireDate.withZone(DateTimeZone.UTC);
-        Date d = dt.toDate();
-
-        put(ATTR_EXPIRE_DATE, d);
+        put(ATTR_EXPIRE_DATE, DateHelpers.UTCDate(expireDate));
     }
 
     public DateTime getExpireDate()
     {
-        Date d = getDate(ATTR_LOCATION);
-        DateTime dt = new DateTime(d,DateTimeZone.getDefault());
-        return dt;
+        return DateHelpers.LocalDateTime(getDate(ATTR_EXPIRE_DATE));
     }
 }

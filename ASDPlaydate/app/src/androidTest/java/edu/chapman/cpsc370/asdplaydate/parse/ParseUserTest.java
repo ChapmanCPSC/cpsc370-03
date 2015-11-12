@@ -26,7 +26,7 @@ public class ParseUserTest extends ParseTest
     public void testSignUp() throws Exception
     {
         //create user and child
-        String username = "rburns10@chapman.edu";
+        String username = "rburns11@chapman.edu";
         String password = "test";
         String first = "Ryan";
         String last = "Burns";

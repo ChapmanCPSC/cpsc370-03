@@ -3,6 +3,10 @@ package edu.chapman.cpsc370.asdplaydate.models;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import org.joda.time.DateTime;
+
+import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
+
 @ParseClassName("Children")
 public class Child extends ParseObject
 {
@@ -78,7 +82,6 @@ public class Child extends ParseObject
     {
         put(ATTR_DESCRIPTION, desc);
     }
-
 
     public enum Gender
     {
