@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +24,20 @@ public class SettingsActivity extends AppCompatActivity
         TextView logoutButton = (TextView) findViewById(R.id.textViewLogout);
         TextView profileButton = (TextView) findViewById(R.id.textViewEditProfile);
         LinearLayout editProfileLinearLayout = (LinearLayout) findViewById(R.id.ll_editProfile);
+        final SeekBar searchRadiusSeekBar = (SeekBar) findViewById(R.id.seekBarSearchRadius);
+        final TextView mileUpdateTextView = (TextView) findViewById(R.id.textViewMileUpdate);//for updating the text view for the broadcast duration
+        final SeekBar broadcastDurationSeekBar = (SeekBar) findViewById(R.id.seekBarBroadcastDuration);
+        final TextView broadcastUpdateTextView = (TextView) findViewById(R.id.textViewDurationUpdate);//for updating the text view for the broadcast duration
 
         //Click Listeners
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        logoutButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
                 Toast.makeText(getApplicationContext(), "You have been logged out",
                         Toast.LENGTH_LONG).show();
-            }});
+            }
+        });
 
         editProfileLinearLayout.setOnClickListener(new View.OnClickListener()
         {
@@ -40,5 +48,45 @@ public class SettingsActivity extends AppCompatActivity
             }
         });
 
+        searchRadiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()//default seach radius seekbar
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                mileUpdateTextView.setText((progress + 1) + " " + getString(R.string.miles));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+            }
+        });
+
+        broadcastDurationSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()//default Broadcast Duration  seekbar
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                broadcastUpdateTextView.setText((progress + 1) + " " + getString(R.string.minutes));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+            }
+        });
     }
+
 }
