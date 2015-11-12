@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,27 +18,27 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        //Temp code while testing back butto
-        //  ActionBar actionBar = getActionBar();
-        //  actionBar.setDisplayHomeAsUpEnabled(true);
-
 
         //Find Views By ID
         TextView logoutButton = (TextView) findViewById(R.id.textViewLogout);
         TextView profileButton = (TextView) findViewById(R.id.textViewEditProfile);
+        LinearLayout editProfileLinearLayout = (LinearLayout) findViewById(R.id.ll_editProfile);
 
         //Click Listeners
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent myIntent = new Intent(SettingsActivity.this, ProfileActivity.class);
-                SettingsActivity.this.startActivity(myIntent);
-            }});
-
         logoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "You have been logged out",
                         Toast.LENGTH_LONG).show();
             }});
+
+        editProfileLinearLayout.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Intent myIntent = new Intent(SettingsActivity.this, ProfileActivity.class);
+                SettingsActivity.this.startActivity(myIntent);
+            }
+        });
 
     }
 }

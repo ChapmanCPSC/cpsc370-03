@@ -15,23 +15,23 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
-        <Space
-            android:layout_width="20px"
-            android:layout_height="20px"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Edit My Profile"
-            android:id="@+id/textViewEditProfile"
-            android:layout_gravity="left|center_horizontal"/>
+            android:clickable="true"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:id="@+id/ll_editProfile">
 
-        <Space
-            android:layout_width="20px"
-            android:layout_height="40px"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Edit My Profile"
+                android:id="@+id/textViewEditProfile"
+                android:layout_gravity="left|center_horizontal"/>
+        </LinearLayout>
 
         <View
             android:layout_width="fill_parent"
@@ -46,30 +46,54 @@
             />
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1"
-            >
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Default Search Radius"
-                android:id="@+id/textViewSearchRadius"/>
+                android:weightSum="1"
+                >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/textViewMileUpdate"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Search Radius"
+                    android:id="@+id/textViewSearchRadius"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/textViewMileUpdate"/>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                >
+                android:gravity="center_horizontal">
+
+                <Space
+                    android:layout_width="20px"
+                    android:layout_height="20px"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="1mi"
+                    android:id="@+id/textViewSearchRange"/>
 
                 <SeekBar
                     android:layout_width="wrap_content"
@@ -80,8 +104,15 @@
                     android:max="5"
                     android:progress="1"
                     />
-            </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="5mi"
+                    android:id="@+id/textViewSearchInidcatorLarge"/>
+
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -102,41 +133,69 @@
             />
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Default Broadcast Duration"
-                android:id="@+id/textView3"/>
+                >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/textViewDurationUpdate"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Broadcast Duration"
+                    android:id="@+id/textView3"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/textViewDurationUpdate"/>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="right">
+                android:weightSum="1"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="1min"
+                    android:id="@+id/textViewBroadcastDurationLow"
+                    />
 
                 <SeekBar
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/seekBarBroadcastDuration"
                     android:indeterminate="false"
                     android:contentDescription="Minutes"
                     android:progress="1"
                     android:max="120"
-                    android:contextClickable="false"/>
-            </LinearLayout>
+                    android:contextClickable="false"
+                    android:layout_weight="0.86"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="120min"
+                    android:id="@+id/textView4"/>
+            </LinearLayout>
         </LinearLayout>
 
         <Space
