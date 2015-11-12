@@ -9,6 +9,10 @@
         android:layout_margin="20dp"
         android:layout_marginTop="60dp"
         android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:src="@drawable/asd_logo"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -16,6 +20,8 @@
             android:singleLine="true"
             android:background="@color/editTextBG"
             android:hint="@string/email"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:layout_marginTop="60dp"
             />
         <EditText
@@ -26,6 +32,8 @@
             android:singleLine="false"
             android:background="@color/editTextBG"
             android:layout_marginTop="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:hint="@string/pass"/>
         <Button
             android:layout_width="wrap_content"

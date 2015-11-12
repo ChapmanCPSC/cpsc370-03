@@ -1,5 +1,6 @@
 package edu.chapman.cpsc370.asdplaydate.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.activities.AccountActivity;
 import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
+import edu.chapman.cpsc370.asdplaydate.activities.ProfileActivity;
 
 /**
  * Created by TheHollowManV on 11/4/2015.
@@ -45,8 +47,8 @@ public class CreateAccountFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(getActivity(), "TODO: Open Profile Page and Save Account Info",
-                        Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                getActivity().startActivity(intent);
             }
         });
         link.setOnClickListener(new View.OnClickListener()
