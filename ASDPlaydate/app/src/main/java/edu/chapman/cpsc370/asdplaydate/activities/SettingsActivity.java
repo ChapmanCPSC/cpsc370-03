@@ -21,16 +21,16 @@ public class SettingsActivity extends AppCompatActivity
 
 
         //Find Views By ID
-        TextView logoutButton = (TextView) findViewById(R.id.textViewLogout);
-        TextView profileButton = (TextView) findViewById(R.id.textViewEditProfile);
+        LinearLayout logoutLinearLayout = (LinearLayout) findViewById(R.id.ll_logout);
         LinearLayout editProfileLinearLayout = (LinearLayout) findViewById(R.id.ll_editProfile);
         final SeekBar searchRadiusSeekBar = (SeekBar) findViewById(R.id.seekBarSearchRadius);
         final TextView mileUpdateTextView = (TextView) findViewById(R.id.textViewMileUpdate);//for updating the text view for the broadcast duration
         final SeekBar broadcastDurationSeekBar = (SeekBar) findViewById(R.id.seekBarBroadcastDuration);
         final TextView broadcastUpdateTextView = (TextView) findViewById(R.id.textViewDurationUpdate);//for updating the text view for the broadcast duration
 
+
         //Click Listeners
-        logoutButton.setOnClickListener(new View.OnClickListener()
+        logoutLinearLayout.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
