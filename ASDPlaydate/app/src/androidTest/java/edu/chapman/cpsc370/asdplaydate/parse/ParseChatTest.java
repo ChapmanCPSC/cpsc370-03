@@ -1,11 +1,17 @@
 package edu.chapman.cpsc370.asdplaydate.parse;
 
 import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 
 import org.joda.time.DateTime;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Broadcast;
+import edu.chapman.cpsc370.asdplaydate.models.Child;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 
 public class ParseChatTest extends ParseTest
@@ -20,7 +26,8 @@ public class ParseChatTest extends ParseTest
     private final Double TEST_LAT = 33.797685;
     private final Double TEST_LON = -117.849597;
 
-    public void sendChatInvitation() throws Exception
+    @Test
+    public Conversation testSendChatInvitation() throws Exception
     {
         ASDPlaydateUser initiator = (ASDPlaydateUser) ASDPlaydateUser.logIn(INIT_USERNAME, TEST_PASSWORD);
         assertNotNull(initiator);
@@ -39,11 +46,23 @@ public class ParseChatTest extends ParseTest
         convo.save();
 
         assertTrue(convo.getExpireDate().isAfterNow());
+        return convo;
     }
 
-    public void acceptChatInvitation() throws Exception
+    @Test
+    public void testAcceptChatInvitation() throws Exception
     {
+        Conversation convo = testSendChatInvitation();
 
+        DateTime oldExpireDate = convo.getExpireDate();
+
+        convo.setStatus(Conversation.Status.ACCEPTED);
+        convo.setExpireDate(DateTime.now().plusHours(24));
+        convo.save();
+
+        assertNotSame(convo.getExpireDate(), oldExpireDate);
+        assertTrue(convo.getExpireDate().isAfterNow());
+        assertTrue(convo.getExpireDate().minusHours(24).isBefore(DateTime.now().toInstant()));
     }
 
 }
