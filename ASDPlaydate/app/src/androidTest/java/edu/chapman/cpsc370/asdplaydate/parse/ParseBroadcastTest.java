@@ -67,7 +67,7 @@ public class ParseBroadcastTest extends ParseTest
         b2.save();
 
         DateTime now = DateTime.now();
-        // Query broadcasts for bcaster1 where expire date is below exDate1 and now
+        // Query broadcasts for bcaster1 where expire date is before exDate1 and past now
         // and where broadcasts are not from bcaster1
         ParseQuery<Broadcast> q = new ParseQuery<Broadcast>(Broadcast.class);
         q.whereLessThan(Broadcast.ATTR_EXPIRE_DATE, exDate1.toDate())
