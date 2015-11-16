@@ -41,7 +41,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText3"
+            android:id="@+id/editCity"
             android:hint="Primary City"/>
 
         <TextView
@@ -64,12 +64,13 @@
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
-            android:id="@+id/editYear"
-            android:hint="Birth Year"/>
+            android:id="@+id/editAge"
+            android:hint="Age"/>
 
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/radioGroupGender"
             android:orientation="horizontal">
 
             <RadioButton

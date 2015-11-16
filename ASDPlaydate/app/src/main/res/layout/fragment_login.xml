@@ -16,30 +16,32 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:id="@+id/editText"
+            android:id="@+id/loginEmail"
             android:singleLine="true"
             android:background="@color/editTextBG"
             android:hint="@string/email"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:inputType="textEmailAddress"
             android:layout_marginTop="60dp"
             />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:id="@+id/editText2"
+            android:id="@+id/loginPassword"
             android:layout_gravity="center_horizontal"
             android:singleLine="false"
             android:background="@color/editTextBG"
             android:layout_marginTop="40dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:inputType="textPassword"
             android:hint="@string/pass"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login"
-            android:id="@+id/button"
+            android:id="@+id/loginButton"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
             />

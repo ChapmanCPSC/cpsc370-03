@@ -1,5 +1,6 @@
 package edu.chapman.cpsc370.asdplaydate.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,10 +10,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 
 public class SettingsActivity extends AppCompatActivity
 {
+
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,8 +42,12 @@ public class SettingsActivity extends AppCompatActivity
         {
             public void onClick(View v)
             {
-                Toast.makeText(getApplicationContext(), "You have been logged out",
-                        Toast.LENGTH_LONG).show();
+                // Show progress dialog
+                progressDialog = ProgressDialog.show(SettingsActivity.this, "Loading",
+                        "Please wait...", true);
+
+                // Attempt to log out
+                ASDPlaydateUser.logOutInBackground(new UserLogOutCallback());
             }
         });
 
@@ -87,6 +99,34 @@ public class SettingsActivity extends AppCompatActivity
             {
             }
         });
+    }
+
+    private class UserLogOutCallback implements LogOutCallback
+    {
+        @Override
+        public void done(ParseException e)
+        {
+            if(e == null)
+            {
+                progressDialog.dismiss();
+
+                Toast.makeText(SettingsActivity.this, "You have been logged out",
+                        Toast.LENGTH_LONG).show();
+
+                // If there are no errors, go back to login activity
+                Intent intent = new Intent(SettingsActivity.this, AccountActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+            else
+            {
+                // Show an error message
+                Toast.makeText(SettingsActivity.this, "An error occurred while logging out",
+                        Toast.LENGTH_LONG).show();
+
+                progressDialog.dismiss();
+            }
+        }
     }
 
 }

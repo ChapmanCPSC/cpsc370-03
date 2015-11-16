@@ -26,7 +26,8 @@ public class CreateAccountFragment extends Fragment
     EditText pass;
     EditText passCom;
     TextView link;
-    Button btn;
+    Button createAccountBtn;
+
     public CreateAccountFragment()
     {
 
@@ -41,16 +42,35 @@ public class CreateAccountFragment extends Fragment
         pass = (EditText)rootView.findViewById(R.id.editText2);
         passCom= (EditText)rootView.findViewById(R.id.editText3);
         link = (TextView)rootView.findViewById(R.id.textView);
-        btn = (Button)rootView.findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener()
+        createAccountBtn = (Button)rootView.findViewById(R.id.button);
+
+        createAccountBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                getActivity().startActivity(intent);
+                // Check if email field is empty
+                if(email.getText().toString().trim().equals(""))
+                {
+                    Toast.makeText(getActivity(), "Please enter an email", Toast.LENGTH_LONG).show();
+                }
+                // Check if password matches password confirmation
+                else if(!pass.getText().toString().equals(passCom.getText().toString())
+                        || pass.getText().toString().trim().equals(""))
+                {
+                    Toast.makeText(getActivity(), "Passwords do not match", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    intent.putExtra("accountName", email.getText().toString());
+                    intent.putExtra("accountPass", pass.getText().toString());
+
+                    getActivity().startActivity(intent);
+                }
             }
         });
+
         link.setOnClickListener(new View.OnClickListener()
         {
             @Override
