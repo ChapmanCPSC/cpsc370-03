@@ -1,15 +1,13 @@
 package edu.chapman.cpsc370.asdplaydate.parse;
 
-import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import junit.framework.Assert;
-
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
@@ -19,15 +17,16 @@ import edu.chapman.cpsc370.asdplaydate.models.Child;
  */
 public class ParseUserTest extends ParseTest
 {
-    private final String TEST_USERNAME = "rburns300@chapman.edu";
+    private final String TEST_USERNAME = "rburns@chapman.edu";
     private final String TEST_PASSWORD = "test";
 
     @Test
     public void testSignUp() throws Exception
     {
+        String username = UUID.randomUUID().toString() + "@chapman.edu";
+        String password = UUID.randomUUID().toString();
+
         //create user and child
-        String username = "rburns351@chapman.edu";
-        String password = "test";
         String first = "Ryan";
         String last = "Burns";
         String city = "Santa Ana";
@@ -42,21 +41,25 @@ public class ParseUserTest extends ParseTest
         user.signUp();
         child.save();
 
-        //logout
+        user.logOut();
+    }
+
+    @Test
+    public void testLoginLogout() throws Exception
+    {
+        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.logIn(TEST_USERNAME, TEST_PASSWORD);
+        assertNotNull(user);
+        Child child = getChildWithParent(user);
+        assertNotNull(child);
+
+        // When logged in, calling getCurrentUser() should not return null
+        ASDPlaydateUser currentUser = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
+        assertNotNull(currentUser);
+
+        // If logged out properly, calling getCurrentUser() should return null
         ASDPlaydateUser.logOut();
-
-        //login as same user
-        ASDPlaydateUser user2 = (ASDPlaydateUser) ASDPlaydateUser.logIn(username, password);
-
-        //make sure they are the same
-        assertEquals(first, user2.getFirstName());
-
-        //get child from that user
-        Child child2 = getChildWithParent(user2);
-
-        //make sure child matches
-        assertEquals(childFirst, child2.getFirstName());
-
+        currentUser = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
+        assertNull(currentUser);
     }
 
     @Test
@@ -78,36 +81,9 @@ public class ParseUserTest extends ParseTest
     }
 
     @Test
-    public void testLogin() throws Exception
-    {
-
-        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.logIn(TEST_USERNAME, TEST_PASSWORD);
-        assertNotNull(user);
-        Child child = getChildWithParent(user);
-        assertNotNull(child);
-
-    }
-
-    @Test
-    public void testLogout() throws Exception
-    {
-        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.logIn(TEST_USERNAME, TEST_PASSWORD);
-        assertNotNull(user);
-
-        // When logged in, calling getCurrentUser() should not return null
-        ASDPlaydateUser currentUser = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
-        assertNotNull(currentUser);
-
-        // If logged out properly, calling getCurrentUser() should return null
-        ASDPlaydateUser.logOut();
-        currentUser = (ASDPlaydateUser)ASDPlaydateUser.getCurrentUser();
-        assertNull(currentUser);
-    }
-
-    @Test
     public void testEditChild() throws Exception
     {
-        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.logIn(TEST_USERNAME, TEST_PASSWORD);
+        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.become(TEST_SESSION);
         assertNotNull(user);
 
         Child testChild = getChildWithParent(user);
@@ -117,20 +93,18 @@ public class ParseUserTest extends ParseTest
         assertNotNull(childName);
         assertNotSame(childName, "");
 
-        String newName = "Jill";
+        String newName = childName.charAt(0) == 'L' ? "lily" : "Lily";
         testChild.setFirstName(newName);
         testChild.save();
 
-        int newAge = 13;
+        int newAge = testChild.getAge()+1;
         testChild.setAge(newAge);
         testChild.save();
 
         ASDPlaydateUser compareUser = getUser(user.getObjectId());
         Child compareChild = getChildWithParent(compareUser);
         assertEquals(newName, compareChild.getFirstName());
-        assertEquals(newAge, compareChild.getAge() );
-
-        ASDPlaydateUser.logOut();
+        assertEquals(newAge, compareChild.getAge());
 
     }
 
@@ -150,18 +124,6 @@ public class ParseUserTest extends ParseTest
         List<ParseUser> users = q.find();
 
         return (ASDPlaydateUser) users.get(0);
-    }
-
-    private List<ParseUser> getUsers() throws ParseException
-    {
-        ParseQuery<ParseUser> q = ParseUser.getQuery();
-        return q.find();
-    }
-
-    private List<Child> getChildren() throws ParseException
-    {
-        ParseQuery<Child> q = new ParseQuery<Child>(Child.class);
-        return q.find();
     }
 
 }

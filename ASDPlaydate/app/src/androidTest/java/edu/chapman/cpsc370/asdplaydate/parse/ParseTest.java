@@ -2,6 +2,9 @@ package edu.chapman.cpsc370.asdplaydate.parse;
 
 import android.test.AndroidTestCase;
 
+import com.parse.Parse;
+import com.parse.ParseUser;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -14,7 +17,7 @@ import edu.chapman.cpsc370.asdplaydate.BaseApplication;
  */
 public class ParseTest extends AndroidTestCase
 {
-    protected final String TEST_SESSION = "r:ZRl9rxwXytLShOWg7j8euzw2t";
+    protected final String TEST_SESSION = "r:N9qAghlBaVMe61Po5w6Ws130j";
 
 
     @Override

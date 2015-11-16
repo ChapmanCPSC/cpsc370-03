@@ -14,6 +14,8 @@ import edu.chapman.cpsc370.asdplaydate.models.Message;
 
 public class BaseApplication extends Application
 {
+    private final boolean DEBUG = true;
+
     public BaseApplication()
     {
     }
@@ -34,7 +36,8 @@ public class BaseApplication extends Application
         ParseObject.registerSubclass(Message.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
-        ParseUser.enableRevocableSessionInBackground();
+        if (!DEBUG)
+            ParseUser.enableRevocableSessionInBackground();
     }
 }
 
