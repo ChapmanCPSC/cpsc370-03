@@ -19,20 +19,20 @@ import edu.chapman.cpsc370.asdplaydate.models.Child;
  */
 public class ParseUserTest extends ParseTest
 {
-    private final String TEST_USERNAME = "rburns7@chapman.edu";
+    private final String TEST_USERNAME = "rburns300@chapman.edu";
     private final String TEST_PASSWORD = "test";
 
     @Test
     public void testSignUp() throws Exception
     {
         //create user and child
-        String username = "rburns11@chapman.edu";
+        String username = "rburns312@chapman.edu";
         String password = "test";
         String first = "Ryan";
         String last = "Burns";
         String city = "Santa Ana";
 
-        String childFirst = "Lilly565";
+        String childFirst = "Lily";
         int childAge = 12;
         Child.Gender childGender = Child.Gender.FEMALE;
         String childDesc = "Low Functioning";
@@ -56,11 +56,13 @@ public class ParseUserTest extends ParseTest
 
         //make sure child matches
         assertEquals(childFirst, child2.getFirstName());
+
     }
 
     @Test
     public void testUpdateProfile() throws Exception
     {
+
         ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.become(TEST_SESSION);
         String name = user.getFirstName();
         assertNotNull(name);
@@ -78,11 +80,59 @@ public class ParseUserTest extends ParseTest
     @Test
     public void testLogin() throws Exception
     {
+
         ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.logIn(TEST_USERNAME, TEST_PASSWORD);
         assertNotNull(user);
         Child child = getChildWithParent(user);
         assertNotNull(child);
     }
+
+    @Test
+    public void testLogout() throws Exception
+    {
+        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.logIn(TEST_USERNAME, TEST_PASSWORD);
+        assertNotNull(user);
+
+        // When logged in, calling getCurrentUser() should not return null
+        ASDPlaydateUser currentUser = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
+        assertNotNull(currentUser);
+
+        // If logged out properly, calling getCurrentUser() should return null
+        ASDPlaydateUser.logOut();
+        currentUser = (ASDPlaydateUser)ASDPlaydateUser.getCurrentUser();
+        assertNull(currentUser);
+    }
+
+    @Test
+    public void testEditChild() throws Exception
+    {
+        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.logIn(TEST_USERNAME, TEST_PASSWORD);
+        assertNotNull(user);
+
+        Child testChild = getChildWithParent(user);
+        assertNotNull(testChild);
+
+        String childName = testChild.getFirstName();
+        assertNotNull(childName);
+        assertNotSame(childName, "");
+
+        String newName = "Jill";
+        testChild.setFirstName(newName);
+        testChild.save();
+
+        int newAge = 13;
+        testChild.setAge(newAge);
+        testChild.save();
+
+        ASDPlaydateUser compareUser = getUser(user.getObjectId());
+        Child compareChild = getChildWithParent(compareUser);
+        assertEquals(newName, compareChild.getFirstName());
+        assertEquals(newAge, compareChild.getAge() );
+
+        ASDPlaydateUser.logOut();
+
+    }
+
 
     private Child getChildWithParent(ASDPlaydateUser parent) throws Exception
     {

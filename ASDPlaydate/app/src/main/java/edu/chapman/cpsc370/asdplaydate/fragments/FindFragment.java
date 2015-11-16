@@ -72,14 +72,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             firstLoad = false;
 
             rootView = inflater.inflate(R.layout.fragment_map, container, false);
-        map = (MapView) rootView.findViewById(R.id.mapView);
-        broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
-        broadcast = (FloatingActionButton) rootView.findViewById(R.id.fab_broadcast);
-        broadcast.setOnClickListener(this);
-        list = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
-        list.hide();
-        list.setOnClickListener(this);
-
             map = (MapView) rootView.findViewById(R.id.mapView);
             broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
             broadcast = (FloatingActionButton) rootView.findViewById(R.id.fab_broadcast);
@@ -100,8 +92,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                     .addApi(LocationServices.API)
                     .build();
 
-            //LocationManager lm = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-            //lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         }
 
         return rootView;
