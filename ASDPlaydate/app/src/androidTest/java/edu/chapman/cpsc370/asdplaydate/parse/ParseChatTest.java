@@ -5,6 +5,7 @@ import android.util.Log;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -37,13 +38,17 @@ public class ParseChatTest extends ParseTest
     @Test
     public Conversation testSendChatInvitation() throws Exception
     {
-        ASDPlaydateUser initiator = (ASDPlaydateUser) ASDPlaydateUser.logIn(INIT_USERNAME, TEST_PASSWORD);
+        //query all the users
+        ParseQuery<ParseUser> q = ASDPlaydateUser.getQuery();
+
+        //get two results to use for test
+        ASDPlaydateUser initiator = (ASDPlaydateUser) q.find().get(0);
         assertNotNull(initiator);
 
-        ASDPlaydateUser receiver = (ASDPlaydateUser) ASDPlaydateUser.logIn(REC_USERNAME, TEST_PASSWORD);
+        ASDPlaydateUser receiver = (ASDPlaydateUser) q.find().get(1);
         assertNotNull(receiver);
 
-        //start a test broadcast (Broadcast Unit Tests were not implemented at this time)
+        //start a test broadcast
         DateTime expireDate = DateTime.now().plusMinutes(60);
         ParseGeoPoint location = new ParseGeoPoint(TEST_LAT, TEST_LON);
 
@@ -53,8 +58,14 @@ public class ParseChatTest extends ParseTest
         Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, broadcast.getExpireDate());
         convo.save();
 
+        String lastID = convo.getObjectId();
 
-        assertTrue(convo.getExpireDate().isAfterNow());
+        Conversation convoFromDb = getConversation(lastID);
+
+        assertTrue(convoFromDb.getExpireDate().isAfterNow());
+        assertTrue(convo.getExpireDate().equals(convoFromDb.getExpireDate()));
+        assertTrue(convoFromDb.getInitiator().equals(convo.getInitiator()));
+        assertTrue(convoFromDb.getReceiver().equals(convo.getReceiver()));
         return convo;
     }
 
@@ -69,10 +80,13 @@ public class ParseChatTest extends ParseTest
         convo.setExpireDate(DateTime.now().plusHours(24));
         convo.save();
 
-        assertNotSame(convo.getExpireDate(), oldExpireDate);
-        assertTrue(convo.getExpireDate().isAfterNow());
-        assertTrue(convo.getExpireDate().minusHours(24).isBefore(DateTime.now().toInstant()));
-        return convo;
+        String lastID = convo.getObjectId();
+        Conversation convoFromDb = getConversation(lastID);
+
+        assertFalse(convoFromDb.getExpireDate().equals(oldExpireDate));
+        assertTrue(convoFromDb.getExpireDate().isAfterNow());
+        assertTrue(convoFromDb.getExpireDate().minusHours(24).isBefore(DateTime.now().toInstant()));
+        return convoFromDb;
     }
 
     @Test
@@ -112,5 +126,13 @@ public class ParseChatTest extends ParseTest
         ParseQuery<Conversation> query = new ParseQuery<Conversation>(Conversation.class);
         assertNotNull(query.whereEqualTo(convo.getObjectId(), message.getObjectId()));
 
+    }
+
+    public Conversation getConversation(String objectId) throws Exception
+    {
+        ParseQuery<Conversation> q = new ParseQuery<Conversation>(Conversation.class);
+        Conversation convo = q.get(objectId);
+
+        return convo;
     }
 }
