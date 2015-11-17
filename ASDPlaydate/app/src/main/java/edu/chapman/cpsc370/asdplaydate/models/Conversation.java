@@ -37,7 +37,7 @@ public class Conversation extends ParseObject
 
     public void setReceiver(ASDPlaydateUser receiver)
     {
-        put(ATTR_INITIATOR, receiver);
+        put(ATTR_RECEIVER, receiver);
     }
 
     public ASDPlaydateUser getReceiver()
