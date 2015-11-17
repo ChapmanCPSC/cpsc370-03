@@ -100,30 +100,17 @@ public class ParseChatTest extends ParseTest
         assertNotNull(convo.getReceiver());
     }
 
-    @Test
-    public void testGetMessages() throws Exception //lien103
-    {
-        String text = "test_message_text";
-        Conversation convo = testSendChatInvitation();
-        Message message = new Message(convo, (ASDPlaydateUser) ASDPlaydateUser.logIn(INIT_USERNAME, TEST_PASSWORD), text, true, convo.getExpireDate());
-
-        assertNotNull(message.getText());
-        assertNotNull(message.getAuthor());
-        assertNotNull(message.getConversation());
-        assertNotNull(message.getTimestamp());
-    }
 
     @Test
-    public void testSendMessage() throws Exception //lien103
+    public void testSendAndGetMessages() throws Exception //lien103
     {
         String text = "test_sent_message_text";
         Conversation convo = testSendChatInvitation();
         Message message = new Message(convo, (ASDPlaydateUser) ASDPlaydateUser.logIn(INIT_USERNAME, TEST_PASSWORD), text, true, convo.getExpireDate());
         message.save();
 
-        assertNotNull(message.getText());
-        assertNotNull(message.getAuthor());
-        assertNotNull(message.getConversation());
-        assertNotNull(message.getTimestamp());
+        ParseQuery<Conversation> query = new ParseQuery<Conversation>(Conversation.class);
+        assertNotNull(query.whereEqualTo(convo.getObjectId(), message.getObjectId()));
+
     }
 }
