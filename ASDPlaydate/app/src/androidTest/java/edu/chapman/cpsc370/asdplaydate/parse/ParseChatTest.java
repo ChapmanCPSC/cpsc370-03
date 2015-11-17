@@ -11,8 +11,10 @@ import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Broadcast;
+import edu.chapman.cpsc370.asdplaydate.models.ChatMessage;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
+import edu.chapman.cpsc370.asdplaydate.models.Message;
 
 public class ParseChatTest extends ParseTest
 {
@@ -65,4 +67,30 @@ public class ParseChatTest extends ParseTest
         assertTrue(convo.getExpireDate().minusHours(24).isBefore(DateTime.now().toInstant()));
     }
 
+    @Test
+    public void testGetMessages() throws Exception //lien103
+    {
+        String text = "test_message_text";
+        Conversation convo = testSendChatInvitation();
+        Message message = new Message(convo, (ASDPlaydateUser) ASDPlaydateUser.logIn(INIT_USERNAME, TEST_PASSWORD), text, true, convo.getExpireDate());
+
+        assertNotNull(message.getText());
+        assertNotNull(message.getAuthor());
+        assertNotNull(message.getConversation());
+        assertNotNull(message.getTimestamp());
+    }
+
+    @Test
+    public void testSendMessage() throws Exception //lien103
+    {
+        String text = "test_sent_message_text";
+        Conversation convo = testSendChatInvitation();
+        Message message = new Message(convo, (ASDPlaydateUser) ASDPlaydateUser.logIn(INIT_USERNAME, TEST_PASSWORD), text, true, convo.getExpireDate());
+        message.save();
+
+        assertNotNull(message.getText());
+        assertNotNull(message.getAuthor());
+        assertNotNull(message.getConversation());
+        assertNotNull(message.getTimestamp());
+    }
 }
