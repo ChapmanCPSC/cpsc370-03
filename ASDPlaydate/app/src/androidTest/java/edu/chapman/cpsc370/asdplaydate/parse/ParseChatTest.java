@@ -53,6 +53,7 @@ public class ParseChatTest extends ParseTest
         Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, broadcast.getExpireDate());
         convo.save();
 
+
         assertTrue(convo.getExpireDate().isAfterNow());
         return convo;
     }

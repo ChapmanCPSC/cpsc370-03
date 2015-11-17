@@ -10,11 +10,12 @@ import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
 @ParseClassName("Messages")
 public class Message extends ParseObject
 {
-    public static String ATTR_CONVERSATION = "conversation";
-    public static String ATTR_AUTHOR = "author";
-    public static String ATTR_TEXT = "text";
-    public static String ATTR_IS_READ = "is_read";
-    public static String ATTR_TIMESTAMP = "timestamp";
+    public static final String ATTR_ID = "objectId";
+    public static final String ATTR_CONVERSATION = "conversation";
+    public static final String ATTR_AUTHOR = "author";
+    public static final String ATTR_TEXT = "text";
+    public static final String ATTR_IS_READ = "is_read";
+    public static final String ATTR_TIMESTAMP = "timestamp";
 
     public Message(){}
 

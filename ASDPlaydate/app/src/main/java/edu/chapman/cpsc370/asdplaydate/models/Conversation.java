@@ -10,6 +10,7 @@ import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
 @ParseClassName("Conversations")
 public class Conversation extends ParseObject
 {
+    public static final String ATTR_ID = "objectId";
     public static final String ATTR_INITIATOR = "initiator";
     public static final String ATTR_RECEIVER = "receiver";
     public static final String ATTR_STATUS = "status";
