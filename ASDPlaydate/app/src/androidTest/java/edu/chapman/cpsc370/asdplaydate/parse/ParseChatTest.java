@@ -1,6 +1,9 @@
 package edu.chapman.cpsc370.asdplaydate.parse;
 
+import android.util.Log;
+
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import org.joda.time.DateTime;
@@ -28,6 +31,9 @@ public class ParseChatTest extends ParseTest
     private final Double TEST_LAT = 33.797685;
     private final Double TEST_LON = -117.849597;
 
+    //Known accepted objectID
+    private final String TEST_KEY = "Im4SAESzdb";
+
     @Test
     public Conversation testSendChatInvitation() throws Exception
     {
@@ -52,7 +58,7 @@ public class ParseChatTest extends ParseTest
     }
 
     @Test
-    public void testAcceptChatInvitation() throws Exception
+    public Conversation testAcceptChatInvitation() throws Exception
     {
         Conversation convo = testSendChatInvitation();
 
@@ -65,6 +71,34 @@ public class ParseChatTest extends ParseTest
         assertNotSame(convo.getExpireDate(), oldExpireDate);
         assertTrue(convo.getExpireDate().isAfterNow());
         assertTrue(convo.getExpireDate().minusHours(24).isBefore(DateTime.now().toInstant()));
+        return convo;
+    }
+
+    @Test
+    public void testRejectChatInvitation() throws Exception
+    {
+        Conversation convo = testSendChatInvitation();
+
+        DateTime oldExpireDate = convo.getExpireDate();
+
+        convo.setStatus(Conversation.Status.DENIED);
+        convo.setExpireDate(DateTime.now());
+        convo.save();
+
+        assertNotSame(convo.getExpireDate(), oldExpireDate);
+        assertTrue(convo.getExpireDate().isBeforeNow());
+    }
+
+    @Test
+    public void testGetChat() throws Exception
+    {
+        ParseQuery<Conversation> query = new ParseQuery<Conversation>(Conversation.class);
+        Conversation convo = query.get(TEST_KEY);
+
+
+        assertNotNull(convo.getInitiator());
+        assertSame(convo.getStatus(), Conversation.Status.ACCEPTED);
+        assertNotNull(convo.getReceiver());
     }
 
     @Test
