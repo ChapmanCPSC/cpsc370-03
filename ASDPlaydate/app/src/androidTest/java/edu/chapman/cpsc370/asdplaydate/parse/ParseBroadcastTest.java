@@ -40,7 +40,6 @@ public class ParseBroadcastTest extends ParseTest
     @Test
     public void testBroadcastResults() throws Exception
     {
-        // Assume 3 users using the app who are within 1 mile of each other
         // 1 mile = approx 0.01447301695 in latitude/longtitude
 
         // Login with existing users
@@ -57,21 +56,18 @@ public class ParseBroadcastTest extends ParseTest
         System.out.println(l1.distanceInMilesTo(l2)); // 0.9999999998005207 mi
 
         // Both users broadcasted at the same time with different broadcast times
-        DateTime exDate1 = DateTime.now().plusMinutes(60); // Broadcast ends in 60 mins
-        DateTime exDate2 = DateTime.now().plusMinutes(30); // Broadcast ends in 30 mins
+        DateTime myExpireDate = DateTime.now().plusMinutes(60); // Broadcast ends in 60 mins
+        DateTime broadcastToGetExpireDate = DateTime.now().plusMinutes(30); // Broadcast ends in 30 mins
 
         // Save in Parse
-        Broadcast b1 = new Broadcast(bcaster1, l1, "bcaster1", exDate1);
-        b1.save();
-        Broadcast b2 = new Broadcast(bcaster1, l2, "bcaster2", exDate2);
-        b2.save();
+        Broadcast myBroadcast = new Broadcast(bcaster1, l1, "bcaster1", myExpireDate);
+        myBroadcast.save();
+        Broadcast broadcastToGet = new Broadcast(bcaster1, l2, "bcaster2", broadcastToGetExpireDate);
+        broadcastToGet.save();
 
-        DateTime now = DateTime.now();
-        // Query broadcasts for bcaster1 where expire date is before exDate1 and past now
-        // and where broadcasts are not from bcaster1
         ParseQuery<Broadcast> q = new ParseQuery<Broadcast>(Broadcast.class);
-        q.whereLessThan(Broadcast.ATTR_EXPIRE_DATE, exDate1.toDate())
-                .whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, now.toDate())
+        q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateTime.now().toDate())
+                .whereWithinMiles(Broadcast.ATTR_LOCATION, l1, 1.0)
                 .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, bcaster1);
 
         // Confirm how many results returned
