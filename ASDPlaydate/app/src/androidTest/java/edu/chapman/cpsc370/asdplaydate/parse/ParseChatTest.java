@@ -107,11 +107,44 @@ public class ParseChatTest extends ParseTest
     @Test
     public void testGetChat() throws Exception
     {
-        ParseQuery<Conversation> query = new ParseQuery<Conversation>(Conversation.class);
-        Conversation convo = query.get(TEST_KEY);
+        ParseQuery<ParseUser> q = ASDPlaydateUser.getQuery();
+        ASDPlaydateUser receiver = (ASDPlaydateUser) q.find().get(1);
 
-        assertNotNull(convo.getInitiator());
-        assertNotNull(convo.getReceiver());
+        ParseQuery<Conversation> queryI = new ParseQuery<Conversation>(Conversation.class);
+        queryI.whereEqualTo("initiator", receiver);
+        ParseQuery<Conversation> queryR = new ParseQuery<Conversation>(Conversation.class);
+        queryR.whereEqualTo("receiver", receiver);
+
+        List<ParseQuery<Conversation>> queries = new ArrayList<ParseQuery<Conversation>>();
+        queries.add(queryI);
+        queries.add(queryR);
+
+        ParseQuery<Conversation> initOrRec = ParseQuery.or(queries);
+        initOrRec.whereMatches("status", Conversation.Status.ACCEPTED.name());
+
+        ParseQuery<Conversation> pend = new ParseQuery<Conversation>(Conversation.class);
+        pend.whereMatches("status", Conversation.Status.PENDING.name());
+        pend.whereEqualTo("receiver", receiver);
+
+        queries.clear();
+        queries.add(initOrRec);
+        queries.add(pend);
+
+        ParseQuery<Conversation> mainQuery = ParseQuery.or(queries);
+
+        List<Conversation> convos = mainQuery.find();
+
+        int n = 0;
+        for(int i = 0; i < convos.size(); i++)
+        {
+            if(convos.get(i).getExpireDate().isBeforeNow())
+            {
+                convos.remove(i);
+                i--;
+            }
+        }
+        assertNotNull(convos);
+
     }
 
 
