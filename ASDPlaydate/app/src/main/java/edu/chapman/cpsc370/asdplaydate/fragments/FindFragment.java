@@ -1,11 +1,17 @@
 package edu.chapman.cpsc370.asdplaydate.fragments;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +23,15 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
@@ -36,7 +41,7 @@ import edu.chapman.cpsc370.asdplaydate.adapters.MarkerLabelAdapter;
 
 public class FindFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks,
-        View.OnClickListener, GoogleMap.OnMarkerClickListener
+        View.OnClickListener, LocationSource, android.location.LocationListener
 {
 
     MapView map;
@@ -52,6 +57,11 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     CheckBox broadcastCheckBox;
     HashMap<LatLng, String> hash;
 
+    LocationManager locationManager;
+    OnLocationChangedListener locationChangedListener;
+    private final Criteria criteria = new Criteria();
+    String bestProvider;
+
     View rootView;
     boolean firstLoad = true;
 
@@ -66,7 +76,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        if(firstLoad)
+        if (firstLoad)
         {
             // Skip the setup the next time onCreateView is called
             firstLoad = false;
@@ -81,11 +91,11 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             list.setOnClickListener(this);
             broadcastDuration = (SeekBar) rootView.findViewById(R.id.sb_broadcast_duration);
 
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
             map.onCreate(savedInstanceState);
             map.onResume();
-            googleMap = map.getMap();
-            setUpMap();
-            createLocationRequest();
+            setUpMapIfNeeded();
             googleApiClient = new GoogleApiClient.Builder(getActivity())
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
@@ -97,27 +107,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         return rootView;
     }
 
-
-
-    protected void createLocationRequest()
-    {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    private LocationListener locationListener = new LocationListener()
-    {
-        @Override
-        public void onLocationChanged(Location location)
-        {
-            myLocation = location;
-        }
-
-    };
-
-
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
@@ -126,35 +115,26 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     private void setUpMap()
     {
-        if(googleMap != null)
+
+        googleMap.setMyLocationEnabled(true);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
+
+    }
+
+    private void setUpMapIfNeeded()
+    {
+        if (googleMap == null)
         {
-            googleMap.setMyLocationEnabled(true);
-            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            googleMap.getUiSettings().setMapToolbarEnabled(false);
-            googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener()
+            googleMap = map.getMap();
+
+            if (googleMap != null)
             {
-                @Override
-                public void onMyLocationChange(Location location)
-                {
-                    myLocation = location;
-                    zoomToMyLocation(myLocation);
-                }
-            });
+                setUpMap();
+            }
 
+            googleMap.setLocationSource(this);
         }
-    }
-
-    public Location getMyLocation()
-    {
-        if(myLocation != null)
-            return myLocation;
-        return null;
-    }
-
-    private void zoomToMyLocation(Location myLocation)
-    {
-        CameraPosition cp = new CameraPosition.Builder().target(locationToLatLng(myLocation)).zoom(12).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
     }
 
     public LatLng locationToLatLng(Location location)
@@ -166,7 +146,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public void onStart()
     {
         super.onStart();
-        if(googleApiClient != null)
+        if (googleApiClient != null)
             googleApiClient.connect();
     }
 
@@ -174,15 +154,14 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public void onStop()
     {
         super.onStop();
-        if(googleApiClient != null)
+        if (googleApiClient != null)
             googleApiClient.disconnect();
     }
 
     @Override
     public void onConnected(Bundle bundle)
     {
-        //PendingResult<Status> result = LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, );
-        //LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, (LocationListener) this);
+
     }
 
     @Override
@@ -240,7 +219,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
         {
-            progressValue.setText((progress+1) + " " + getString(R.string.minutes));
+            progressValue.setText((progress + 1) + " " + getString(R.string.minutes));
         }
 
         @Override
@@ -299,15 +278,76 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public void placeMarkers(HashMap<LatLng, String> hash)
     {
         googleMap.clear();
-        for(LatLng ll : hash.keySet())
+        for (LatLng ll : hash.keySet())
         {
             googleMap.addMarker(new MarkerOptions().position(ll));
         }
     }
 
+
     @Override
-    public boolean onMarkerClick(Marker marker)
+    public void onLocationChanged(Location location)
     {
-        return false;
+        if (locationChangedListener != null)
+        {
+            locationChangedListener.onLocationChanged(location);
+
+            CameraPosition cp = new CameraPosition.Builder().target(locationToLatLng(location)).zoom(12).build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+    @Override
+    public void onProviderEnabled(String provider) {}
+
+    @Override
+    public void onProviderDisabled(String provider) {}
+
+    private void setCriteria()
+    {
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        criteria.setAltitudeRequired(true);
+        criteria.setBearingRequired(true);
+        criteria.setSpeedRequired(true);
+        criteria.setCostAllowed(true);
+    }
+
+    private String getBestProvider()
+    {
+        setCriteria();
+        bestProvider = locationManager.getBestProvider(criteria, true);
+        return bestProvider;
+    }
+
+    @Override
+    public void activate(OnLocationChangedListener onLocationChangedListener)
+    {
+        locationChangedListener = onLocationChangedListener;
+
+        if (getBestProvider() != null)
+        {
+            if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            {
+                locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
+            }
+
+        }
+    }
+
+    @Override
+    public void deactivate()
+    {
+        locationChangedListener = null;
+        if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            locationManager.removeUpdates(this);
+        }
+
     }
 }
