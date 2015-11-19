@@ -8,6 +8,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -107,6 +108,9 @@ public class ParseChatTest extends ParseTest
     @Test
     public void testGetChat() throws Exception
     {
+        testSendChatInvitation();
+        testSendChatInvitation();
+
         ParseQuery<ParseUser> q = ASDPlaydateUser.getQuery();
         ASDPlaydateUser receiver = (ASDPlaydateUser) q.find().get(1);
 
@@ -131,20 +135,10 @@ public class ParseChatTest extends ParseTest
         queries.add(pend);
 
         ParseQuery<Conversation> mainQuery = ParseQuery.or(queries);
+        mainQuery.whereGreaterThan(Conversation.ATTR_EXPIRE_DATE, DateTime.now(DateTimeZone.UTC).toDate());
 
         List<Conversation> convos = mainQuery.find();
-
-        int n = 0;
-        for(int i = 0; i < convos.size(); i++)
-        {
-            if(convos.get(i).getExpireDate().isBeforeNow())
-            {
-                convos.remove(i);
-                i--;
-            }
-        }
         assertNotNull(convos);
-
     }
 
 
