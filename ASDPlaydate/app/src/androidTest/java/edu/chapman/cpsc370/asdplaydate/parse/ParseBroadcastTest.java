@@ -4,6 +4,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
@@ -66,7 +67,7 @@ public class ParseBroadcastTest extends ParseTest
         broadcastToGet.save();
 
         ParseQuery<Broadcast> q = new ParseQuery<Broadcast>(Broadcast.class);
-        q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateTime.now().toDate())
+        q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateTime.now(DateTimeZone.UTC).toDate())
                 .whereWithinMiles(Broadcast.ATTR_LOCATION, l1, 1.0)
                 .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, bcaster1);
 

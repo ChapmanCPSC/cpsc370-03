@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.adapters.ChatRequestListRecyclerAdapter;
-import edu.chapman.cpsc370.asdplaydate.ChatRequestListRecyclerItem;
+import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.SwipeableRecyclerViewTouchListener;
 
