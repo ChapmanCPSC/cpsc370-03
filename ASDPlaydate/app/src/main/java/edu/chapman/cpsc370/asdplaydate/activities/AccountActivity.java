@@ -32,7 +32,7 @@ public class AccountActivity extends FragmentActivity
 
         sessionManager = new SessionManager(getApplicationContext());
         sessionToken = sessionManager.getSessionToken();
-        if(sessionToken != null)
+        if (sessionToken != null)
         {
             loadSplash();
             ASDPlaydateUser.becomeInBackground(sessionToken, new LogInCallback()
@@ -40,7 +40,7 @@ public class AccountActivity extends FragmentActivity
                 @Override
                 public void done(ParseUser user, ParseException e)
                 {
-                    if(user != null && e == null)
+                    if (user != null && e == null)
                     {
                         startActivity(new Intent(AccountActivity.this, MainActivity.class));
                         finish();
@@ -48,10 +48,11 @@ public class AccountActivity extends FragmentActivity
                 }
             });
         }
-        else {
+        else
+        {
             loadFragment();
         }
-        
+
     }
 
     void loadSplash()
@@ -72,6 +73,7 @@ public class AccountActivity extends FragmentActivity
         fragmentTransaction.commit();
 
     }
+
     public void loadLogin()
     {
         Fragment f = new LoginFragment();

@@ -83,12 +83,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         MainActivity.this.startActivity(myIntent);
     }
 
-    public void account(MenuItem item)
-    {
-        Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-        MainActivity.this.startActivity(intent);
-    }
-
     public class SectionsPagerAdapter extends FragmentPagerAdapter
     {
         public SectionsPagerAdapter(FragmentManager fm)
