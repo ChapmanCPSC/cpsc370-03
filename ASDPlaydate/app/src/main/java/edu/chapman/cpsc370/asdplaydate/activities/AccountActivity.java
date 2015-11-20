@@ -43,13 +43,15 @@ public class AccountActivity extends FragmentActivity
                     if(user != null && e == null)
                     {
                         startActivity(new Intent(AccountActivity.this, MainActivity.class));
+                        finish();
                     }
                 }
             });
         }
-
-        loadFragment();
-
+        else {
+            loadFragment();
+        }
+        
     }
 
     void loadSplash()
