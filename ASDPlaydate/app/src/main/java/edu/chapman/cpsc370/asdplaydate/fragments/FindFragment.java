@@ -33,29 +33,40 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.HashMap;
+import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.adapters.MarkerLabelAdapter;
+import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
+import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
+import edu.chapman.cpsc370.asdplaydate.models.Broadcast;
+import edu.chapman.cpsc370.asdplaydate.models.Child;
+import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 public class FindFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks,
         View.OnClickListener, LocationSource, android.location.LocationListener
 {
 
-    MapView map;
+    MapView mapView;
     GoogleMap googleMap;
-    Location myLocation;
+    public Location myLocation;
     GoogleApiClient googleApiClient;
     SeekBar broadcastDuration;
     TextView progressValue;
-    FloatingActionButton list, broadcastGo, broadcast;
+    FloatingActionButton listFab, doBroadcastFab, broadcastFab;
     AlertDialog broadcastDialog;
     FrameLayout broadcastBar;
     LocationRequest mLocationRequest;
     CheckBox broadcastCheckBox;
-    HashMap<LatLng, String> hash;
+    HashMap<LatLng, MarkerLabelInfo> broadcasts;
 
     LocationManager locationManager;
     OnLocationChangedListener locationChangedListener;
@@ -68,9 +79,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     private static final long INTERVAL = 1000 * 10;
     private static final long FASTEST_INTERVAL = 1000 * 5;
 
-    public FindFragment()
-    {
-    }
+    SessionManager sessionManager;
+
+    public FindFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,19 +93,18 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             firstLoad = false;
 
             rootView = inflater.inflate(R.layout.fragment_map, container, false);
-            map = (MapView) rootView.findViewById(R.id.mapView);
+            mapView = (MapView) rootView.findViewById(R.id.mapView);
             broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
-            broadcast = (FloatingActionButton) rootView.findViewById(R.id.fab_broadcast);
-            broadcast.setOnClickListener(this);
-            list = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
-            list.hide();
-            list.setOnClickListener(this);
+            broadcastFab = (FloatingActionButton) rootView.findViewById(R.id.fab_broadcast);
+            broadcastFab.setOnClickListener(this);
+            listFab = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
+            listFab.hide();
+            listFab.setOnClickListener(this);
             broadcastDuration = (SeekBar) rootView.findViewById(R.id.sb_broadcast_duration);
 
             locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-            map.onCreate(savedInstanceState);
-            map.onResume();
+            mapView.onCreate(savedInstanceState);
+            mapView.onResume();
             setUpMapIfNeeded();
             googleApiClient = new GoogleApiClient.Builder(getActivity())
                     .addConnectionCallbacks(this)
@@ -103,6 +113,8 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                     .build();
 
         }
+
+        sessionManager = new SessionManager(getActivity());
 
         return rootView;
     }
@@ -126,7 +138,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         if (googleMap == null)
         {
-            googleMap = map.getMap();
+            googleMap = mapView.getMap();
 
             if (googleMap != null)
             {
@@ -137,9 +149,14 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    public LatLng locationToLatLng(Location location)
+    public LatLng toLatLng(Location location)
     {
         return new LatLng(location.getLatitude(), location.getLongitude());
+    }
+
+    public LatLng toLatLng(ParseGeoPoint parseGeoPoint)
+    {
+        return new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
     }
 
     @Override
@@ -161,7 +178,8 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onConnected(Bundle bundle)
     {
-
+        // Get location once connected to Play Services
+        myLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
     }
 
     @Override
@@ -181,9 +199,8 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View broadcast = inflater.inflate(R.layout.broadcast_dialog, null);
         broadcastCheckBox = (CheckBox) broadcast.findViewById(R.id.cb_dont_ask_again);
-        broadcastCheckBox.setOnCheckedChangeListener(onCheckedChangeListener);
-        broadcastGo = (FloatingActionButton) broadcast.findViewById(R.id.fab_go);
-        broadcastGo.setOnClickListener(onClickListener);
+        doBroadcastFab = (FloatingActionButton) broadcast.findViewById(R.id.fab_go);
+        doBroadcastFab.setOnClickListener(onClickListener);
         broadcastDuration = (SeekBar) broadcast.findViewById(R.id.sb_broadcast_duration);
         broadcastDuration.setOnSeekBarChangeListener(onSeekBarChangeListener);
         progressValue = (TextView) broadcast.findViewById(R.id.tv_duration_progress);
@@ -199,17 +216,27 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         @Override
         public void onClick(View v)
         {
+            //TODO: Set SharedPrefs isChecked here
+
             broadcastDialog.cancel();
 
             ObjectAnimator slideDown = ObjectAnimator.ofFloat(broadcastBar, "translationY", 2000);
             slideDown.setDuration(500).start();
 
-            list.show();
+            listFab.show();
 
-            // TODO: constructor for MarkerLabelAdapter will pass a model of the data
-            createHashMap();
-            placeMarkers(hash);
-            MarkerLabelAdapter mla = new MarkerLabelAdapter(getActivity(), hash);
+            try
+            {
+                // Get broadcasts here
+                broadcasts = getBroadcasts();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            placeMarkers(broadcasts);
+            MarkerLabelAdapter mla = new MarkerLabelAdapter(FindFragment.this, getActivity(), broadcasts);
             googleMap.setInfoWindowAdapter(mla);
         }
     };
@@ -235,15 +262,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         }
     };
 
-    private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
-    {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-        {
-            // TODO: if isChecked == true, do not show broadcast dialog again
-        }
-    };
-
     private void openList()
     {
         FindFragmentContainer parent = (FindFragmentContainer) getParentFragment();
@@ -257,6 +275,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         switch (v.getId())
         {
             case R.id.fab_broadcast:
+                // TODO: if isChecked == true, do not show broadcast dialog again
                 inflateBroadcastDialog();
                 break;
             case R.id.fab_list:
@@ -267,15 +286,39 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    public void createHashMap()
+    private HashMap<LatLng, MarkerLabelInfo> getBroadcasts() throws Exception
     {
-        hash = new HashMap<LatLng, String>();
-        hash.put(new LatLng(33.804, -117.85), "John Doe");
-        hash.put(new LatLng(33.7929, -117.80), "Jane Doe");
-        hash.put(new LatLng(33.8134, -117.85266), "Bob Smith");
+        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
+
+        ParseQuery<Broadcast> q = new ParseQuery<Broadcast>(Broadcast.class);
+        q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateTime.now(DateTimeZone.UTC).toDate())
+                .whereWithinMiles(Broadcast.ATTR_LOCATION,
+                        //TODO: access SharedPrefs here to get radius
+                        new ParseGeoPoint(myLocation.getLatitude(), myLocation.getLongitude()), 1.0)
+                .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, user);
+
+        List<Broadcast> list = q.find();
+        HashMap<LatLng, MarkerLabelInfo> info = new HashMap<LatLng, MarkerLabelInfo>();
+        for (Broadcast broadcast : list)
+        {
+            ASDPlaydateUser bcaster = broadcast.getBroadcaster();
+            Child child = getChildWithParent(bcaster);
+            MarkerLabelInfo  markerLabelInfo = new MarkerLabelInfo(bcaster, child);
+            info.put(toLatLng(broadcast.getLocation()), markerLabelInfo);
+        }
+
+        return info;
+
     }
 
-    public void placeMarkers(HashMap<LatLng, String> hash)
+    private Child getChildWithParent(ASDPlaydateUser parent) throws Exception
+    {
+        ParseQuery<Child> q = new ParseQuery<Child>(Child.class);
+        q.whereEqualTo(Child.ATTR_PARENT, parent);
+        return q.find().get(0);
+    }
+
+    public void placeMarkers(HashMap<LatLng, MarkerLabelInfo> hash)
     {
         googleMap.clear();
         for (LatLng ll : hash.keySet())
@@ -292,8 +335,11 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         {
             locationChangedListener.onLocationChanged(location);
 
-            CameraPosition cp = new CameraPosition.Builder().target(locationToLatLng(location)).zoom(12).build();
+            CameraPosition cp = new CameraPosition.Builder().target(toLatLng(location)).zoom(12).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
+
+            // Store location in field if location changes
+            myLocation = location;
         }
     }
 
