@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -52,7 +53,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     TextView progressValue;
     FloatingActionButton list, broadcastGo, broadcast;
     AlertDialog broadcastDialog;
-    FrameLayout broadcastBar;
+    LinearLayout broadcastBar;
     LocationRequest mLocationRequest;
     CheckBox broadcastCheckBox;
     HashMap<LatLng, String> hash;
@@ -83,7 +84,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
             rootView = inflater.inflate(R.layout.fragment_map, container, false);
             map = (MapView) rootView.findViewById(R.id.mapView);
-            broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
+            broadcastBar = (LinearLayout) rootView.findViewById(R.id.ll_broadcast_bar);
             broadcast = (FloatingActionButton) rootView.findViewById(R.id.fab_broadcast);
             broadcast.setOnClickListener(this);
             list = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
