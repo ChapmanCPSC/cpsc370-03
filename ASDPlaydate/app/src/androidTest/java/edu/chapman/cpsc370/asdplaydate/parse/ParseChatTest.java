@@ -3,7 +3,6 @@ package edu.chapman.cpsc370.asdplaydate.parse;
 import android.util.Log;
 
 import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -16,37 +15,25 @@ import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Broadcast;
-import edu.chapman.cpsc370.asdplaydate.models.ChatMessage;
-import edu.chapman.cpsc370.asdplaydate.models.Child;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 import edu.chapman.cpsc370.asdplaydate.models.Message;
 
 public class ParseChatTest extends ParseTest
 {
-    private final String INIT_USERNAME = "rburns7@chapman.edu";
-    private final String REC_USERNAME = "caest100@mail.chapman.edu";
-
-    //both of the above users have the same password defined below
-    private final String TEST_PASSWORD = "test";
-
-    //test coordinates
     private final Double TEST_LAT = 33.797685;
     private final Double TEST_LON = -117.849597;
-
-    //Known accepted objectID
-    private final String TEST_KEY = "SLEfmNyxmd";
 
     @Test
     public Conversation testSendChatInvitation() throws Exception
     {
         //query all the users
-        ParseQuery<ParseUser> q = ASDPlaydateUser.getQuery();
+        List<ParseUser> users = ASDPlaydateUser.getQuery().find();
 
         //get two results to use for test
-        ASDPlaydateUser initiator = (ASDPlaydateUser) q.find().get(0);
+        ASDPlaydateUser initiator = (ASDPlaydateUser) users.get(0);
         assertNotNull(initiator);
 
-        ASDPlaydateUser receiver = (ASDPlaydateUser) q.find().get(1);
+        ASDPlaydateUser receiver = (ASDPlaydateUser) users.get(1);
         assertNotNull(receiver);
 
         //start a test broadcast
@@ -87,11 +74,13 @@ public class ParseChatTest extends ParseTest
         assertFalse(convoFromDb.getExpireDate().equals(oldExpireDate));
         assertTrue(convoFromDb.getExpireDate().isAfterNow());
         assertTrue(convoFromDb.getExpireDate().minusHours(24).isBefore(DateTime.now().toInstant()));
+        assertTrue(convoFromDb.getStatus() == Conversation.Status.ACCEPTED);
+
         return convoFromDb;
     }
 
     @Test
-    public void testRejectChatInvitation() throws Exception
+    public Conversation testRejectChatInvitation() throws Exception
     {
         Conversation convo = testSendChatInvitation();
 
@@ -101,63 +90,108 @@ public class ParseChatTest extends ParseTest
         convo.setExpireDate(DateTime.now());
         convo.save();
 
-        assertNotSame(convo.getExpireDate(), oldExpireDate);
-        assertTrue(convo.getExpireDate().isBeforeNow());
+        String lastID = convo.getObjectId();
+        Conversation convoFromDb = getConversation(lastID);
+
+        assertNotSame(convoFromDb.getExpireDate(), oldExpireDate);
+        assertTrue(convoFromDb.getExpireDate().isBeforeNow());
+        assertTrue(convoFromDb.getStatus() == Conversation.Status.DENIED);
+
+        return convoFromDb;
     }
 
     @Test
-    public void testGetChat() throws Exception
+    public void testGetConversations() throws Exception
     {
-        testSendChatInvitation();
-        testSendChatInvitation();
+        List<ParseUser> users = ASDPlaydateUser.getQuery().find();
 
-        ParseQuery<ParseUser> q = ASDPlaydateUser.getQuery();
-        ASDPlaydateUser receiver = (ASDPlaydateUser) q.find().get(1);
+        //receiver from testSendChatInvitation()
+        ASDPlaydateUser meReceiver = (ASDPlaydateUser) users.get(1);
 
-        ParseQuery<Conversation> queryI = new ParseQuery<Conversation>(Conversation.class);
-        queryI.whereEqualTo("initiator", receiver);
-        ParseQuery<Conversation> queryR = new ParseQuery<Conversation>(Conversation.class);
-        queryR.whereEqualTo("receiver", receiver);
+        Conversation pendingChat = testSendChatInvitation();
+        Conversation acceptedChat = testAcceptChatInvitation();
+        testRejectChatInvitation();
 
-        List<ParseQuery<Conversation>> queries = new ArrayList<ParseQuery<Conversation>>();
+        ParseQuery<Conversation> queryI = new ParseQuery<>(Conversation.class);
+        queryI.whereEqualTo(Conversation.ATTR_INITIATOR, meReceiver);
+        ParseQuery<Conversation> queryR = new ParseQuery<>(Conversation.class);
+        queryR.whereEqualTo(Conversation.ATTR_RECEIVER, meReceiver);
+
+        //where I'm the initiator or the receiver
+        List<ParseQuery<Conversation>> queries = new ArrayList<>();
         queries.add(queryI);
         queries.add(queryR);
 
+        //and accepted state
         ParseQuery<Conversation> initOrRec = ParseQuery.or(queries);
-        initOrRec.whereMatches("status", Conversation.Status.ACCEPTED.name());
+        initOrRec.whereMatches(Conversation.ATTR_STATUS, Conversation.Status.ACCEPTED.name());
 
-        ParseQuery<Conversation> pend = new ParseQuery<Conversation>(Conversation.class);
-        pend.whereMatches("status", Conversation.Status.PENDING.name());
-        pend.whereEqualTo("receiver", receiver);
+        ParseQuery<Conversation> pend = new ParseQuery<>(Conversation.class);
+        pend.whereMatches(Conversation.ATTR_STATUS, Conversation.Status.PENDING.name());
+        pend.whereEqualTo(Conversation.ATTR_RECEIVER, meReceiver);
 
         queries.clear();
         queries.add(initOrRec);
         queries.add(pend);
 
+        //or status is pending and i'm the receiver
         ParseQuery<Conversation> mainQuery = ParseQuery.or(queries);
         mainQuery.whereGreaterThan(Conversation.ATTR_EXPIRE_DATE, DateTime.now(DateTimeZone.UTC).toDate());
 
-        List<Conversation> convos = mainQuery.find();
-        assertNotNull(convos);
+        List<Conversation> displayConvos = mainQuery.find();
+        assertNotNull(displayConvos);
+
+        List<Conversation> pendingConvos = new ArrayList<>();
+        List<Conversation> acceptedConvos = new ArrayList<>();
+        for (Conversation conversation:displayConvos)
+        {
+            switch (conversation.getStatus())
+            {
+                case DENIED:
+                    fail("Query should not have gotten DENIED conversations.");
+                case PENDING:
+                    pendingConvos.add(conversation);
+                    break;
+                case ACCEPTED:
+                    acceptedConvos.add(conversation);
+                    break;
+            }
+        }
+
+        //make sure pending convo is there
+        assertTrue(pendingConvos.size()>0);
+        assertTrue(pendingConvos.contains(pendingChat));
+
+        //make sure accepted convo is there
+        assertTrue(acceptedConvos.size()>0);
+        assertTrue(acceptedConvos.contains(acceptedChat));
     }
 
 
     @Test
     public void testSendAndGetMessages() throws Exception //lien103
     {
+        List<ParseUser> users = ASDPlaydateUser.getQuery().find();
+        ASDPlaydateUser userInConvo = (ASDPlaydateUser) users.get(0);
+
         String text = "test_sent_message_text";
         Conversation convo = testSendChatInvitation();
-        Message message = new Message(convo, (ASDPlaydateUser) ASDPlaydateUser.logIn(INIT_USERNAME, TEST_PASSWORD), text, true, convo.getExpireDate());
+        Message message = new Message(convo, userInConvo, text, false, DateTime.now());
         message.save();
 
-        ParseQuery<Conversation> query = new ParseQuery<Conversation>(Conversation.class);
-        assertNotNull(query.whereEqualTo(convo.getObjectId(), message.getObjectId()));
+        //query messages for that convo
+        ParseQuery<Message> convoMessageQuery = new ParseQuery<>(Message.class)
+                .whereEqualTo(Message.ATTR_CONVERSATION, convo);
 
+        List<Message> convoMessages = convoMessageQuery.find();
+
+        assertNotNull(convoMessages);
+        assertTrue(convoMessages.contains(message));
     }
 
     public Conversation getConversation(String objectId) throws Exception
     {
-        ParseQuery<Conversation> q = new ParseQuery<Conversation>(Conversation.class);
+        ParseQuery<Conversation> q = new ParseQuery<>(Conversation.class);
         Conversation convo = q.get(objectId);
 
         return convo;

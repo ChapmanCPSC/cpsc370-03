@@ -7,6 +7,9 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.UUID;
+
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Broadcast;
 
@@ -41,37 +44,43 @@ public class ParseBroadcastTest extends ParseTest
     @Test
     public void testBroadcastResults() throws Exception
     {
-        // 1 mile = approx 0.01447301695 in latitude/longtitude
+        ASDPlaydateUser me = (ASDPlaydateUser) ASDPlaydateUser.become(TEST_SESSION);
 
-        // Login with existing users
-        ASDPlaydateUser bcaster1 = (ASDPlaydateUser) ASDPlaydateUser.logIn("rburns4@chapman.edu", "test");
-        assertNotNull(bcaster1);
-        ASDPlaydateUser bcaster2 = (ASDPlaydateUser) ASDPlaydateUser.logIn("rburns5@chapman.edu", "test");
-        assertNotNull(bcaster2);
+        //get a random user (eg first user ever)
+        ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getQuery().find().get(0);
+        ParseGeoPoint broadcastLocation = new ParseGeoPoint(33.7928, -117.8514);
+        DateTime broadcastExpireDate = DateTime.now().plusMinutes(1); //broadcast for 1 minute
+
+        String uniqueMessage = UUID.randomUUID().toString();
+
+        Broadcast myBroadcast = new Broadcast(broadcaster, broadcastLocation, uniqueMessage, broadcastExpireDate);
+        myBroadcast.save();
 
         // Set locations to be within 1 mile
-        ParseGeoPoint l1 = new ParseGeoPoint(33.7928, -117.8514);
-        ParseGeoPoint l2 = new ParseGeoPoint(33.80727301695, -117.8514);
+        ParseGeoPoint myLocation = new ParseGeoPoint(33.80727301695, -117.8514);
 
-        // Confirm locations are within 1 mile
-        System.out.println(l1.distanceInMilesTo(l2)); // 0.9999999998005207 mi
+        //make sure this location is within a mile of the testing broadcaster
+        assertTrue(myLocation.distanceInMilesTo(broadcastLocation) <= 1);
 
-        // Both users broadcasted at the same time with different broadcast times
-        DateTime myExpireDate = DateTime.now().plusMinutes(60); // Broadcast ends in 60 mins
-        DateTime broadcastToGetExpireDate = DateTime.now().plusMinutes(30); // Broadcast ends in 30 mins
-
-        // Save in Parse
-        Broadcast myBroadcast = new Broadcast(bcaster1, l1, "bcaster1", myExpireDate);
-        myBroadcast.save();
-        Broadcast broadcastToGet = new Broadcast(bcaster1, l2, "bcaster2", broadcastToGetExpireDate);
-        broadcastToGet.save();
-
-        ParseQuery<Broadcast> q = new ParseQuery<Broadcast>(Broadcast.class);
+        ParseQuery<Broadcast> q = new ParseQuery<>(Broadcast.class);
         q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateTime.now(DateTimeZone.UTC).toDate())
-                .whereWithinMiles(Broadcast.ATTR_LOCATION, l1, 1.0)
-                .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, bcaster1);
+                .whereWithinMiles(Broadcast.ATTR_LOCATION, myLocation, 1.0)
+                .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, me);
 
-        // Confirm how many results returned
-        assertTrue(q.count()>0);
+        List<Broadcast> results = q.find();
+
+        //make sure at least 1 result
+        assertTrue(results.size() > 0);
+
+        //make sure there is a result with the unique message
+        boolean foundBroadcasted = false;
+        for (Broadcast b:results)
+        {
+            if (b.getMessage() != null && b.getMessage().equals(uniqueMessage))
+            {
+                foundBroadcasted = true;
+            }
+        }
+        assertTrue(foundBroadcasted);
     }
 }
