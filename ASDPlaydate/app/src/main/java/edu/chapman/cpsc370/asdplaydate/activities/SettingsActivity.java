@@ -14,12 +14,14 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 
 public class SettingsActivity extends AppCompatActivity
 {
 
     private ProgressDialog progressDialog;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        sessionManager = new SessionManager(getApplicationContext());
 
         //Find Views By ID
         LinearLayout logoutLinearLayout = (LinearLayout) findViewById(R.id.ll_logout);
@@ -112,6 +115,9 @@ public class SettingsActivity extends AppCompatActivity
 
                 Toast.makeText(SettingsActivity.this, "You have been logged out",
                         Toast.LENGTH_LONG).show();
+
+                // Clear SharedPreferences
+                sessionManager.clearSessionToken();
 
                 // If there are no errors, go back to login activity
                 Intent intent = new Intent(SettingsActivity.this, AccountActivity.class);

@@ -18,6 +18,7 @@ import com.parse.ParseUser;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.activities.MainActivity;
 import edu.chapman.cpsc370.asdplaydate.activities.ProfileActivity;
+import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 
 /**
@@ -30,6 +31,8 @@ public class LoginFragment extends Fragment
     private EditText password;
     private ProgressDialog progressDialog;
 
+    SessionManager sessionManager;
+
     public LoginFragment()
     {
 
@@ -39,8 +42,10 @@ public class LoginFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
+        sessionManager = new SessionManager(getActivity().getApplicationContext());
+
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         loginBtn = (Button) rootView.findViewById(R.id.loginButton);
         email = (EditText) rootView.findViewById(R.id.loginEmail);
         password = (EditText) rootView.findViewById(R.id.loginPassword);
@@ -65,6 +70,7 @@ public class LoginFragment extends Fragment
         // Attempt to log in with entered email and password
         ASDPlaydateUser.logInInBackground(email.getText().toString(), password.getText().toString(),
                 new UserLogInCallback());
+
     }
 
     private class UserLogInCallback implements LogInCallback
@@ -76,9 +82,15 @@ public class LoginFragment extends Fragment
             {
                 progressDialog.dismiss();
 
-                // If there are no errors, go to main activity
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                getActivity().startActivity(intent);
+                if(user != null)
+                {
+                    sessionManager.storeSessionToken(user.getSessionToken());
+
+                    // If there are no errors, go to main activity
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    getActivity().startActivity(intent);
+                }
+
             }
             else
             {

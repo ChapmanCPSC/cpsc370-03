@@ -306,7 +306,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onProviderDisabled(String provider) {}
 
-    private void setCriteria()
+    private Criteria setCriteriaFine()
     {
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         criteria.setPowerRequirement(Criteria.POWER_LOW);
@@ -314,11 +314,22 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         criteria.setBearingRequired(true);
         criteria.setSpeedRequired(true);
         criteria.setCostAllowed(true);
+        return criteria;
     }
 
-    private String getBestProvider()
+    private Criteria setCriteriaCoarse()
     {
-        setCriteria();
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        criteria.setAltitudeRequired(true);
+        criteria.setBearingRequired(true);
+        criteria.setSpeedRequired(true);
+        criteria.setCostAllowed(true);
+        return criteria;
+    }
+
+    private String getBestProvider(Criteria criteria)
+    {
         bestProvider = locationManager.getBestProvider(criteria, true);
         return bestProvider;
     }
@@ -328,15 +339,16 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         locationChangedListener = onLocationChangedListener;
 
-        if (getBestProvider() != null)
-        {
-            if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             {
-                locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
+                if(getBestProvider(setCriteriaFine()) != null)
+                    locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
             }
-
-        }
+            else if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            {
+                if(getBestProvider(setCriteriaCoarse()) != null)
+                    locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
+            }
     }
 
     @Override
