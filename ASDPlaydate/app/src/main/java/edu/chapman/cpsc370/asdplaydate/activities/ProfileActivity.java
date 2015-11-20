@@ -22,6 +22,8 @@ import com.parse.SignUpCallback;
 import java.util.HashMap;
 
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.fragments.CreateAccountFragment;
+import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
 
@@ -31,13 +33,17 @@ public class ProfileActivity extends AppCompatActivity
     private ASDPlaydateUser user;
     private Child child;
     private ProgressDialog progressDialog;
-    private HashMap<String, String> profileInfo = new HashMap<>();
+    String parentFirst, parentLast, city, childName, age, condition, gender;
+
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_activity);
+
+        sessionManager = new SessionManager(getApplicationContext());
 
         //Find Views By ID
         FloatingActionButton saveProfileButton = (FloatingActionButton) findViewById(R.id.fab_saveProfile);//find list view
@@ -51,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity
                 getCurrentInfo();
 
                 // Check if a new account is being created
-                if (getIntent().getStringExtra("accountName") != null)
+                if (getIntent().getStringExtra(CreateAccountFragment.ACCOUNT_EMAIL) != null)
                 {
                     createAccount();
                 }
@@ -67,13 +73,18 @@ public class ProfileActivity extends AppCompatActivity
     {
 
         EditText parentFirstName = (EditText) findViewById(R.id.editParentFname);
+        parentFirst = parentFirstName.getText().toString();
         EditText parentLastName = (EditText) findViewById(R.id.editParentLname);
-        EditText city = (EditText) findViewById(R.id.editCity);
-        EditText childName = (EditText) findViewById(R.id.editChildFname);
+        parentLast = parentLastName.getText().toString();
+        EditText cityName = (EditText) findViewById(R.id.editCity);
+        city = cityName.getText().toString();
+        EditText childFirst = (EditText) findViewById(R.id.editChildFname);
+        childName = childFirst.getText().toString();
         EditText childAge = (EditText) findViewById(R.id.editAge);
+        age = childAge.getText().toString();
         EditText childCondition = (EditText) findViewById(R.id.editConditionInformation);
+        condition = childCondition.getText().toString();
         RadioGroup childGenderGroup = (RadioGroup) findViewById(R.id.radioGroupGender);
-        String gender;
 
         // Get the selected gender
         Integer selectedId = childGenderGroup.getCheckedRadioButtonId();
@@ -88,19 +99,10 @@ public class ProfileActivity extends AppCompatActivity
         }
 
         // Set age to 0 if it is left blank
-        String age = childAge.getText().toString();
         if(age.equals("")) {
             age = "0";
         }
 
-        // Save current info
-        profileInfo.put("parentFirst", parentFirstName.getText().toString());
-        profileInfo.put("parentLast", parentLastName.getText().toString());
-        profileInfo.put("city", city.getText().toString());
-        profileInfo.put("childName", childName.getText().toString());
-        profileInfo.put("childAge", age);
-        profileInfo.put("childCondition", childCondition.getText().toString());
-        profileInfo.put("childGender", gender);
     }
 
     private void updateProfile()
@@ -113,26 +115,26 @@ public class ProfileActivity extends AppCompatActivity
 
     private void createAccount()
     {
-        String accountName = getIntent().getStringExtra("accountName");
-        String accountPass = getIntent().getStringExtra("accountPass");
+        String accountName = getIntent().getStringExtra(CreateAccountFragment.ACCOUNT_EMAIL);
+        String accountPass = getIntent().getStringExtra(CreateAccountFragment.ACCOUNT_PASSWORD);
 
         // Create a new user
-        user = new ASDPlaydateUser(accountName, accountPass, profileInfo.get("parentFirst"),
-                profileInfo.get("parentLast"), profileInfo.get("city"));
+        user = new ASDPlaydateUser(accountName, accountPass, parentFirst,
+                parentLast, city);
 
         // Create a new child
-        if(profileInfo.get("childCondition").equals(""))
+        if(condition.equals(""))
         {
-            child = new Child(user, profileInfo.get("childName"),
-                    Integer.parseInt(profileInfo.get("childAge")),
-                    Child.Gender.valueOf(profileInfo.get("childGender")));
+            child = new Child(user, childName,
+                    Integer.parseInt(age),
+                    Child.Gender.valueOf(gender));
         }
         else
         {
-            child = new Child(user, profileInfo.get("childName"),
-                    Integer.parseInt(profileInfo.get("childAge")),
-                    Child.Gender.valueOf(profileInfo.get("childGender")),
-                    profileInfo.get("childCondition"));
+            child = new Child(user, childName,
+                    Integer.parseInt(age),
+                    Child.Gender.valueOf(gender),
+                    condition);
         }
 
         // Show progress dialog
@@ -140,6 +142,7 @@ public class ProfileActivity extends AppCompatActivity
 
         // Attempt to save user
         user.signUpInBackground(new UserSignUpCallback());
+
     }
 
 
@@ -174,9 +177,17 @@ public class ProfileActivity extends AppCompatActivity
             {
                 progressDialog.dismiss();
 
-                // Load main activity if there are no errors
-                Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-                startActivity(intent);
+                // Store session token
+                if(user != null)
+                {
+                    sessionManager.storeSessionToken(user.getSessionToken());
+
+                    // Load main activity if there are no errors
+                    Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+
+
             }
             else
             {

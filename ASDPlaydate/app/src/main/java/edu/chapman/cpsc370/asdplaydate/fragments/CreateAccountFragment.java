@@ -28,6 +28,9 @@ public class CreateAccountFragment extends Fragment
     TextView link;
     Button createAccountBtn;
 
+    public static final String ACCOUNT_EMAIL = "account_email";
+    public static final String ACCOUNT_PASSWORD = "account_password";
+
     public CreateAccountFragment()
     {
 
@@ -63,8 +66,8 @@ public class CreateAccountFragment extends Fragment
                 else
                 {
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                    intent.putExtra("accountName", email.getText().toString());
-                    intent.putExtra("accountPass", pass.getText().toString());
+                    intent.putExtra(ACCOUNT_EMAIL, email.getText().toString());
+                    intent.putExtra(ACCOUNT_PASSWORD, pass.getText().toString());
 
                     getActivity().startActivity(intent);
                 }
