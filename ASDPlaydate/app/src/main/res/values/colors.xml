@@ -4,4 +4,7 @@
     <item name = "editTextBG" type="color">#e5e5ff</item>
     <item name = "link" type="color">#0645AD</item>
     <color name="android_black">#D8000000</color>
+    <color name="color_primary_blue">#6197C6</color>
+    <color name="color_primary_dark_blue">#275B77</color>
+    <color name="dark_accent">#293132</color>
 </resources>
