@@ -19,6 +19,7 @@ public class SessionManager
     public static final String KEY_BROADCAST_DURATION = "broadcast_duration";
     public static final String KEY_BROADCAST_MESSAGE = "broadcast_message";
     public static final String KEY_PROMPT_BROADCAST = "prompt_broadcast";
+    public static final String KEY_FROM_DIALOG = "from_dialog";
 
     public SessionManager(Context context)
     {
@@ -75,6 +76,18 @@ public class SessionManager
         return message;
     }
 
+    public void storeFromDialog(boolean value)
+    {
+        editor.putBoolean(KEY_FROM_DIALOG, value);
+        editor.commit();
+    }
+
+    public boolean getFromDialog()
+    {
+        boolean value = prefs.getBoolean(KEY_FROM_DIALOG, false);
+        return value;
+    }
+
     public void storePromptBroadcast(boolean prompt)
     {
         editor.putBoolean(KEY_PROMPT_BROADCAST, prompt);
@@ -83,9 +96,17 @@ public class SessionManager
 
     public boolean getPromptBroadcast()
     {
-        boolean prompt = prefs.getBoolean(KEY_PROMPT_BROADCAST,true);
-        return
-                prompt;
+        boolean prompt;
+        if(getFromDialog())
+        {
+            prompt = !prefs.getBoolean(KEY_FROM_DIALOG,false);
+        }
+        else
+        {
+            prompt = prefs.getBoolean(KEY_FROM_DIALOG,true);
+        }
+
+        return prompt;
     }
 
     public void clearSessionToken()

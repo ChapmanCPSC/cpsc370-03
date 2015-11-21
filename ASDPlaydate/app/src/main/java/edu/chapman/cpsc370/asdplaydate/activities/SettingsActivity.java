@@ -182,6 +182,7 @@ public class SettingsActivity extends AppCompatActivity
         sessionManager.storeBroadcastDuration(broadcastDuration);
         sessionManager.storeBroadcastMessage(broadcastMessage);
         sessionManager.storePromptBroadcast(promptValue);
+        sessionManager.storeFromDialog(false);
     }
 
     @Override
