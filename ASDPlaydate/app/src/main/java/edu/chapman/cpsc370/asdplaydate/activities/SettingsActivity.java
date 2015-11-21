@@ -1,12 +1,20 @@
 package edu.chapman.cpsc370.asdplaydate.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +31,15 @@ public class SettingsActivity extends AppCompatActivity
     private ProgressDialog progressDialog;
     SessionManager sessionManager;
 
+    EditText editMessage;
+    LinearLayout logoutLinearLayout, editProfileLinearLayout;
+    SeekBar searchRadiusSeekBar, broadcastDurationSeekBar;
+    TextView mileUpdateTextView, broadcastUpdateTextView;
+    Switch promptBroadcast;
+    int searchRadius, broadcastDuration;
+    String broadcastMessage;
+    boolean promptValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -30,27 +47,53 @@ public class SettingsActivity extends AppCompatActivity
         setContentView(R.layout.activity_settings);
 
         sessionManager = new SessionManager(getApplicationContext());
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        //Find Views By ID
-        LinearLayout logoutLinearLayout = (LinearLayout) findViewById(R.id.ll_logout);
-        LinearLayout editProfileLinearLayout = (LinearLayout) findViewById(R.id.ll_editProfile);
-        final SeekBar searchRadiusSeekBar = (SeekBar) findViewById(R.id.seekBarSearchRadius);
-        final TextView mileUpdateTextView = (TextView) findViewById(R.id.textViewMileUpdate);//for updating the text view for the broadcast duration
-        final SeekBar broadcastDurationSeekBar = (SeekBar) findViewById(R.id.seekBarBroadcastDuration);
-        final TextView broadcastUpdateTextView = (TextView) findViewById(R.id.textViewDurationUpdate);//for updating the text view for the broadcast duration
+        logoutLinearLayout = (LinearLayout) findViewById(R.id.ll_logout);
+        editProfileLinearLayout = (LinearLayout) findViewById(R.id.ll_editProfile);
+        searchRadiusSeekBar = (SeekBar) findViewById(R.id.seekBarSearchRadius);
+        mileUpdateTextView = (TextView) findViewById(R.id.textViewMileUpdate);//for updating the text view for the broadcast duration
+        broadcastDurationSeekBar = (SeekBar) findViewById(R.id.seekBarBroadcastDuration);
+        broadcastUpdateTextView = (TextView) findViewById(R.id.textViewDurationUpdate);//for updating the text view for the broadcast duration
+        editMessage = (EditText) findViewById(R.id.editTextBroadcastMessage);
+        promptBroadcast = (Switch) findViewById(R.id.switchPromptBroadcast);
+        promptBroadcast.setOnCheckedChangeListener(onCheckedChangeListener);
 
+        getCurrentInfo();
 
         //Click Listeners
         logoutLinearLayout.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
-                // Show progress dialog
-                progressDialog = ProgressDialog.show(SettingsActivity.this, "Loading",
-                        "Please wait...", true);
 
-                // Attempt to log out
-                ASDPlaydateUser.logOutInBackground(new UserLogOutCallback());
+                AlertDialog alertDialog = new AlertDialog.Builder(SettingsActivity.this)
+                        .setTitle(getString(R.string.logout_confirm))
+                        .setPositiveButton(getString(R.string.logout), new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                // Show progress dialog
+                                progressDialog = ProgressDialog.show(SettingsActivity.this, "Loading",
+                                        "Please wait...", true);
+
+                                // Attempt to log out
+                                ASDPlaydateUser.logOutInBackground(new UserLogOutCallback());
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                dialog.cancel();
+                            }
+                        })
+                        .create();
+                alertDialog.show();
+
+
             }
         });
 
@@ -102,6 +145,57 @@ public class SettingsActivity extends AppCompatActivity
             {
             }
         });
+    }
+
+    private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
+    {
+        @Override
+        public void onCheckedChanged(CompoundButton prompt, boolean isChecked)
+        {
+
+            promptValue = isChecked;
+
+        }
+    };
+
+    public void getCurrentInfo()
+    {
+        searchRadius = sessionManager.getSearchRadius();
+        mileUpdateTextView.setText(searchRadius+1 + " " + getString(R.string.miles));
+        broadcastDuration = sessionManager.getBroadcastDuration();
+        broadcastUpdateTextView.setText(broadcastDuration+1 + " " + getString(R.string.minutes));
+
+        searchRadiusSeekBar.setProgress(searchRadius);
+        broadcastDurationSeekBar.setProgress(broadcastDuration);
+        editMessage.setText(sessionManager.getBroadcastMessage());
+        promptBroadcast.setChecked(sessionManager.getPromptBroadcast());
+    }
+
+    public void storeCurrentInfo()
+    {
+        searchRadius = searchRadiusSeekBar.getProgress();
+        broadcastDuration = broadcastDurationSeekBar.getProgress();
+        broadcastMessage = editMessage.getText().toString();
+        promptValue = promptBroadcast.isChecked();
+
+        sessionManager.storeSearchRadius(searchRadius);
+        sessionManager.storeBroadcastDuration(broadcastDuration);
+        sessionManager.storeBroadcastMessage(broadcastMessage);
+        sessionManager.storePromptBroadcast(promptValue);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                storeCurrentInfo();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private class UserLogOutCallback implements LogOutCallback

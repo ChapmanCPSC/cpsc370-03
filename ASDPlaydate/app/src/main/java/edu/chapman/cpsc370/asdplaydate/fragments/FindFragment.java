@@ -47,14 +47,12 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     MapView map;
     GoogleMap googleMap;
-    Location myLocation;
     GoogleApiClient googleApiClient;
     SeekBar broadcastDuration;
     TextView progressValue;
     FloatingActionButton list, broadcastGo, broadcast;
     AlertDialog broadcastDialog;
     LinearLayout broadcastBar;
-    LocationRequest mLocationRequest;
     CheckBox broadcastCheckBox;
     HashMap<LatLng, String> hash;
 
@@ -65,9 +63,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     View rootView;
     boolean firstLoad = true;
-
-    private static final long INTERVAL = 1000 * 10;
-    private static final long FASTEST_INTERVAL = 1000 * 5;
 
     public FindFragment()
     {
