@@ -92,7 +92,14 @@ public class ProfileActivity extends AppCompatActivity
             }
             else
             {
-                updateProfile();
+                try
+                {
+                    updateProfile();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
     };
@@ -112,6 +119,17 @@ public class ProfileActivity extends AppCompatActivity
                 childFirst.setText(currentChild.getFirstName());
                 childAge.setText(String.valueOf(currentChild.getAge()));
                 childCondition.setText(currentChild.getDescription());
+                if(currentChild.getGender().name().equalsIgnoreCase(getString(R.string.female)))
+                {
+                    childGenderButton = (RadioButton)findViewById(R.id.radioButtonFemale);
+                    childGenderButton.setChecked(true);
+                }
+                else if (currentChild.getGender().name().equalsIgnoreCase(getString(R.string.male)))
+                {
+                    childGenderButton = (RadioButton)findViewById(R.id.radioButtonMale);
+                    childGenderButton.setChecked(true);
+                }
+
 
             }
         }
@@ -157,9 +175,20 @@ public class ProfileActivity extends AppCompatActivity
 
     }
 
-    private void updateProfile()
+    private void updateProfile() throws  Exception
     {
-        // TODO: Implement the updateProfile method
+        ASDPlaydateUser updatedUser = (ASDPlaydateUser)ASDPlaydateUser.getCurrentUser();
+        updatedUser.setFirstName(parentFirst);
+        updatedUser.setLastName(parentLast);
+        updatedUser.setCityName(city);
+        updatedUser.save();
+
+        Child updatedChild = getChildWithParent(updatedUser);
+        updatedChild.setFirstName(childName);
+        updatedChild.setAge(Integer.valueOf(age));
+        updatedChild.setDescription(condition);
+        updatedChild.setGender(Child.Gender.valueOf(gender));
+        updatedChild.save();
 
         Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
         startActivity(intent);

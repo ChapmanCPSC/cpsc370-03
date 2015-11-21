@@ -42,4 +42,6 @@
     <string name="title_activity_profile_activity_v2">Profile</string>
     <string name="minutes">\u0020min</string>
     <string name="miles">mile</string>
+    <string name="female">FEMALE</string>
+    <string name="male">MALE</string>
 </resources>
