@@ -15,7 +15,8 @@ import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 
-public class FindFragmentContainer extends Fragment {
+public class FindFragmentContainer extends Fragment
+{
 
     HashMap<LatLng, MarkerLabelInfo> broadcasts;
     public Location myLocation;
@@ -38,7 +39,8 @@ public class FindFragmentContainer extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Load the map fragment into the container initially
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             getChildFragmentManager()
                     .beginTransaction()
                     .add(R.id.find_container, new FindFragment())
@@ -50,7 +52,8 @@ public class FindFragmentContainer extends Fragment {
     public void flipFragment()
     {
         // Flip back to the map
-        if (showingResultList) {
+        if (showingResultList)
+        {
             showingResultList = false;
             getChildFragmentManager().popBackStack();
             return;

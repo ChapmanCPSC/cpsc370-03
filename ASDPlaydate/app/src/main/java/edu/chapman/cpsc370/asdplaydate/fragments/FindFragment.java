@@ -43,6 +43,8 @@ import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.adapters.MarkerLabelAdapter;
+import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
+import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
 import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Broadcast;
@@ -79,7 +81,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     SessionManager sessionManager;
 
-    public FindFragment() {}
+    public FindFragment()
+    {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -146,16 +150,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
             googleMap.setLocationSource(this);
         }
-    }
-
-    public LatLng toLatLng(Location location)
-    {
-        return new LatLng(location.getLatitude(), location.getLongitude());
-    }
-
-    public LatLng toLatLng(ParseGeoPoint parseGeoPoint)
-    {
-        return new LatLng(parseGeoPoint.getLatitude(), parseGeoPoint.getLongitude());
     }
 
     @Override
@@ -290,7 +284,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
 
         ParseQuery<Broadcast> q = new ParseQuery<Broadcast>(Broadcast.class);
-        q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateTime.now(DateTimeZone.UTC).toDate())
+        q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateHelpers.UTCDate(DateTime.now()))
                 .whereWithinMiles(Broadcast.ATTR_LOCATION,
                         //TODO: access SharedPrefs here to get radius
                         new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude()), 1.0)
@@ -300,10 +294,11 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         HashMap<LatLng, MarkerLabelInfo> info = new HashMap<LatLng, MarkerLabelInfo>();
         for (Broadcast broadcast : list)
         {
+            // .fetchIfNeeded() gets parent info, not just the parent objectId
             ASDPlaydateUser bcaster = (ASDPlaydateUser) broadcast.getBroadcaster().fetchIfNeeded();
             Child child = getChildWithParent(bcaster);
-            LatLng location = toLatLng(broadcast.getLocation());
-            MarkerLabelInfo  markerLabelInfo = new MarkerLabelInfo(bcaster, child, location);
+            LatLng location = LocationHelpers.toLatLng(broadcast.getLocation());
+            MarkerLabelInfo markerLabelInfo = new MarkerLabelInfo(bcaster, child, location);
             info.put(location, markerLabelInfo);
         }
 
@@ -326,7 +321,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-
     @Override
     public void onLocationChanged(Location location)
     {
@@ -334,7 +328,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         {
             locationChangedListener.onLocationChanged(location);
 
-            CameraPosition cp = new CameraPosition.Builder().target(toLatLng(location)).zoom(12).build();
+            CameraPosition cp = new CameraPosition.Builder().target(LocationHelpers.toLatLng(location)).zoom(12).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
 
             // Store location in field if location changes
@@ -343,13 +337,19 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {}
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
+    }
 
     @Override
-    public void onProviderEnabled(String provider) {}
+    public void onProviderEnabled(String provider)
+    {
+    }
 
     @Override
-    public void onProviderDisabled(String provider) {}
+    public void onProviderDisabled(String provider)
+    {
+    }
 
     private Criteria setCriteriaFine()
     {
@@ -384,24 +384,24 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         locationChangedListener = onLocationChangedListener;
 
-            if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-            {
-                if(getBestProvider(setCriteriaFine()) != null)
-                    locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
-            }
-            else if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-            {
-                if(getBestProvider(setCriteriaCoarse()) != null)
-                    locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
-            }
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            if (getBestProvider(setCriteriaFine()) != null)
+                locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
+        }
+        else if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            if (getBestProvider(setCriteriaCoarse()) != null)
+                locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
+        }
     }
 
     @Override
     public void deactivate()
     {
         locationChangedListener = null;
-        if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             locationManager.removeUpdates(this);
         }

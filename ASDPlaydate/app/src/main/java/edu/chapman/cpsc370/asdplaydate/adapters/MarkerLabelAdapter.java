@@ -18,6 +18,7 @@ import java.util.List;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
+import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
@@ -73,8 +74,8 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter
             optionalMsg.setText(child.getDescription());
 
             FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
-            ParseGeoPoint myPgp = toParseGeoPoint(container.myLocation);
-            ParseGeoPoint broadcastPgp = toParseGeoPoint(markerPos);
+            ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
+            ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(markerPos);
             //TODO: Check rounding
             profileDistance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");
         }
@@ -82,16 +83,6 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter
         chatRequest.setOnClickListener(onClickListener);
 
         return label;
-    }
-
-    public ParseGeoPoint toParseGeoPoint(Location location)
-    {
-        return new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-    }
-
-    public ParseGeoPoint toParseGeoPoint(LatLng latLng)
-    {
-        return new ParseGeoPoint(latLng.latitude, latLng.longitude);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener()
