@@ -92,7 +92,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
             rootView = inflater.inflate(R.layout.fragment_map, container, false);
             mapView = (MapView) rootView.findViewById(R.id.mapView);
-            broadcastBar = (FrameLayout) rootView.findViewById(R.id.fl_broadcast_bar);
+            broadcastBar = (LinearLayout) rootView.findViewById(R.id.ll_broadcast_bar);
             broadcastFab = (FloatingActionButton) rootView.findViewById(R.id.fab_broadcast);
             broadcastFab.setOnClickListener(this);
             listFab = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
