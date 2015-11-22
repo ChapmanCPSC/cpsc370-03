@@ -199,6 +199,13 @@ public class SettingsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        storeCurrentInfo();
+        super.onBackPressed();
+    }
+
     private class UserLogOutCallback implements LogOutCallback
     {
         @Override

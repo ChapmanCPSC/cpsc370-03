@@ -58,4 +58,5 @@
     <string name="missing_city">Please enter your city name.</string>
     <string name="invalid_email">Please enter a valid email address</string>
     <string name="incorrect_passwords">Passwords do not match. Try again.</string>
+    <string name="updated_profile">Your profile info was successfully updated.</string>
 </resources>

@@ -213,6 +213,8 @@ public class ProfileActivity extends AppCompatActivity
         updatedChild.setGender(Child.Gender.valueOf(gender));
         updatedChild.save();
 
+        Toast.makeText(getApplicationContext(), getString(R.string.updated_profile), Toast.LENGTH_LONG).show();
+
         Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
@@ -289,6 +291,7 @@ public class ProfileActivity extends AppCompatActivity
                     // Load main activity if there are no errors
                     Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
                     startActivity(intent);
+
                 }
 
 
