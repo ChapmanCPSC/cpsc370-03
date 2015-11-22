@@ -82,25 +82,28 @@ public class ProfileActivity extends AppCompatActivity
         @Override
         public void onClick(View v)
         {
-            // Save currently entered info
-            getCurrentInfo();
 
-            // Check if a new account is being created
-            if (getIntent().getStringExtra(CreateAccountFragment.ACCOUNT_EMAIL) != null)
+            if(getCurrentInfo())
             {
-                createAccount();
-            }
-            else
-            {
-                try
+                // Check if a new account is being created
+                if (getIntent().getStringExtra(CreateAccountFragment.ACCOUNT_EMAIL) != null)
                 {
-                    updateProfile();
+                    createAccount();
                 }
-                catch (Exception e)
+                else
                 {
-                    e.printStackTrace();
+                    try
+                    {
+                        updateProfile();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
+
+
         }
     };
 
@@ -145,7 +148,7 @@ public class ProfileActivity extends AppCompatActivity
     }
 
 
-    private void getCurrentInfo()
+    private boolean getCurrentInfo()
     {
 
         parentFirst = parentFirstName.getText().toString();
@@ -154,7 +157,6 @@ public class ProfileActivity extends AppCompatActivity
         childName = childFirst.getText().toString();
         age = childAge.getText().toString();
         condition = childCondition.getText().toString();
-
 
         // Get the selected gender
         Integer selectedId = childGenderGroup.getCheckedRadioButtonId();
@@ -168,10 +170,38 @@ public class ProfileActivity extends AppCompatActivity
             gender = "NONE";
         }
 
-        // Set age to 0 if it is left blank
-        if(age.equals("")) {
-            age = "0";
+        if(parentFirst.equals("") || parentFirst == null)
+        {
+            Toast.makeText(this, getString(R.string.missing_parent_first), Toast.LENGTH_LONG).show();
+            return false;
         }
+        else if(parentLast.equals("") || parentLast == null)
+        {
+            Toast.makeText(this, getString(R.string.missing_parent_last), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(city.equals("") || city == null)
+        {
+            Toast.makeText(this, getString(R.string.missing_city), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(childName.equals("") || childName == null)
+        {
+            Toast.makeText(this, getString(R.string.missing_child_name), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(age.equals("") || age == null)
+        {
+            Toast.makeText(this, getString(R.string.missing_age), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(gender.equals("NONE") || gender == null)
+        {
+            Toast.makeText(this, getString(R.string.missing_gender), Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
 
     }
 

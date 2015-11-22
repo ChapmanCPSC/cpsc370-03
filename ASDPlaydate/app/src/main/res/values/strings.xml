@@ -50,4 +50,10 @@
     <string name="edit_broadcast_message">Insert Broadcast Message Here</string>
     <string name="distance_min">1 mi</string>
     <string name="distance_max">5 mi</string>
+    <string name="missing_parent_first">Please enter your first name.</string>
+    <string name="missing_parent_last">Please enter your last name.</string>
+    <string name="missing_child_name">Please enter your child\'s name.</string>
+    <string name="missing_age">Please enter your child\'s age.</string>
+    <string name="missing_gender">Please select your child\'s gender.</string>
+    <string name="missing_city">Please enter your city name.</string>
 </resources>
