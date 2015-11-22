@@ -64,7 +64,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     FloatingActionButton listFab, doBroadcastFab, broadcastFab;
     AlertDialog broadcastDialog;
     LinearLayout broadcastBar;
-    LocationRequest mLocationRequest;
     CheckBox broadcastCheckBox;
     FindFragmentContainer parent;
 
@@ -75,9 +74,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     View rootView;
     boolean firstLoad = true;
-
-    private static final long INTERVAL = 1000 * 10;
-    private static final long FASTEST_INTERVAL = 1000 * 5;
 
     SessionManager sessionManager;
 

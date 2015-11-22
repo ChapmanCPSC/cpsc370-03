@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/textViewMileUpdate"
-                    android:text="2 mile"/>
+                    android:text="3 mile"/>
 
             </LinearLayout>
 
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="1mi"
+                    android:text="@string/distance_min"
                     android:id="@+id/textViewSearchRange"/>
 
                 <SeekBar
@@ -107,14 +107,14 @@
                     android:layout_weight="0.81"
                     android:indeterminate="false"
                     android:max="4"
-                    android:progress="1"
+                    android:progress="2"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="5mi"
+                    android:text="@string/distance_max"
                     android:id="@+id/textViewSearchInidcatorLarge"/>
 
             </LinearLayout>
@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/textViewDurationUpdate"
-                    android:text="15 min"/>
+                    android:text="60 min"/>
 
             </LinearLayout>
 
@@ -186,7 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="1min"
+                    android:text="@string/duration_min"
                     android:id="@+id/textViewBroadcastDurationLow"
                     />
 
@@ -196,7 +196,7 @@
                     android:id="@+id/seekBarBroadcastDuration"
                     android:indeterminate="false"
                     android:contentDescription="Minutes"
-                    android:progress="14"
+                    android:progress="59"
                     android:max="119"
                     android:contextClickable="false"
                     android:layout_weight="0.86"/>
@@ -205,7 +205,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="120min"
+                    android:text="@string/duration_max"
                     android:id="@+id/textView4"/>
             </LinearLayout>
         </LinearLayout>
@@ -243,7 +243,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/editTextBroadcastMessage"
-            android:hint="Insert Broadcast Message Here"/>
+            android:hint="@string/edit_broadcast_message"/>
 
         <Space
             android:layout_width="20px"
@@ -280,7 +280,7 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/switch1"
+                    android:id="@+id/switchPromptBroadcast"
                     android:checked="true"
                     />
             </LinearLayout>

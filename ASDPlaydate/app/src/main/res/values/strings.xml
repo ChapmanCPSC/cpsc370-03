@@ -41,5 +41,13 @@
     <string name="title_activity_settings_v2">Settings</string>
     <string name="title_activity_profile_activity_v2">Profile</string>
     <string name="minutes">\u0020min</string>
-    <string name="miles">mile</string>
+    <string name="miles">mile(s)</string>
+    <string name="female">FEMALE</string>
+    <string name="male">MALE</string>
+    <string name="logout_confirm">Are you sure you want to log out?</string>
+    <string name="logout">Log Out</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_broadcast_message">Insert Broadcast Message Here</string>
+    <string name="distance_min">1 mi</string>
+    <string name="distance_max">5 mi</string>
 </resources>
