@@ -1,16 +1,25 @@
 package edu.chapman.cpsc370.asdplaydate.fragments;
 
 import android.app.Fragment;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.HashMap;
+
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 
-public class FindFragmentContainer extends Fragment {
+public class FindFragmentContainer extends Fragment
+{
 
+    HashMap<LatLng, MarkerLabelInfo> broadcasts;
+    public Location myLocation;
     private boolean showingResultList = false;
 
     public FindFragmentContainer()
@@ -30,7 +39,8 @@ public class FindFragmentContainer extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Load the map fragment into the container initially
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             getChildFragmentManager()
                     .beginTransaction()
                     .add(R.id.find_container, new FindFragment())
@@ -42,7 +52,8 @@ public class FindFragmentContainer extends Fragment {
     public void flipFragment()
     {
         // Flip back to the map
-        if (showingResultList) {
+        if (showingResultList)
+        {
             showingResultList = false;
             getChildFragmentManager().popBackStack();
             return;

@@ -1,6 +1,7 @@
 package edu.chapman.cpsc370.asdplaydate.adapters;
 
 import android.content.Context;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -9,10 +10,18 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.parse.ParseGeoPoint;
 
 import java.util.HashMap;
+import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
+import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
+import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
+import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
+import edu.chapman.cpsc370.asdplaydate.models.Child;
+import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 /**
  * Created by Kelly on 11/4/15.
@@ -20,16 +29,15 @@ import edu.chapman.cpsc370.asdplaydate.R;
 public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter
 {
 
-    Context _ctx;
-    HashMap<LatLng, String> _temp;
-    TextView profileInfo;
-    Button chatRequest;
+    Context ctx;
+    HashMap<LatLng, MarkerLabelInfo> data;
+    FindFragment fragment;
 
-    // TODO: constructor will pass a model of the actual data
-    public MarkerLabelAdapter(Context ctx, HashMap<LatLng, String> temp)
+    public MarkerLabelAdapter(FindFragment fragment, Context ctx, HashMap<LatLng, MarkerLabelInfo> data)
     {
-        _ctx = ctx;
-        _temp = temp;
+        this.fragment = fragment;
+        this.ctx = ctx;
+        this.data = data;
     }
 
     @Override
@@ -41,17 +49,38 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter
     @Override
     public View getInfoContents(Marker marker)
     {
-        LayoutInflater inflater = LayoutInflater.from(_ctx);
+        LayoutInflater inflater = LayoutInflater.from(ctx);
         View label = inflater.inflate(R.layout.marker_label, null);
-        profileInfo = (TextView) label.findViewById(R.id.tv_parent_name);
+        TextView parentName = (TextView) label.findViewById(R.id.tv_parent_name);
+        TextView childAge = (TextView) label.findViewById(R.id.tv_child_age);
+        TextView childName = (TextView) label.findViewById(R.id.tv_child_name);
+        TextView childGender = (TextView) label.findViewById(R.id.tv_child_gender);
+        TextView optionalMsg = (TextView) label.findViewById(R.id.tv_optional_message);
+        TextView profileDistance = (TextView) label.findViewById(R.id.tv_profile_distance);
+        TextView chatRequest = (Button) label.findViewById(R.id.btn_chat_request);
 
-        chatRequest = (Button) label.findViewById(R.id.btn_chat_request);
-        chatRequest.setOnClickListener(onClickListener);
-
-        if(_temp.containsKey(marker.getPosition()))
+        LatLng markerPos = marker.getPosition();
+        if (data.containsKey(markerPos))
         {
-            profileInfo.setText(_temp.get(marker.getPosition()));
+            MarkerLabelInfo info = data.get(markerPos);
+
+            // Set info here
+            ASDPlaydateUser bcaster = info.getParent();
+            Child child = info.getChild();
+            parentName.setText(bcaster.getFirstName() + " " + bcaster.getLastName());
+            childAge.setText(child.getAge() + " yr old");
+            childName.setText(child.getFirstName());
+            childGender.setText("(" + child.getGender().name().substring(0,1) + ")");
+            optionalMsg.setText(child.getDescription());
+
+            FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
+            ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
+            ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(markerPos);
+            //TODO: Check rounding
+            profileDistance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");
         }
+
+        chatRequest.setOnClickListener(onClickListener);
 
         return label;
     }
