@@ -56,4 +56,6 @@
     <string name="missing_age">Please enter your child\'s age.</string>
     <string name="missing_gender">Please select your child\'s gender.</string>
     <string name="missing_city">Please enter your city name.</string>
+    <string name="invalid_email">Please enter a valid email address</string>
+    <string name="incorrect_passwords">Passwords do not match. Try again.</string>
 </resources>

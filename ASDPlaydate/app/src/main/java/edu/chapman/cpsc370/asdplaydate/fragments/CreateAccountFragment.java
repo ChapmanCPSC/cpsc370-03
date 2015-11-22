@@ -53,15 +53,16 @@ public class CreateAccountFragment extends Fragment
             public void onClick(View v)
             {
                 // Check if email field is empty
-                if(email.getText().toString().trim().equals(""))
+                String emailAddress = email.getText().toString().trim();
+                if(emailAddress.equals("") || !emailAddress.contains("@") || emailAddress == null)
                 {
-                    Toast.makeText(getActivity(), "Please enter an email", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.invalid_email), Toast.LENGTH_LONG).show();
                 }
                 // Check if password matches password confirmation
                 else if(!pass.getText().toString().equals(passCom.getText().toString())
                         || pass.getText().toString().trim().equals(""))
                 {
-                    Toast.makeText(getActivity(), "Passwords do not match", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.incorrect_passwords), Toast.LENGTH_LONG).show();
                 }
                 else
                 {

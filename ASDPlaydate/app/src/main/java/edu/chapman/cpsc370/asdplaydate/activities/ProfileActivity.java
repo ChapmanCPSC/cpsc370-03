@@ -1,26 +1,20 @@
 package edu.chapman.cpsc370.asdplaydate.activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
-
-import java.util.HashMap;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.CreateAccountFragment;
@@ -60,7 +54,6 @@ public class ProfileActivity extends AppCompatActivity
 
         FloatingActionButton saveProfileButton = (FloatingActionButton) findViewById(R.id.fab_saveProfile);
         saveProfileButton.setOnClickListener(onClickListener);
-        final TextView defaultSearchRadius = (TextView) findViewById(R.id.textViewSearchRadius);
 
         if(ASDPlaydateUser.getCurrentUser() != null)
         {
