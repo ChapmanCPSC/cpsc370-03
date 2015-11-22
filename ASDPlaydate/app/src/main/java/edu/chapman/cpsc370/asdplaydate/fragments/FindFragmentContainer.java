@@ -1,16 +1,24 @@
 package edu.chapman.cpsc370.asdplaydate.fragments;
 
 import android.app.Fragment;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.HashMap;
+
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 
 public class FindFragmentContainer extends Fragment {
 
+    HashMap<LatLng, MarkerLabelInfo> broadcasts;
+    public Location myLocation;
     private boolean showingResultList = false;
 
     public FindFragmentContainer()

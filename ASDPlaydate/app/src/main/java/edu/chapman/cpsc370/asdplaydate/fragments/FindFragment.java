@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -57,7 +56,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     MapView mapView;
     GoogleMap googleMap;
-    public Location myLocation;
     GoogleApiClient googleApiClient;
     SeekBar broadcastDuration;
     TextView progressValue;
@@ -66,7 +64,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     FrameLayout broadcastBar;
     LocationRequest mLocationRequest;
     CheckBox broadcastCheckBox;
-    HashMap<LatLng, MarkerLabelInfo> broadcasts;
+    FindFragmentContainer parent;
 
     LocationManager locationManager;
     OnLocationChangedListener locationChangedListener;
@@ -115,6 +113,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         }
 
         sessionManager = new SessionManager(getActivity());
+        parent = (FindFragmentContainer) getParentFragment();
 
         return rootView;
     }
@@ -179,7 +178,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public void onConnected(Bundle bundle)
     {
         // Get location once connected to Play Services
-        myLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        parent.myLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
     }
 
     @Override
@@ -228,15 +227,15 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             try
             {
                 // Get broadcasts here
-                broadcasts = getBroadcasts();
+                parent.broadcasts = getBroadcasts();
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
 
-            placeMarkers(broadcasts);
-            MarkerLabelAdapter mla = new MarkerLabelAdapter(FindFragment.this, getActivity(), broadcasts);
+            placeMarkers(parent.broadcasts);
+            MarkerLabelAdapter mla = new MarkerLabelAdapter(FindFragment.this, getActivity(), parent.broadcasts);
             googleMap.setInfoWindowAdapter(mla);
         }
     };
@@ -294,21 +293,21 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateTime.now(DateTimeZone.UTC).toDate())
                 .whereWithinMiles(Broadcast.ATTR_LOCATION,
                         //TODO: access SharedPrefs here to get radius
-                        new ParseGeoPoint(myLocation.getLatitude(), myLocation.getLongitude()), 1.0)
+                        new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude()), 1.0)
                 .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, user);
 
         List<Broadcast> list = q.find();
         HashMap<LatLng, MarkerLabelInfo> info = new HashMap<LatLng, MarkerLabelInfo>();
         for (Broadcast broadcast : list)
         {
-            ASDPlaydateUser bcaster = broadcast.getBroadcaster();
+            ASDPlaydateUser bcaster = (ASDPlaydateUser) broadcast.getBroadcaster().fetchIfNeeded();
             Child child = getChildWithParent(bcaster);
-            MarkerLabelInfo  markerLabelInfo = new MarkerLabelInfo(bcaster, child);
-            info.put(toLatLng(broadcast.getLocation()), markerLabelInfo);
+            LatLng location = toLatLng(broadcast.getLocation());
+            MarkerLabelInfo  markerLabelInfo = new MarkerLabelInfo(bcaster, child, location);
+            info.put(location, markerLabelInfo);
         }
 
         return info;
-
     }
 
     private Child getChildWithParent(ASDPlaydateUser parent) throws Exception
@@ -339,7 +338,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
 
             // Store location in field if location changes
-            myLocation = location;
+            parent.myLocation = location;
         }
     }
 

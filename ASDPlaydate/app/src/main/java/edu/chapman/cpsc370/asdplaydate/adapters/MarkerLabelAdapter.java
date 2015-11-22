@@ -17,6 +17,7 @@ import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
+import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
@@ -71,7 +72,8 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter
             childGender.setText("(" + child.getGender().name().substring(0,1) + ")");
             optionalMsg.setText(child.getDescription());
 
-            ParseGeoPoint myPgp = toParseGeoPoint(fragment.myLocation);
+            FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
+            ParseGeoPoint myPgp = toParseGeoPoint(container.myLocation);
             ParseGeoPoint broadcastPgp = toParseGeoPoint(markerPos);
             //TODO: Check rounding
             profileDistance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");

@@ -20,7 +20,7 @@ public class ParseBroadcastTest extends ParseTest
     public void testBroadcast() throws Exception
     {
         // Log in with existing user account
-        ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.logIn("rburns11@chapman.edu", "test");
+        ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.become(TEST_SESSION);
 
         // Location where the user is at
         ParseGeoPoint location = new ParseGeoPoint(33.7928, -117.8514);
