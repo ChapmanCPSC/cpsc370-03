@@ -99,11 +99,11 @@ public class SessionManager
         boolean prompt;
         if(getFromDialog())
         {
-            prompt = !prefs.getBoolean(KEY_FROM_DIALOG,false);
+            prompt = !prefs.getBoolean(KEY_PROMPT_BROADCAST,false);
         }
         else
         {
-            prompt = prefs.getBoolean(KEY_FROM_DIALOG,true);
+            prompt = prefs.getBoolean(KEY_PROMPT_BROADCAST,true);
         }
 
         return prompt;
