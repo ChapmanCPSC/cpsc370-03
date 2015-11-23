@@ -47,11 +47,9 @@
         android:layout_height="wrap_content"
         android:text="0.4 miles from you"/>
 
-    <Button
-        android:id="@+id/btn_chat_request"
+    <TextView
+        android:id="@+id/tv_tap_message"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/ask_to_chat"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

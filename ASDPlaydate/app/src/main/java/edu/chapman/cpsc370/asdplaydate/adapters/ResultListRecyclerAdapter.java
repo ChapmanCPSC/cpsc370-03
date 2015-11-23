@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,7 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,8 +24,10 @@ import java.util.HashMap;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
 import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
+import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
+import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 /**
@@ -33,19 +39,42 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
     private Context context;
     private Location myLocation;
     private ArrayList<MarkerLabelInfo> data;
+    private SessionManager sessionManager;
 
     public ResultListRecyclerAdapter(Context context, Location myLocation, HashMap<LatLng, MarkerLabelInfo> data)
     {
         this.context = context;
         this.myLocation = myLocation;
         this.data = new ArrayList<>(data.values());
+        sessionManager = new SessionManager(context);
     }
 
     @Override
     public ResultListRecyclerAdapter.ResultItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_result_list_item, viewGroup, false);
-        return new ResultItemViewHolder(v);
+        ResultListRecyclerAdapter.ResultItemViewHolder vh = new ResultItemViewHolder(v, new ResultItemViewHolder.ViewHolderClicks()
+        {
+            @Override
+            public void sendChatRequest(int position)
+            {
+                ASDPlaydateUser initiator = null;
+                try
+                {
+                    initiator = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
+                    ASDPlaydateUser receiver = data.get(position).getParent();                      //TODO: get initiator's broadcast expiredate here
+                    Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusMinutes(60));
+                    convo.save();
+                    Toast.makeText(context, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
+
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return vh;
     }
 
     @Override
@@ -63,17 +92,6 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
         ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(info.getLocation());
         //TODO: Check rounding
         holder.distance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");
-
-
-        //TODO: parse request to send a chat
-        holder.requestChat.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Toast.makeText(context, "Chat request sent", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -82,7 +100,7 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
         return data.size();
     }
 
-    public static class ResultItemViewHolder extends RecyclerView.ViewHolder
+    public static class ResultItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
         TextView parentName;
@@ -91,8 +109,9 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
         TextView childCondition;
         TextView distance;
         ImageView requestChat;
+        public ViewHolderClicks mListener;
 
-        ResultItemViewHolder(View itemView)
+        ResultItemViewHolder(View itemView, ViewHolderClicks listener)
         {
             super(itemView);
 
@@ -102,6 +121,25 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
             childCondition = (TextView) itemView.findViewById(R.id.result_list_child_condition);
             distance = (TextView) itemView.findViewById(R.id.result_list_distance);
             requestChat = (ImageView) itemView.findViewById(R.id.result_list_request_chat_button);
+            mListener = listener;
+
+            requestChat.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            int id = v.getId();
+            int pos = getLayoutPosition();
+            if (id == R.id.result_list_request_chat_button)
+            {
+                mListener.sendChatRequest(pos);
+            }
+        }
+
+        public interface ViewHolderClicks
+        {
+            void sendChatRequest(int position);
         }
     }
 }

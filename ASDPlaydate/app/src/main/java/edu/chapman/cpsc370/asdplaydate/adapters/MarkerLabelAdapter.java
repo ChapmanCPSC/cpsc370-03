@@ -4,13 +4,19 @@ import android.content.Context;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseUser;
+
+import org.joda.time.DateTime;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,26 +24,36 @@ import java.util.List;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
+import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
 import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
+import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
+import edu.chapman.cpsc370.asdplaydate.models.Broadcast;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
+import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 /**
  * Created by Kelly on 11/4/15.
  */
-public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter
+public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMap.OnInfoWindowClickListener
 {
 
     Context ctx;
     HashMap<LatLng, MarkerLabelInfo> data;
     FindFragment fragment;
+    private SessionManager sessionManager;
+    private LatLng markerLocation;
+    private int tapCount;
 
     public MarkerLabelAdapter(FindFragment fragment, Context ctx, HashMap<LatLng, MarkerLabelInfo> data)
     {
         this.fragment = fragment;
         this.ctx = ctx;
         this.data = data;
+        sessionManager = new SessionManager(ctx);
+        markerLocation = null;
+        tapCount = 0;
     }
 
     @Override
@@ -57,7 +73,7 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter
         TextView childGender = (TextView) label.findViewById(R.id.tv_child_gender);
         TextView optionalMsg = (TextView) label.findViewById(R.id.tv_optional_message);
         TextView profileDistance = (TextView) label.findViewById(R.id.tv_profile_distance);
-        TextView chatRequest = (Button) label.findViewById(R.id.btn_chat_request);
+        TextView tapMessage = (TextView) label.findViewById(R.id.tv_tap_message);
 
         LatLng markerPos = marker.getPosition();
         if (data.containsKey(markerPos))
@@ -78,26 +94,51 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter
             ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(markerPos);
             //TODO: Check rounding
             profileDistance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");
+            tapMessage.setText(R.string.tap_twice_send_chat);
         }
-
-        chatRequest.setOnClickListener(onClickListener);
 
         return label;
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener()
+    @Override
+    public void onInfoWindowClick(Marker marker)
     {
-        @Override
-        public void onClick(View v)
+        if (markerLocation == null)
         {
-            switch(v.getId())
+            markerLocation = marker.getPosition();
+        }
+        if (markerLocation.equals(marker.getPosition()))
+        {
+            // record taps
+            if (tapCount == 0)
             {
-                case R.id.btn_chat_request:
-                    // TODO: Open chat
-                    break;
-                default:
-                    break;
+                tapCount+=1;
+            }
+            else if (tapCount == 1)
+            {
+                // send chat request
+                ASDPlaydateUser initiator = null;
+                try
+                {
+                    initiator = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
+                    ASDPlaydateUser receiver = data.get(markerLocation).getParent();                      //TODO: get initiator's broadcast expiredate here
+                    Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusMinutes(60));
+                    convo.save();
+                    Toast.makeText(ctx, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
+                    //TODO: update the send chat request UI here
+                    //remove the marker
+                    marker.remove();
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
-    };
+        else
+        {
+            markerLocation = marker.getPosition();
+            tapCount = 1;
+        }
+    }
 }

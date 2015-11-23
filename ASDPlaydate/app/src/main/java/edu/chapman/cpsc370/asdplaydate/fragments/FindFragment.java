@@ -227,6 +227,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             placeMarkers(parent.broadcasts);
             MarkerLabelAdapter mla = new MarkerLabelAdapter(FindFragment.this, getActivity(), parent.broadcasts);
             googleMap.setInfoWindowAdapter(mla);
+            googleMap.setOnInfoWindowClickListener(mla);
         }
     };
 
@@ -282,8 +283,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         ParseQuery<Broadcast> q = new ParseQuery<Broadcast>(Broadcast.class);
         q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateHelpers.UTCDate(DateTime.now()))
                 .whereWithinMiles(Broadcast.ATTR_LOCATION,
-                        //TODO: access SharedPrefs here to get radius
-                        new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude()), 1.0)
+                        new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude()), sessionManager.getSearchRadius())
                 .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, user);
 
         List<Broadcast> list = q.find();

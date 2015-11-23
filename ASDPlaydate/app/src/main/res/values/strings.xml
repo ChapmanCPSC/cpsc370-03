@@ -59,4 +59,5 @@
     <string name="invalid_email">Please enter a valid email address</string>
     <string name="incorrect_passwords">Passwords do not match. Try again.</string>
     <string name="updated_profile">Your profile info was successfully updated.</string>
+    <string name="tap_twice_send_chat">Tap twice to send a chat request</string>
 </resources>
