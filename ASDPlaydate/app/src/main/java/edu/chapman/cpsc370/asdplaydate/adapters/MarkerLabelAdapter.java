@@ -1,36 +1,23 @@
 package edu.chapman.cpsc370.asdplaydate.adapters;
 
 import android.content.Context;
-import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewParent;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseUser;
-
-import org.joda.time.DateTime;
-
-import java.util.HashMap;
-import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
-import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
 import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
+import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
 import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
-import edu.chapman.cpsc370.asdplaydate.models.Broadcast;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
-import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 /**
@@ -40,17 +27,15 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
 {
 
     Context ctx;
-    HashMap<LatLng, MarkerLabelInfo> data;
     FindFragment fragment;
     private SessionManager sessionManager;
     private LatLng markerLocation;
     private int tapCount;
 
-    public MarkerLabelAdapter(FindFragment fragment, Context ctx, HashMap<LatLng, MarkerLabelInfo> data)
+    public MarkerLabelAdapter(FindFragment fragment, Context ctx)
     {
         this.fragment = fragment;
         this.ctx = ctx;
-        this.data = data;
         sessionManager = new SessionManager(ctx);
         markerLocation = null;
         tapCount = 0;
@@ -76,25 +61,28 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
         TextView tapMessage = (TextView) label.findViewById(R.id.tv_tap_message);
 
         LatLng markerPos = marker.getPosition();
-        if (data.containsKey(markerPos))
+
+        FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
+        for (MarkerLabelInfo info : container.broadcasts)
         {
-            MarkerLabelInfo info = data.get(markerPos);
+            if (info.getLatLng().equals(markerPos))
+            {
+                // Set info here
+                ASDPlaydateUser bcaster = info.getParent();
+                Child child = info.getChild();
+                parentName.setText(bcaster.getFirstName() + " " + bcaster.getLastName());
+                childAge.setText(child.getAge() + " yr old");
+                childName.setText(child.getFirstName());
+                childGender.setText("(" + child.getGender().name().substring(0,1) + ")");
+                optionalMsg.setText(child.getDescription());
 
-            // Set info here
-            ASDPlaydateUser bcaster = info.getParent();
-            Child child = info.getChild();
-            parentName.setText(bcaster.getFirstName() + " " + bcaster.getLastName());
-            childAge.setText(child.getAge() + " yr old");
-            childName.setText(child.getFirstName());
-            childGender.setText("(" + child.getGender().name().substring(0,1) + ")");
-            optionalMsg.setText(child.getDescription());
-
-            FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
-            ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
-            ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(markerPos);
-            //TODO: Check rounding
-            profileDistance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");
-            tapMessage.setText(R.string.tap_twice_send_chat);
+                ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
+                ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(markerPos);
+                //TODO: Check rounding
+                profileDistance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");
+                tapMessage.setText(R.string.tap_twice_send_chat);
+                break;
+            }
         }
 
         return label;
@@ -116,22 +104,25 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
             }
             else if (tapCount == 1)
             {
-                // send chat request
-                ASDPlaydateUser initiator = null;
-                try
+                FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
+                for (MarkerLabelInfo info : container.broadcasts)
                 {
-                    initiator = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
-                    ASDPlaydateUser receiver = data.get(markerLocation).getParent();                      //TODO: get initiator's broadcast expiredate here
-                    Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusMinutes(60));
-                    convo.save();
-                    Toast.makeText(ctx, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
-                    //TODO: update the send chat request UI here
-                    //remove the marker
-                    marker.remove();
-                }
-                catch (ParseException e)
-                {
-                    e.printStackTrace();
+                    if (info.getLatLng().equals(markerLocation))
+                    {
+                        ASDPlaydateUser receiver = info.getParent();
+                        RecyclerAdapterHelpers.sendChatRequest(sessionManager, receiver, ctx, marker);
+                        container.broadcasts.remove(info.getIndex());
+                        if (container.adapter != null)
+                        {
+                            container.adapter.notifyItemRemoved(info.getIndex());
+                            container.adapter.notifyItemRangeChanged(info.getIndex(), container.broadcasts.size());
+                        }
+                        else
+                        {
+                            container.needsNotify = true;
+                        }
+                        break;
+                    }
                 }
             }
         }

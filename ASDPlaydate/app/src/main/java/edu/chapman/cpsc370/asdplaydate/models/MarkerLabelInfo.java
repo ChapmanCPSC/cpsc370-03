@@ -1,6 +1,7 @@
 package edu.chapman.cpsc370.asdplaydate.models;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 /**
  * Created by Xavi on 19/11/15.
@@ -9,7 +10,9 @@ public class MarkerLabelInfo
 {
     private ASDPlaydateUser parent;
     private Child child;
-    private LatLng location;
+    private Marker marker;
+    private LatLng latLng;
+    private int index;
 
     public MarkerLabelInfo(ASDPlaydateUser parent, Child child)
     {
@@ -17,11 +20,11 @@ public class MarkerLabelInfo
         this.child = child;
     }
 
-    public MarkerLabelInfo(ASDPlaydateUser parent, Child child, LatLng location)
+    public MarkerLabelInfo(ASDPlaydateUser parent, Child child, LatLng latLng)
     {
         this.parent = parent;
         this.child = child;
-        this.location = location;
+        this.latLng = latLng;
     }
 
     public ASDPlaydateUser getParent()
@@ -44,14 +47,33 @@ public class MarkerLabelInfo
         this.child = child;
     }
 
-    public LatLng getLocation()
+    public Marker getMarker()
     {
-        return location;
+        return marker;
     }
 
-    public void setLocation(LatLng location)
+    public void setMarker(Marker marker)
     {
-        this.location = location;
+        this.marker = marker;
     }
 
+    public LatLng getLatLng()
+    {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng)
+    {
+        this.latLng = latLng;
+    }
+
+    public int getIndex()
+    {
+        return index;
+    }
+
+    public void setIndex(int index)
+    {
+        this.index = index;
+    }
 }

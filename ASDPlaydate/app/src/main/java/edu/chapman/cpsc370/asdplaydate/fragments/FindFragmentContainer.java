@@ -9,18 +9,24 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.adapters.MarkerLabelAdapter;
+import edu.chapman.cpsc370.asdplaydate.adapters.ResultListRecyclerAdapter;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 
 public class FindFragmentContainer extends Fragment
 {
 
-    HashMap<LatLng, MarkerLabelInfo> broadcasts;
+    public ArrayList<MarkerLabelInfo> broadcasts;
     public Location myLocation;
     private boolean showingResultList = false;
+    public ResultListRecyclerAdapter adapter;
+    public MarkerLabelAdapter mla;
+    public boolean needsNotify;
 
     public FindFragmentContainer()
     {
@@ -69,5 +75,9 @@ public class FindFragmentContainer extends Fragment
                 .replace(R.id.find_container, new ResultListFragment())
                 .addToBackStack(null)
                 .commit();
+        if (adapter != null)
+        {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

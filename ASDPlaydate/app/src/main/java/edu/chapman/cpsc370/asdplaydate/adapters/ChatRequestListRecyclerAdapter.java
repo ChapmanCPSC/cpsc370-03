@@ -1,7 +1,5 @@
 package edu.chapman.cpsc370.asdplaydate.adapters;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +11,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
 import java.util.List;
 
+import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
@@ -134,14 +132,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             @Override
             public void denyRequest(int position)
             {
-                ObjectAnimator slideOutRight = ObjectAnimator.ofFloat(vi, "translationX", 1000f);
-                ObjectAnimator fadeOut = ObjectAnimator.ofFloat(vi, "alpha", 0);
-                slideOutRight.setDuration(250);
-                fadeOut.setDuration(250);
-                AnimatorSet set = new AnimatorSet();
-                set.playTogether(slideOutRight, fadeOut);
-                set.setInterpolator(new AccelerateInterpolator());
-                set.start();
+                RecyclerAdapterHelpers.doSlideOutAnim(vi);
                 mItems.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, mItems.size());

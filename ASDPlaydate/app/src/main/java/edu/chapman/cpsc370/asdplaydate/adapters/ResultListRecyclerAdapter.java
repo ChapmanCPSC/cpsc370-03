@@ -1,5 +1,7 @@
 package edu.chapman.cpsc370.asdplaydate.adapters;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.location.Location;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +26,10 @@ import java.util.HashMap;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
+import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
+import edu.chapman.cpsc370.asdplaydate.fragments.ResultListFragment;
 import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
+import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
 import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
@@ -36,42 +42,33 @@ import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRecyclerAdapter.ResultItemViewHolder>
 {
 
-    private Context context;
-    private Location myLocation;
-    private ArrayList<MarkerLabelInfo> data;
+    private Context ctx;
+    private ResultListFragment fragment;
     private SessionManager sessionManager;
 
-    public ResultListRecyclerAdapter(Context context, Location myLocation, HashMap<LatLng, MarkerLabelInfo> data)
+    public ResultListRecyclerAdapter(Context ctx, ResultListFragment fragment)
     {
-        this.context = context;
-        this.myLocation = myLocation;
-        this.data = new ArrayList<>(data.values());
-        sessionManager = new SessionManager(context);
+        this.ctx = ctx;
+        this.fragment = fragment;
+        sessionManager = new SessionManager(ctx);
     }
 
     @Override
     public ResultListRecyclerAdapter.ResultItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_result_list_item, viewGroup, false);
-        ResultListRecyclerAdapter.ResultItemViewHolder vh = new ResultItemViewHolder(v, new ResultItemViewHolder.ViewHolderClicks()
+        final View vi = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_result_list_item, viewGroup, false);
+        ResultListRecyclerAdapter.ResultItemViewHolder vh = new ResultItemViewHolder(vi, new ResultItemViewHolder.ViewHolderClicks()
         {
             @Override
             public void sendChatRequest(int position)
             {
-                ASDPlaydateUser initiator = null;
-                try
-                {
-                    initiator = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
-                    ASDPlaydateUser receiver = data.get(position).getParent();                      //TODO: get initiator's broadcast expiredate here
-                    Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusMinutes(60));
-                    convo.save();
-                    Toast.makeText(context, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
-
-                }
-                catch (ParseException e)
-                {
-                    e.printStackTrace();
-                }
+                FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
+                ASDPlaydateUser receiver = container.broadcasts.get(position).getParent();
+                RecyclerAdapterHelpers.sendChatRequest(sessionManager, receiver, ctx, container.broadcasts.get(position).getMarker());
+                RecyclerAdapterHelpers.doSlideOutAnim(vi);
+                container.broadcasts.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, container.broadcasts.size());
             }
         });
         return vh;
@@ -80,7 +77,8 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
     @Override
     public void onBindViewHolder(ResultListRecyclerAdapter.ResultItemViewHolder holder, int i)
     {
-        MarkerLabelInfo info = data.get(i);
+        FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
+        MarkerLabelInfo info = container.broadcasts.get(i);
         ASDPlaydateUser bcaster = info.getParent();
         Child child = info.getChild();
         holder.parentName.setText(bcaster.getFirstName() + " " + bcaster.getLastName());
@@ -88,8 +86,8 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
         holder.childName.setText(child.getFirstName() + " (" + child.getGender().name().substring(0, 1) + ")");
         holder.childCondition.setText(child.getDescription());
 
-        ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(myLocation);
-        ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(info.getLocation());
+        ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
+        ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(info.getLatLng());
         //TODO: Check rounding
         holder.distance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");
     }
@@ -97,7 +95,8 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
     @Override
     public int getItemCount()
     {
-        return data.size();
+        FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
+        return container.broadcasts.size();
     }
 
     public static class ResultItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener

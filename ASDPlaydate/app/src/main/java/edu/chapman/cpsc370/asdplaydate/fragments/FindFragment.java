@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,14 +30,14 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.R;
@@ -225,9 +224,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             }
 
             placeMarkers(parent.broadcasts);
-            MarkerLabelAdapter mla = new MarkerLabelAdapter(FindFragment.this, getActivity(), parent.broadcasts);
-            googleMap.setInfoWindowAdapter(mla);
-            googleMap.setOnInfoWindowClickListener(mla);
+            parent.mla = new MarkerLabelAdapter(FindFragment.this, getActivity());
+            googleMap.setInfoWindowAdapter(parent.mla);
+            googleMap.setOnInfoWindowClickListener(parent.mla);
         }
     };
 
@@ -276,7 +275,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    private HashMap<LatLng, MarkerLabelInfo> getBroadcasts() throws Exception
+    private ArrayList<MarkerLabelInfo> getBroadcasts() throws Exception
     {
         ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
 
@@ -287,18 +286,20 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, user);
 
         List<Broadcast> list = q.find();
-        HashMap<LatLng, MarkerLabelInfo> info = new HashMap<LatLng, MarkerLabelInfo>();
+        ArrayList<MarkerLabelInfo> data = new ArrayList<MarkerLabelInfo>();
+        int index = 0;
         for (Broadcast broadcast : list)
         {
             // .fetchIfNeeded() gets parent info, not just the parent objectId
             ASDPlaydateUser bcaster = (ASDPlaydateUser) broadcast.getBroadcaster().fetchIfNeeded();
             Child child = getChildWithParent(bcaster);
-            LatLng location = LocationHelpers.toLatLng(broadcast.getLocation());
-            MarkerLabelInfo markerLabelInfo = new MarkerLabelInfo(bcaster, child, location);
-            info.put(location, markerLabelInfo);
+            LatLng latLng = LocationHelpers.toLatLng(broadcast.getLocation());
+            MarkerLabelInfo markerLabelInfo = new MarkerLabelInfo(bcaster, child, latLng);
+            markerLabelInfo.setIndex(index);
+            data.add(markerLabelInfo);
         }
 
-        return info;
+        return data;
     }
 
     private Child getChildWithParent(ASDPlaydateUser parent) throws Exception
@@ -308,12 +309,15 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         return q.find().get(0);
     }
 
-    public void placeMarkers(HashMap<LatLng, MarkerLabelInfo> hash)
+    public void placeMarkers(ArrayList<MarkerLabelInfo> data)
     {
         googleMap.clear();
-        for (LatLng ll : hash.keySet())
+        for (int i = 0; i < data.size(); i++)
         {
-            googleMap.addMarker(new MarkerOptions().position(ll));
+            MarkerLabelInfo info = data.get(i);
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(info.getLatLng()));
+            info.setMarker(marker);
+            data.set(i, info);
         }
     }
 

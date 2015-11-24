@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.chapman.cpsc370.asdplaydate.R;
@@ -21,7 +22,6 @@ public class ResultListFragment extends Fragment
 {
 
     private RecyclerView recyclerView;
-    private ResultListRecyclerAdapter adapter;
     FindFragmentContainer parent;
 
     public ResultListFragment(){}
@@ -58,10 +58,9 @@ public class ResultListFragment extends Fragment
         setRecyclerAdapter(parent.broadcasts);
     }
 
-    private void setRecyclerAdapter(HashMap<LatLng, MarkerLabelInfo> data)
+    private void setRecyclerAdapter(ArrayList<MarkerLabelInfo> data)
     {
-        adapter = new ResultListRecyclerAdapter(getActivity(), parent.myLocation, data);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        parent.adapter = new ResultListRecyclerAdapter(getActivity(), this);
+        recyclerView.setAdapter(parent.adapter);
     }
 }
