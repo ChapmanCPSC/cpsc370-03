@@ -15,12 +15,13 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:paddingBottom="10dp"
+            android:onClick="editProfile"
+            android:layout_marginBottom="10dp"
             android:id="@+id/ll_editProfile">
 
             <TextView
@@ -28,9 +29,18 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Edit My Profile"
+                android:layout_centerVertical="true"
                 android:id="@+id/textViewEditProfile"
-                android:layout_gravity="left|center_horizontal"/>
-        </LinearLayout>
+                android:layout_alignParentLeft="true"/>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/gray_right_arrow"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
 
         <View
             android:layout_width="fill_parent"
@@ -73,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/textViewMileUpdate"
-                    android:text="3 mile"/>
+                    android:text="3 mi."/>
 
             </LinearLayout>
 
@@ -166,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/textViewDurationUpdate"
-                    android:text="60 min"/>
+                    android:text="60 min."/>
 
             </LinearLayout>
 
@@ -291,7 +301,8 @@
             android:layout_height="1dp"
             android:background="#c0c0c0"/>
 
-        <LinearLayout
+        <RelativeLayout
+            android:onClick="logout"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -306,8 +317,17 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Logout"
                 android:id="@+id/textViewLogout"
-                android:layout_gravity="left|center_horizontal"/>
-        </LinearLayout>
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/gray_right_arrow"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
 
         <View
             android:layout_width="fill_parent"

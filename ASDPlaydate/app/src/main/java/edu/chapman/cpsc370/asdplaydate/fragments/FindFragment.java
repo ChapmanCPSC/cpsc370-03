@@ -2,6 +2,7 @@ package edu.chapman.cpsc370.asdplaydate.fragments;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -9,8 +10,10 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -40,6 +44,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.chapman.cpsc370.asdplaydate.BuildConfig;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.adapters.MarkerLabelAdapter;
 import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
@@ -65,6 +70,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     LinearLayout broadcastBar;
     CheckBox broadcastCheckBox;
     FindFragmentContainer parent;
+    boolean broadcasted = false;
 
     LocationManager locationManager;
     OnLocationChangedListener locationChangedListener;
@@ -80,6 +86,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
     }
 
+    @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -103,11 +110,15 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             mapView.onCreate(savedInstanceState);
             mapView.onResume();
             setUpMapIfNeeded();
-            googleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || hasRequiredPermissions())
+            {
+                initGoogleClient();
+            }
+            else
+            {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+            }
 
         }
 
@@ -118,6 +129,20 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+        {
+            initGoogleClient();
+        }
+        else
+        {
+            hideBroadcastBar();
+            Toast.makeText(getActivity(), R.string.location_permission_needed, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap)
     {
         this.googleMap = googleMap;
@@ -125,11 +150,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     private void setUpMap()
     {
-
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         googleMap.getUiSettings().setMapToolbarEnabled(false);
-
     }
 
     private void setUpMapIfNeeded()
@@ -204,12 +227,14 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         @Override
         public void onClick(View v)
         {
+
+            //TODO: broadcast here
+            broadcasted = true;
             //TODO: Set SharedPrefs isChecked here
 
             broadcastDialog.cancel();
 
-            ObjectAnimator slideDown = ObjectAnimator.ofFloat(broadcastBar, "translationY", 2000);
-            slideDown.setDuration(500).start();
+            hideBroadcastBar();
 
             listFab.show();
 
@@ -229,6 +254,15 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             googleMap.setOnInfoWindowClickListener(parent.mla);
         }
     };
+
+    private void initGoogleClient()
+    {
+        googleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
 
     private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener()
     {
@@ -334,6 +368,11 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             // Store location in field if location changes
             parent.myLocation = location;
         }
+
+        if (!broadcasted)
+        {
+            broadcastBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -350,6 +389,16 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public void onProviderDisabled(String provider)
     {
     }
+
+    private boolean hasRequiredPermissions()
+    {
+        return ContextCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                &&
+                ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
 
     private Criteria setCriteriaFine()
     {
@@ -377,6 +426,12 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         bestProvider = locationManager.getBestProvider(criteria, true);
         return bestProvider;
+    }
+
+    private void hideBroadcastBar()
+    {
+        ObjectAnimator slideDown = ObjectAnimator.ofFloat(broadcastBar, "translationY", 2000);
+        slideDown.setDuration(500).start();
     }
 
     @Override

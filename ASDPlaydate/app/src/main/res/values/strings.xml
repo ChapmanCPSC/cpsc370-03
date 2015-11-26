@@ -15,7 +15,7 @@
     <string name="dont_ask">Don\'t ask me again</string>
     <string name="go">GO</string>
     <string name="optional_message">Optional message</string>
-    <string name="broadcast_text">If you want to see results near you, \nbroadcast your location here</string>
+    <string name="broadcast_text">Broadcast your location here\nto see results near you</string>
     <string name="broadcast">Broadcast</string>
     <string name="ask_to_chat">Ask to Chat</string>
     <string name="list">LIST</string>
@@ -36,20 +36,20 @@
     <string name="parse_client_key">rmYCT6zp2IvmnggeIr9PmlckyEYy1RrPQMNGFVA1</string>
     <string name="view_profile_dialog_title">User Profile</string>
     <string name="button_ok">OK</string>
-    <string name="duration_min">1 min</string>
-    <string name="duration_max">120 min</string>
+    <string name="duration_min">1 min.</string>
+    <string name="duration_max">120 min.</string>
     <string name="title_activity_settings_v2">Settings</string>
     <string name="title_activity_profile_activity_v2">Profile</string>
-    <string name="minutes">\u0020min</string>
-    <string name="miles">mile(s)</string>
+    <string name="minutes">\u0020min.</string>
+    <string name="miles">mi.</string>
     <string name="female">FEMALE</string>
     <string name="male">MALE</string>
     <string name="logout_confirm">Are you sure you want to log out?</string>
     <string name="logout">Log Out</string>
     <string name="cancel">Cancel</string>
     <string name="edit_broadcast_message">Insert Broadcast Message Here</string>
-    <string name="distance_min">1 mi</string>
-    <string name="distance_max">5 mi</string>
+    <string name="distance_min">1 mi.</string>
+    <string name="distance_max">5 mi.</string>
     <string name="missing_parent_first">Please enter your first name.</string>
     <string name="missing_parent_last">Please enter your last name.</string>
     <string name="missing_child_name">Please enter your child\'s name.</string>
@@ -60,4 +60,5 @@
     <string name="incorrect_passwords">Passwords do not match. Try again.</string>
     <string name="updated_profile">Your profile info was successfully updated.</string>
     <string name="tap_twice_send_chat">Tap twice to send a chat request</string>
+    <string name="location_permission_needed"><![CDATA[Location permission needed. Open Android settings -> ASD Playdate -> Permissions to enable.]]></string>
 </resources>

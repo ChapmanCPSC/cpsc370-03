@@ -32,13 +32,22 @@ public class SettingsActivity extends AppCompatActivity
     SessionManager sessionManager;
 
     EditText editMessage;
-    LinearLayout logoutLinearLayout, editProfileLinearLayout;
     SeekBar searchRadiusSeekBar, broadcastDurationSeekBar;
     TextView mileUpdateTextView, broadcastUpdateTextView;
     Switch promptBroadcast;
     int searchRadius, broadcastDuration;
     String broadcastMessage;
     boolean promptValue;
+    private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
+    {
+        @Override
+        public void onCheckedChanged(CompoundButton prompt, boolean isChecked)
+        {
+
+            promptValue = isChecked;
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,8 +58,6 @@ public class SettingsActivity extends AppCompatActivity
         sessionManager = new SessionManager(getApplicationContext());
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        logoutLinearLayout = (LinearLayout) findViewById(R.id.ll_logout);
-        editProfileLinearLayout = (LinearLayout) findViewById(R.id.ll_editProfile);
         searchRadiusSeekBar = (SeekBar) findViewById(R.id.seekBarSearchRadius);
         mileUpdateTextView = (TextView) findViewById(R.id.textViewMileUpdate);//for updating the text view for the broadcast duration
         broadcastDurationSeekBar = (SeekBar) findViewById(R.id.seekBarBroadcastDuration);
@@ -61,50 +68,6 @@ public class SettingsActivity extends AppCompatActivity
 
         getCurrentInfo();
 
-        //Click Listeners
-        logoutLinearLayout.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-
-                AlertDialog alertDialog = new AlertDialog.Builder(SettingsActivity.this)
-                        .setTitle(getString(R.string.logout_confirm))
-                        .setPositiveButton(getString(R.string.logout), new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                // Show progress dialog
-                                progressDialog = ProgressDialog.show(SettingsActivity.this, "Loading",
-                                        "Please wait...", true);
-
-                                // Attempt to log out
-                                ASDPlaydateUser.logOutInBackground(new UserLogOutCallback());
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                dialog.cancel();
-                            }
-                        })
-                        .create();
-                alertDialog.show();
-
-
-            }
-        });
-
-        editProfileLinearLayout.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                Intent myIntent = new Intent(SettingsActivity.this, ProfileActivity.class);
-                SettingsActivity.this.startActivity(myIntent);
-            }
-        });
 
         searchRadiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()//default seach radius seekbar
         {
@@ -147,16 +110,40 @@ public class SettingsActivity extends AppCompatActivity
         });
     }
 
-    private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
+    public void logout(View v)
     {
-        @Override
-        public void onCheckedChanged(CompoundButton prompt, boolean isChecked)
-        {
+        AlertDialog alertDialog = new AlertDialog.Builder(SettingsActivity.this)
+                .setTitle(getString(R.string.logout_confirm))
+                .setPositiveButton(getString(R.string.logout), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // Show progress dialog
+                        progressDialog = ProgressDialog.show(SettingsActivity.this, "Loading",
+                                "Please wait...", true);
 
-            promptValue = isChecked;
+                        // Attempt to log out
+                        ASDPlaydateUser.logOutInBackground(new UserLogOutCallback());
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        alertDialog.show();
+    }
 
-        }
-    };
+    public void editProfile(View v)
+    {
+        Intent myIntent = new Intent(SettingsActivity.this, ProfileActivity.class);
+        SettingsActivity.this.startActivity(myIntent);
+    }
 
     public void getCurrentInfo()
     {
