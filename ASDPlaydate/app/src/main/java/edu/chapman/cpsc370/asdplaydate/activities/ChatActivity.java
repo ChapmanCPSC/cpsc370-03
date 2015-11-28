@@ -21,6 +21,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.joda.time.DateTime;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -211,6 +213,11 @@ public class ChatActivity extends AppCompatActivity
                     ParsePush push = new ParsePush();
                     push.setChannel("c_" + chatPartner.getObjectId());
                     push.setMessage("Message from " + currentUser.getFirstName() + ": " + text);
+                    try {
+                        push.setData(new JSONObject().put("conversationId", conversation.getObjectId()));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
                     push.sendInBackground();
                 }
             });
