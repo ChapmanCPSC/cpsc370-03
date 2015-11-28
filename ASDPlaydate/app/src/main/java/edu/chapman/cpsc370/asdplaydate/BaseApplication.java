@@ -3,6 +3,7 @@ package edu.chapman.cpsc370.asdplaydate;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -36,6 +37,8 @@ public class BaseApplication extends Application
         ParseObject.registerSubclass(Message.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
         if (!DEBUG)
             ParseUser.enableRevocableSessionInBackground();
     }

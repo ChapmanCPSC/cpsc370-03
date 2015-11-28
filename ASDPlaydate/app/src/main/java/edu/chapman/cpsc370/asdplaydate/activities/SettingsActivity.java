@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParsePush;
+import com.parse.ParseUser;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
@@ -29,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity
 {
 
     private ProgressDialog progressDialog;
+    private ASDPlaydateUser user;
     SessionManager sessionManager;
 
     EditText editMessage;
@@ -65,6 +68,9 @@ public class SettingsActivity extends AppCompatActivity
         editMessage = (EditText) findViewById(R.id.editTextBroadcastMessage);
         promptBroadcast = (Switch) findViewById(R.id.switchPromptBroadcast);
         promptBroadcast.setOnCheckedChangeListener(onCheckedChangeListener);
+
+        // Save user to unsubscribe from push notifications if they log out
+        user = (ASDPlaydateUser) ParseUser.getCurrentUser();
 
         getCurrentInfo();
 
@@ -207,6 +213,9 @@ public class SettingsActivity extends AppCompatActivity
 
                 // Clear SharedPreferences
                 sessionManager.clearSessionToken();
+
+                // Unsubscribe user from their push notification channel
+                ParsePush.unsubscribeInBackground("c_" + user.getObjectId());
 
                 // If there are no errors, go back to login activity
                 Intent intent = new Intent(SettingsActivity.this, AccountActivity.class);

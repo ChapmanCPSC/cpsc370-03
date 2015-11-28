@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 
 import edu.chapman.cpsc370.asdplaydate.R;
@@ -85,6 +86,9 @@ public class LoginFragment extends Fragment
                 if(user != null)
                 {
                     sessionManager.storeSessionToken(user.getSessionToken());
+
+                    // Subscribe user to their push notification channel
+                    ParsePush.subscribeInBackground("c_" + user.getObjectId());
 
                     // If there are no errors, go to main activity
                     Intent intent = new Intent(getActivity(), MainActivity.class);
