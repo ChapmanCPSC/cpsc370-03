@@ -175,7 +175,10 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                 if (thisItem.isAccepted())
                 {
                     Intent i = new Intent(ctx, ChatActivity.class);
-                    i.putExtra("userID", thisItem.getUserID());
+
+                    // TODO: Send conversation ID to chat activity
+                    i.putExtra("conversationId", "0");
+
                     i.putExtra("parentName", thisItem.getParentName());
                     ctx.startActivity(i);
                 }
