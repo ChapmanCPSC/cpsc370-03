@@ -1,6 +1,7 @@
 package edu.chapman.cpsc370.asdplaydate.activities;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,7 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -49,6 +52,8 @@ public class ChatActivity extends AppCompatActivity
     ASDPlaydateUser currentUser;
     ASDPlaydateUser chatPartner;
 
+    ProgressDialog progressDialog;
+
     String parentName;
 
     private static final String TAG = "PushDebugChat";
@@ -59,9 +64,21 @@ public class ChatActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        messages = new ArrayList<>();
+
+        currentUser = (ASDPlaydateUser)ParseUser.getCurrentUser();
+
+        fab_sendMessage = (FloatingActionButton) findViewById(R.id.fab_sendMessage);
+        lv_displayMessages = (ListView) findViewById(R.id.lv_displayMessages);
+        et_message = (EditText) findViewById(R.id.et_message);
+        tv_chatInfoName = (TextView) findViewById(R.id.tv_chatInfoName);
+
+        messageAdapter = new ChatMessageAdapter(this, messages, currentUser);
+        lv_displayMessages.setAdapter(messageAdapter);
+
+
         Intent i = getIntent();
         String conversationId = i.getStringExtra("conversationId");
-        messages = new ArrayList<>();
         if(conversationId == null)
         {
             Log.d(TAG,"here");
@@ -92,69 +109,24 @@ public class ChatActivity extends AppCompatActivity
             }
             Log.d(TAG,conversationId);
         }
+
+        ConversationCallback conversationCallback = new ConversationCallback();
+
         // TODO: Get actual conversation from previous activity
         ParseQuery<Conversation> q = new ParseQuery<>(Conversation.class);
-        try {
-            if(conversationId.equals("0"))
-            {
-                conversation = q.get("RxaGgir69x");
-            }
-            else
-            {
-                conversation = q.get(conversationId);
-            }
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        // Show progress dialog
+        progressDialog = ProgressDialog.show(this, "Loading", "Please wait...", true);
 
-        currentUser = (ASDPlaydateUser)ParseUser.getCurrentUser();
-
-        if(!conversation.getInitiator().equals(currentUser))
+        if(conversationId.equals("0"))
         {
-            chatPartner = conversation.getInitiator();
+            // Temporary testing ID
+            q.getInBackground("yB59yLblb0", conversationCallback);
         }
         else
         {
-            chatPartner = conversation.getReceiver();
+            q.getInBackground(conversationId, conversationCallback);
         }
-
-        parentName = null;
-        try {
-            parentName = chatPartner.fetchIfNeeded().getString(ASDPlaydateUser.ATTR_FIRST_NAME)
-                    + " " + chatPartner.fetchIfNeeded().getString(ASDPlaydateUser.ATTR_LAST_NAME);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        fab_sendMessage = (FloatingActionButton) findViewById(R.id.fab_sendMessage);
-        lv_displayMessages = (ListView) findViewById(R.id.lv_displayMessages);
-        et_message = (EditText) findViewById(R.id.et_message);
-        tv_chatInfoName = (TextView) findViewById(R.id.tv_chatInfoName);
-        parentName = "Chat With " + parentName;
-        tv_chatInfoName.setText(parentName);
-
-
-        messageAdapter = new ChatMessageAdapter(this, messages, currentUser);
-        lv_displayMessages.setAdapter(messageAdapter);
-
-        // Get current messages
-        ParseQuery<Message> convoMessageQuery = new ParseQuery<>(Message.class)
-                .whereEqualTo(Message.ATTR_CONVERSATION, conversation);
-
-        convoMessageQuery.findInBackground(new FindCallback<Message>() {
-            @Override
-            public void done(List<Message> objects, ParseException e) {
-
-                // Update list with previous messages
-                messages = objects;
-                messageAdapter.addAll(messages);
-                messageAdapter.notifyDataSetChanged();
-
-                // Mark messages as read
-                markAsRead();
-            }
-        });
 
         fab_sendMessage.setOnClickListener(new View.OnClickListener()
         {
@@ -169,35 +141,43 @@ public class ChatActivity extends AppCompatActivity
 
     public void viewProfile(View view)
     {
+        // Show progress dialog
+        progressDialog = ProgressDialog.show(this, "Loading", "Please wait...", true);
 
         // Get chat partner's child
         ParseQuery<Child> childQuery = new ParseQuery<>(Child.class);
         childQuery.whereEqualTo(Child.ATTR_PARENT, chatPartner);
-        Child chatPartnerChild = null;
 
-        try {
-            chatPartnerChild = childQuery.find().get(0);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        childQuery.findInBackground(new FindCallback<Child>() {
+            @Override
+            public void done(List<Child> objects, ParseException e) {
 
-        String message = "";
+                Child chatPartnerChild = objects.get(0);
 
-        if(chatPartnerChild != null)
-        {
-            String description = chatPartnerChild.getDescription();
+                String message = "";
 
-            message = parentName + "\n\n" + chatPartnerChild.getAge() + " year old "
-                    + chatPartnerChild.getFirstName() + "\n"
-                    + (description == null ? "" : description);
-        }
+                if (chatPartnerChild != null) {
+                    String description = chatPartnerChild.getDescription();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle(R.string.view_profile_dialog_title)
-                .setPositiveButton(R.string.button_ok, null)
-                .setMessage(message);
+                    message = parentName + "\n\n" + chatPartnerChild.getAge() + " year old "
+                            + chatPartnerChild.getFirstName() + "\n"
+                            + (description == null ? "" : description);
+                }
 
-        builder.show();
+                // Hide progress dialog
+                progressDialog.dismiss();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this)
+                        .setTitle(R.string.view_profile_dialog_title)
+                        .setPositiveButton(R.string.button_ok, null)
+                        .setMessage(message);
+
+                builder.show();
+            }
+        });
+
+
+
     }
 
     public void displayMessage(Message message)
@@ -264,6 +244,55 @@ public class ChatActivity extends AppCompatActivity
                 message.setIsRead(true);
                 message.saveInBackground();
             }
+        }
+    }
+
+    private class ConversationCallback implements GetCallback<Conversation>
+    {
+
+        @Override
+        public void done(Conversation object, ParseException e) {
+
+            conversation = object;
+
+            if(!conversation.getInitiator().equals(currentUser))
+            {
+                chatPartner = conversation.getInitiator();
+            }
+            else
+            {
+                chatPartner = conversation.getReceiver();
+            }
+
+            chatPartner.fetchInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject object, ParseException e) {
+                    parentName = chatPartner.getFirstName() + " " + chatPartner.getLastName();
+                    tv_chatInfoName.setText("Chat With " + parentName);
+                }
+            });
+
+            // Get current messages
+            ParseQuery<Message> convoMessageQuery = new ParseQuery<>(Message.class)
+                    .whereEqualTo(Message.ATTR_CONVERSATION, conversation);
+
+            convoMessageQuery.findInBackground(new FindCallback<Message>() {
+                @Override
+                public void done(List<Message> objects, ParseException e) {
+
+                    // Update list with previous messages
+                    messages = objects;
+                    messageAdapter.addAll(messages);
+                    messageAdapter.notifyDataSetChanged();
+
+                    // Mark messages as read
+                    markAsRead();
+
+                    // Hide progress dialog
+                    progressDialog.dismiss();
+                }
+            });
+
         }
     }
 
