@@ -229,9 +229,36 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         {
 
             //TODO: broadcast here
-            broadcasted = true;
-            //TODO: Set SharedPrefs isChecked here
+            //begin lien103 code
+            try
+            {
+                ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.create(sessionManager.getSessionToken());//tried to use .become, but got a parse error, so I switched to ,create
+                ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
+                String message = sessionManager.getBroadcastMessage();
+                DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
 
+
+                if(message == null)
+                {
+                    Broadcast b = new Broadcast(broadcaster, location, expireDate);//add broadcast to PARSE without message
+                    b.save();
+                } else {
+                    Broadcast b = new Broadcast(broadcaster, location, message, expireDate);//add broadcast to PARSE with message
+                    b.save();
+                }
+
+            }catch (Exception ex)
+            {}
+            //end lien103 code
+            broadcasted = true;//leave this here
+            //TODO: Set SharedPrefs isChecked here
+            //begin lien103 code
+
+            boolean dialogueIsChecked = broadcastCheckBox.isChecked();
+            sessionManager.storeFromDialog(dialogueIsChecked);//store if the the user checked the checkbox
+            sessionManager.storePromptBroadcast(dialogueIsChecked);//store if the the user checked the checkbox
+
+            //end lien103 code
             broadcastDialog.cancel();
 
             hideBroadcastBar();

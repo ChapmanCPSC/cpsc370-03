@@ -15,7 +15,7 @@ public class SessionManager
 
     private static final String PREFERENCES_NAME = "ASDPreferences";
     public static final String KEY_SESSSION_TOKEN = "session_token";
-    public static final String KEY_SEARCH_RADIUS = "search_radius";
+    public static final String KEY_SEARCH_RADIUS =  "search_radius";
     public static final String KEY_BROADCAST_DURATION = "broadcast_duration";
     public static final String KEY_BROADCAST_MESSAGE = "broadcast_message";
     public static final String KEY_PROMPT_BROADCAST = "prompt_broadcast";
