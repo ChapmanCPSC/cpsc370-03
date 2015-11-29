@@ -51,6 +51,8 @@ public class ChatActivity extends AppCompatActivity
 
     String parentName;
 
+    private static final String TAG = "PushDebugChat";
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -58,10 +60,38 @@ public class ChatActivity extends AppCompatActivity
         setContentView(R.layout.activity_chat);
 
         Intent i = getIntent();
-        String conversationId = i .getStringExtra("conversationId");
-
+        String conversationId = i.getStringExtra("conversationId");
         messages = new ArrayList<>();
-
+        if(conversationId == null)
+        {
+            Log.d(TAG,"here");
+            conversationId = "";
+            Bundle bundle = i.getExtras();
+            String data = bundle.get("com.parse.Data").toString();
+            boolean nameFound = false;
+            ArrayList id = new ArrayList();
+            for (int j = 0; j < data.length(); j++)
+            {
+                if (data.charAt(j) == 'c' && data.charAt(j + 13) == 'd')
+                {
+                    j += 17;
+                    nameFound = true;
+                }
+                if (nameFound)
+                {
+                    if (data.charAt(j) == '"')
+                    {
+                        break;
+                    }
+                    id.add(data.charAt(j));
+                }
+            }
+            for (Object v : id)
+            {
+                conversationId += v.toString();
+            }
+            Log.d(TAG,conversationId);
+        }
         // TODO: Get actual conversation from previous activity
         ParseQuery<Conversation> q = new ParseQuery<>(Conversation.class);
         try {
@@ -213,11 +243,11 @@ public class ChatActivity extends AppCompatActivity
                     ParsePush push = new ParsePush();
                     push.setChannel("c_" + chatPartner.getObjectId());
                     push.setMessage("Message from " + currentUser.getFirstName() + ": " + text);
-                    try {
+                    /*try {
                         push.setData(new JSONObject().put("conversationId", conversation.getObjectId()));
                     } catch (JSONException e1) {
                         e1.printStackTrace();
-                    }
+                    }*/
                     push.sendInBackground();
                 }
             });
