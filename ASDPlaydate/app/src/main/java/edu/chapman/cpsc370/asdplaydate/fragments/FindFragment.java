@@ -238,8 +238,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         @Override
         public void onClick(View v)
         {
-            //TODO: broadcast here
-            //begin lien103 code
+            //START BROADCAST -lien103 code begins here
 
             try
             {
@@ -263,8 +262,8 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
             //end lien103 code
             broadcasted = true;//leave this here
-            //TODO: Set SharedPrefs isChecked here
-            //begin lien103 code
+
+            //SET SHARED PREFS ISCHECKED - begin lien103 code
 
             boolean dialogueIsChecked = broadcastCheckBox.isChecked();
             sessionManager.storeFromDialog(dialogueIsChecked);//store if the the user checked the checkbox
@@ -337,13 +336,12 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         switch (v.getId())
         {
             case R.id.fab_broadcast:
-                // TODO: if isChecked == true, do not show broadcast dialog again
-                //Lien103 code starts here, added if statement
+                //Lien103 code starts here
                 if (!sessionManager.getPromptBroadcast() && !sessionManager.getFromDialog())
                 {
                     inflateBroadcastDialog();
                 }else{
-
+                    inflateBroadcastDialog();//not sure what to do here to start the broadcast, but not show the dialogue
                 }
                 break;
             case R.id.fab_list:
