@@ -263,12 +263,12 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 if (message == null)
                 {
                     Broadcast b = new Broadcast(broadcaster, location, expireDate);//add broadcast to PARSE without message
-                    b.save();
+                    b.saveInBackground();
                 }
                 else
                 {
                     Broadcast b = new Broadcast(broadcaster, location, message, expireDate);//add broadcast to PARSE with message
-                    b.save();
+                    b.saveInBackground();
                 }
 
             }
