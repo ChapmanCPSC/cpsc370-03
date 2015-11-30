@@ -246,9 +246,11 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         {
             //START BROADCAST -lien103 code begins here
 
+
             try
             {
-                ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.create(sessionManager.getSessionToken());//tried to use .become, but got a parse error, so I switched to ,create
+                ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
+              //  ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.create(sessionManager.getSessionToken());//tried to use .become, but got a parse error, so I switched to ,create
                 ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
                 String message = sessionManager.getBroadcastMessage();
                 DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
