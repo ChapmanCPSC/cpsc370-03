@@ -2,6 +2,8 @@ package edu.chapman.cpsc370.asdplaydate.activities;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -56,6 +58,8 @@ public class ChatActivity extends AppCompatActivity
 
     String parentName;
 
+    public static ChatActivity chatActivity;
+
     private static final String TAG = "PushDebugChat";
 
     @Override
@@ -64,6 +68,7 @@ public class ChatActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        chatActivity = this;
         messages = new ArrayList<>();
 
         currentUser = (ASDPlaydateUser)ParseUser.getCurrentUser();
@@ -138,6 +143,7 @@ public class ChatActivity extends AppCompatActivity
             }
         });
     }
+
 
     public void viewProfile(View view)
     {
@@ -222,7 +228,19 @@ public class ChatActivity extends AppCompatActivity
                     // Send push message
                     ParsePush push = new ParsePush();
                     push.setChannel("c_" + chatPartner.getObjectId());
-                    push.setMessage("Message from " + currentUser.getFirstName() + ": " + text);
+                    String temp = "Message from " + currentUser.getFirstName() + ": " + text;
+                    push.setMessage(temp);
+                    JSONObject data = new JSONObject();
+                    try
+                    {
+                        data.put("alert", temp);
+                        data.put("conversationId", conversation.getObjectId());
+                    }
+                    catch (JSONException e1)
+                    {
+                        e1.printStackTrace();
+                    }
+                    push.setData(data);
                     /*try {
                         push.setData(new JSONObject().put("conversationId", conversation.getObjectId()));
                     } catch (JSONException e1) {
