@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -70,6 +71,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     LinearLayout broadcastBar;
     CheckBox broadcastCheckBox;
     FindFragmentContainer parent;
+    EditText broadcastMessage;
     boolean broadcasted = false;
 
     LocationManager locationManager;
@@ -207,29 +209,38 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     private void inflateBroadcastDialog()
     {
+        int defaultBroadcastDuration = sessionManager.getBroadcastDuration() + 1;
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View broadcast = inflater.inflate(R.layout.broadcast_dialog, null);
+
+        broadcastMessage = (EditText) broadcast.findViewById(R.id.et_broadcast_message);
+        if (sessionManager.getBroadcastMessage() == "")
+        {}else{broadcastMessage.setText(sessionManager.getBroadcastMessage());}
+
         broadcastCheckBox = (CheckBox) broadcast.findViewById(R.id.cb_dont_ask_again);
         doBroadcastFab = (FloatingActionButton) broadcast.findViewById(R.id.fab_go);
         doBroadcastFab.setOnClickListener(onClickListener);
         broadcastDuration = (SeekBar) broadcast.findViewById(R.id.sb_broadcast_duration);
+        broadcastDuration.setProgress(defaultBroadcastDuration);
         broadcastDuration.setOnSeekBarChangeListener(onSeekBarChangeListener);
         progressValue = (TextView) broadcast.findViewById(R.id.tv_duration_progress);
-        progressValue.setText("60" + " " + getString(R.string.minutes));
+        progressValue.setText(defaultBroadcastDuration + " " + getString(R.string.minutes));//Lien changed this to set it to user default preference
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(broadcast);
         broadcastDialog = builder.create();
         broadcastDialog.show();
     }
 
+
     private View.OnClickListener onClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)
         {
-
             //TODO: broadcast here
             //begin lien103 code
+
             try
             {
                 ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.create(sessionManager.getSessionToken());//tried to use .become, but got a parse error, so I switched to ,create
@@ -249,6 +260,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
             }catch (Exception ex)
             {}
+
             //end lien103 code
             broadcasted = true;//leave this here
             //TODO: Set SharedPrefs isChecked here
@@ -326,7 +338,13 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         {
             case R.id.fab_broadcast:
                 // TODO: if isChecked == true, do not show broadcast dialog again
-                inflateBroadcastDialog();
+                //Lien103 code starts here, added if statement
+                if (!sessionManager.getPromptBroadcast() && !sessionManager.getFromDialog())
+                {
+                    inflateBroadcastDialog();
+                }else{
+
+                }
                 break;
             case R.id.fab_list:
                 openList();
