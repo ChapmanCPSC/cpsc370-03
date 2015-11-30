@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -72,6 +73,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     CheckBox broadcastCheckBox;
     EditText broadcastMessage;
     FindFragmentContainer parent;
+    ProgressDialog progressDialog;
     boolean broadcasted = false;
 
     LocationManager locationManager;
@@ -97,6 +99,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         {
             // Skip the setup the next time onCreateView is called/
             firstLoad = false;
+            progressDialog = ProgressDialog.show(getActivity(), "Finding Your Location", "Please wait...", true);
 
             rootView = inflater.inflate(R.layout.fragment_map, container, false);
             mapView = (MapView) rootView.findViewById(R.id.mapView);
@@ -431,6 +434,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
         if (!broadcasted)
         {
+            progressDialog.dismiss();
             broadcastBar.setVisibility(View.VISIBLE);
         }
     }
