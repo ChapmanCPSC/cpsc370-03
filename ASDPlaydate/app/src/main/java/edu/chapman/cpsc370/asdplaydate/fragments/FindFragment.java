@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -69,6 +70,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     AlertDialog broadcastDialog;
     LinearLayout broadcastBar;
     CheckBox broadcastCheckBox;
+    EditText broadcastMessage;
     FindFragmentContainer parent;
     boolean broadcasted = false;
 
@@ -213,15 +215,28 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     private void inflateBroadcastDialog()
     {
+        int defaultBroadcastDuration = sessionManager.getBroadcastDuration() + 1;
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View broadcast = inflater.inflate(R.layout.broadcast_dialog, null);
+
+        broadcastMessage = (EditText) broadcast.findViewById(R.id.et_broadcast_message);
+        if (sessionManager.getBroadcastMessage() == "")
+        {
+        }
+        else
+        {
+            broadcastMessage.setText(sessionManager.getBroadcastMessage());
+        }
+
         broadcastCheckBox = (CheckBox) broadcast.findViewById(R.id.cb_dont_ask_again);
         doBroadcastFab = (FloatingActionButton) broadcast.findViewById(R.id.fab_go);
         doBroadcastFab.setOnClickListener(onClickListener);
         broadcastDuration = (SeekBar) broadcast.findViewById(R.id.sb_broadcast_duration);
+        broadcastDuration.setProgress(defaultBroadcastDuration);
         broadcastDuration.setOnSeekBarChangeListener(onSeekBarChangeListener);
         progressValue = (TextView) broadcast.findViewById(R.id.tv_duration_progress);
-        progressValue.setText("60" + " " + getString(R.string.minutes));
+        progressValue.setText(defaultBroadcastDuration + " " + getString(R.string.minutes));//Lien changed this to set it to user default preference
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(broadcast);
         broadcastDialog = builder.create();
@@ -234,9 +249,41 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         public void onClick(View v)
         {
 
-            //TODO: broadcast here
+            try
+            {
+                ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
+                ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
+                String message = sessionManager.getBroadcastMessage();
+                DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
+
+
+                if (message == null)
+                {
+                    Broadcast b = new Broadcast(broadcaster, location, expireDate);//add broadcast to PARSE without message
+                    b.save();
+                }
+                else
+                {
+                    Broadcast b = new Broadcast(broadcaster, location, message, expireDate);//add broadcast to PARSE with message
+                    b.save();
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }
+
+            //end lien103 code
+            broadcasted = true;//leave this here
+
+            //SET SHARED PREFS ISCHECKED - begin lien103 code
+
+            boolean dialogueIsChecked = broadcastCheckBox.isChecked();
+            sessionManager.storeFromDialog(dialogueIsChecked);//store if the the user checked the checkbox
+            sessionManager.storePromptBroadcast(dialogueIsChecked);//store if the the user checked the checkbox
+
+            //end lien103 code
             broadcasted = true;
-            //TODO: Set SharedPrefs isChecked here
 
             broadcastDialog.cancel();
 
@@ -304,8 +351,15 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         switch (v.getId())
         {
             case R.id.fab_broadcast:
-                // TODO: if isChecked == true, do not show broadcast dialog again
-                inflateBroadcastDialog();
+                //Lien103 code starts here
+                if (!sessionManager.getPromptBroadcast() && !sessionManager.getFromDialog())
+                {
+                    inflateBroadcastDialog();
+                }
+                else
+                {
+                    inflateBroadcastDialog();//not sure what to do here to start the broadcast, but not show the dialogue
+                }
                 break;
             case R.id.fab_list:
                 openList();
@@ -399,7 +453,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     private boolean hasRequiredPermissions()
     {
         return ContextCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 &&
                 ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
