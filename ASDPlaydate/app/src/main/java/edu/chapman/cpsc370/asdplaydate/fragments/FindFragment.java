@@ -131,6 +131,13 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     }
 
     @Override
+    public void onResume()
+    {
+        super.onResume();
+        setUpMapIfNeeded();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
     {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
@@ -166,9 +173,8 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             if (googleMap != null)
             {
                 setUpMap();
+                googleMap.setLocationSource(this);
             }
-
-            googleMap.setLocationSource(this);
         }
     }
 
