@@ -93,7 +93,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         if (firstLoad)
         {
-            // Skip the setup the next time onCreateView is called
+            // Skip the setup the next time onCreateView is called/
             firstLoad = false;
 
             rootView = inflater.inflate(R.layout.fragment_map, container, false);
