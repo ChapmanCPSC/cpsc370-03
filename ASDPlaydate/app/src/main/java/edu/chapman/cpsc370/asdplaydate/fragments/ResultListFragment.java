@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.adapters.ResultListRecyclerAdapter;
+import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 public class ResultListFragment extends Fragment
@@ -23,6 +24,7 @@ public class ResultListFragment extends Fragment
 
     private RecyclerView recyclerView;
     FindFragmentContainer parent;
+    SessionManager sm;
 
     public ResultListFragment(){}
 
@@ -40,13 +42,34 @@ public class ResultListFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
 
+        sm = new SessionManager(getActivity());
+
         // Set FAB on click listener
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.result_list_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab1 = (FloatingActionButton) getActivity().findViewById(R.id.result_list_fab);
+        fab1.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 FindFragmentContainer fragment = (FindFragmentContainer) getParentFragment();
                 fragment.flipFragment();
+            }
+        });
+
+        FloatingActionButton fab2 = (FloatingActionButton) getActivity().findViewById(R.id.fab_refresh_map);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FindFragmentContainer parent = (FindFragmentContainer) getParentFragment();
+                try
+                {
+                    // Get broadcasts here
+                    parent.broadcasts = parent.getBroadcasts(sm);
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                parent.adapter.notifyDataSetChanged();
             }
         });
 

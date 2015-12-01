@@ -14,7 +14,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +45,6 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.chapman.cpsc370.asdplaydate.BuildConfig;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.adapters.MarkerLabelAdapter;
 import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
@@ -67,7 +65,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     GoogleApiClient googleApiClient;
     SeekBar broadcastDuration;
     TextView progressValue;
-    FloatingActionButton listFab, doBroadcastFab, broadcastFab;
+    FloatingActionButton listFab, doBroadcastFab, broadcastFab, refreshFab;
     AlertDialog broadcastDialog;
     LinearLayout broadcastBar;
     CheckBox broadcastCheckBox;
@@ -108,6 +106,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             listFab = (FloatingActionButton) rootView.findViewById(R.id.fab_list);
             listFab.hide();
             listFab.setOnClickListener(this);
+            refreshFab = (FloatingActionButton) rootView.findViewById(R.id.fab_refresh_map);
+            refreshFab.hide();
+            refreshFab.setOnClickListener(this);
             broadcastDuration = (SeekBar) rootView.findViewById(R.id.sb_broadcast_duration);
 
             locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -282,6 +283,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             hideBroadcastBar();
 
             listFab.show();
+            refreshFab.show();
 
             updateMap();
         }
@@ -312,6 +314,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         hideBroadcastBar();
 
         listFab.show();
+        refreshFab.show();
 
         updateMap();
     }
@@ -321,7 +324,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         try
         {
             // Get broadcasts here
-            parent.broadcasts = getBroadcasts();
+            parent.broadcasts = parent.getBroadcasts(sessionManager);
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -391,43 +394,12 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             case R.id.fab_list:
                 openList();
                 break;
+            case R.id.fab_refresh_map:
+                updateMap();
+                break;
             default:
                 break;
         }
-    }
-
-    private ArrayList<MarkerLabelInfo> getBroadcasts() throws Exception
-    {
-        ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
-
-        ParseQuery<Broadcast> q = new ParseQuery<>(Broadcast.class);
-        q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateHelpers.UTCDate(DateTime.now()))
-                .whereWithinMiles(Broadcast.ATTR_LOCATION,
-                        new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude()), sessionManager.getSearchRadius())
-                .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, user);
-
-        List<Broadcast> list = q.find();
-        ArrayList<MarkerLabelInfo> data = new ArrayList<>();
-        int index = 0;
-        for (Broadcast broadcast : list)
-        {
-            // .fetchIfNeeded() gets parent info, not just the parent objectId
-            ASDPlaydateUser bcaster = (ASDPlaydateUser) broadcast.getBroadcaster().fetchIfNeeded();
-            Child child = getChildWithParent(bcaster);
-            LatLng latLng = LocationHelpers.toLatLng(broadcast.getLocation());
-            MarkerLabelInfo markerLabelInfo = new MarkerLabelInfo(bcaster, child, latLng);
-            markerLabelInfo.setIndex(index);
-            data.add(markerLabelInfo);
-        }
-
-        return data;
-    }
-
-    private Child getChildWithParent(ASDPlaydateUser parent) throws Exception
-    {
-        ParseQuery<Child> q = new ParseQuery<>(Child.class);
-        q.whereEqualTo(Child.ATTR_PARENT, parent);
-        return q.find().get(0);
     }
 
     public void placeMarkers(ArrayList<MarkerLabelInfo> data)
