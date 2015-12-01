@@ -158,9 +158,22 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             @Override
             public void acceptRequest(int position)
             {
+                Conversation convo = new Conversation();
                 ChatRequestListRecyclerItem thisItem = mItems.get(position);
+                String conversationID = thisItem.getConversationID();
+                try
+                {
+                    convo = Conversation.getConversation(conversationID);
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                convo.setStatus(Conversation.Status.ACCEPTED);
+                convo.saveInBackground();
+
                 Intent i = new Intent(ctx, ChatActivity.class);
-                i.putExtra("conversationID", thisItem.getConversationID());
+                i.putExtra("conversationID", conversationID);
                 i.putExtra("parentName", thisItem.getParentName());
                 ctx.startActivity(i);
                 thisItem.setAccepted(true);
