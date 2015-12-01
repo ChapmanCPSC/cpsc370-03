@@ -251,6 +251,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             try
             {
                 sessionManager.storeFromDialog(broadcastCheckBox.isChecked());
+                sessionManager.storePromptBroadcast(broadcastCheckBox.isChecked());
                 ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
                 ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
                 String message = broadcastMessage.getText().toString();
@@ -286,6 +287,35 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             updateMap();
         }
     };
+
+    public void startNonDialogueBroadcast()
+    {
+        try
+        {
+            ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
+            ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
+            String message = sessionManager.getBroadcastMessage();
+            DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
+            Broadcast b = new Broadcast(broadcaster, location, message, expireDate);//add broadcast to PARSE with message
+            b.saveInBackground();
+
+        }
+        catch (Exception ex)
+        {
+            Toast.makeText(getActivity(),"TESTOops, something went wrong with your broadcast. Please try again!",Toast.LENGTH_SHORT).show();
+            ex.printStackTrace();
+        }
+
+
+        broadcasted = true;//leave this here
+        broadcasted = true;
+
+        hideBroadcastBar();
+
+        listFab.show();
+
+        updateMap();
+    }
 
     public void updateMap()
     {
@@ -354,7 +384,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 }
                 else
                 {
-                    inflateBroadcastDialog();//not sure what to do here to start the broadcast, but not show the dialogue
+                    //inflateBroadcastDialog();//not sure what to do here to start the broadcast, but not show the dialogue test
+                    this.startNonDialogueBroadcast();
+
                 }
                 break;
             case R.id.fab_list:
