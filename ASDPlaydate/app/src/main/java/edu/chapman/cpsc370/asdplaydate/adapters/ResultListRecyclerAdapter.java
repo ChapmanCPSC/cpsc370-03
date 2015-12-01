@@ -22,6 +22,8 @@ import com.parse.ParsePush;
 
 import org.joda.time.DateTime;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -97,7 +99,9 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
         ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
         ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(info.getLatLng());
         //TODO: Check rounding
-        holder.distance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");
+        double dist = myPgp.distanceInMilesTo(broadcastPgp);
+        String roundedDist = new BigDecimal(String.valueOf(dist)).setScale(1, RoundingMode.HALF_UP).toPlainString();
+        holder.distance.setText(roundedDist + " miles from you");
     }
 
     @Override

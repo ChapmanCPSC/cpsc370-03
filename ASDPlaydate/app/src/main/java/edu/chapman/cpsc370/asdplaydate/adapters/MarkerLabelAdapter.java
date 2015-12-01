@@ -10,6 +10,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.parse.ParseGeoPoint;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
@@ -79,7 +82,9 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
                 ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
                 ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(markerPos);
                 //TODO: Check rounding
-                profileDistance.setText(Math.round(myPgp.distanceInMilesTo(broadcastPgp)) + " miles from you");
+                double dist = myPgp.distanceInMilesTo(broadcastPgp);
+                String roundedDist = new BigDecimal(String.valueOf(dist)).setScale(1, RoundingMode.HALF_UP).toPlainString();
+                profileDistance.setText(roundedDist + " miles from you");
                 tapMessage.setText(R.string.tap_twice_send_chat);
                 break;
             }
