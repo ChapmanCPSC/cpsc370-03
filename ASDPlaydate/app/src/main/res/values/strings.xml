@@ -63,4 +63,5 @@
     <string name="location_permission_needed"><![CDATA[Location permission needed. Open Android settings -> ASD Playdate -> Permissions to enable.]]></string>
     <string name="refresh">Refresh</string>
     <string name="age">Age</string>
+    <string name="no_convos_found">No conversations to display</string>
 </resources>
