@@ -250,6 +250,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
             try
             {
+                sessionManager.storeFromDialog(broadcastCheckBox.isChecked());
                 ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
                 ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
                 String message = broadcastMessage.getText().toString();
