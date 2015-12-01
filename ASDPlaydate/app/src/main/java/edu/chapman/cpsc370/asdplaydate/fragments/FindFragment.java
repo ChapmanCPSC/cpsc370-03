@@ -97,7 +97,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         if (firstLoad)
         {
-            // Skip the setup the next time onCreateView is called/
+            // Skip the setup the next time onCreateView is called
             firstLoad = false;
             progressDialog = ProgressDialog.show(getActivity(), "Finding Your Location", "Please wait...", true);
 
@@ -224,13 +224,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         View broadcast = inflater.inflate(R.layout.broadcast_dialog, null);
 
         broadcastMessage = (EditText) broadcast.findViewById(R.id.et_broadcast_message);
-        if (sessionManager.getBroadcastMessage() == "")
-        {
-        }
-        else
-        {
+        if (!sessionManager.getBroadcastMessage().equals(""))
             broadcastMessage.setText(sessionManager.getBroadcastMessage());
-        }
+
 
         broadcastCheckBox = (CheckBox) broadcast.findViewById(R.id.cb_dont_ask_again);
         doBroadcastFab = (FloatingActionButton) broadcast.findViewById(R.id.fab_go);
@@ -258,23 +254,14 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
                 String message = broadcastMessage.getText().toString();
                 DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
-
-
-                if (message == null)
-                {
-                    Broadcast b = new Broadcast(broadcaster, location, expireDate);//add broadcast to PARSE without message
-                    b.saveInBackground();
-                }
-                else
-                {
-                    Broadcast b = new Broadcast(broadcaster, location, message, expireDate);//add broadcast to PARSE with message
-                    b.saveInBackground();
-                }
+                Broadcast b = new Broadcast(broadcaster, location, message, expireDate);//add broadcast to PARSE with message
+                b.saveInBackground();
 
             }
             catch (Exception ex)
             {
                 Toast.makeText(getActivity(),"Oops, something went wrong with your broadcast. Please try again!",Toast.LENGTH_SHORT).show();
+                ex.printStackTrace();
             }
 
             //end lien103 code
@@ -295,22 +282,26 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
             listFab.show();
 
-            try
-            {
-                // Get broadcasts here
-                parent.broadcasts = getBroadcasts();
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-            placeMarkers(parent.broadcasts);
-            parent.mla = new MarkerLabelAdapter(FindFragment.this, getActivity());
-            googleMap.setInfoWindowAdapter(parent.mla);
-            googleMap.setOnInfoWindowClickListener(parent.mla);
+            updateMap();
         }
     };
+
+    public void updateMap()
+    {
+        try
+        {
+            // Get broadcasts here
+            parent.broadcasts = getBroadcasts();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        placeMarkers(parent.broadcasts);
+        parent.mla = new MarkerLabelAdapter(FindFragment.this, getActivity());
+        googleMap.setInfoWindowAdapter(parent.mla);
+        googleMap.setOnInfoWindowClickListener(parent.mla);
+    }
 
     private void initGoogleClient()
     {
@@ -377,14 +368,14 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         ASDPlaydateUser user = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
 
-        ParseQuery<Broadcast> q = new ParseQuery<Broadcast>(Broadcast.class);
+        ParseQuery<Broadcast> q = new ParseQuery<>(Broadcast.class);
         q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateHelpers.UTCDate(DateTime.now()))
                 .whereWithinMiles(Broadcast.ATTR_LOCATION,
                         new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude()), sessionManager.getSearchRadius())
                 .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, user);
 
         List<Broadcast> list = q.find();
-        ArrayList<MarkerLabelInfo> data = new ArrayList<MarkerLabelInfo>();
+        ArrayList<MarkerLabelInfo> data = new ArrayList<>();
         int index = 0;
         for (Broadcast broadcast : list)
         {
@@ -402,7 +393,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     private Child getChildWithParent(ASDPlaydateUser parent) throws Exception
     {
-        ParseQuery<Child> q = new ParseQuery<Child>(Child.class);
+        ParseQuery<Child> q = new ParseQuery<>(Child.class);
         q.whereEqualTo(Child.ATTR_PARENT, parent);
         return q.find().get(0);
     }

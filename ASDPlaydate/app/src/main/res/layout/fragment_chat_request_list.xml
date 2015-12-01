@@ -2,6 +2,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/refresh"
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@id/rv_chatrequestlist"
         android:scrollbars="vertical"
@@ -10,6 +19,7 @@
         android:clipToPadding="false"
         android:drawSelectorOnTop="true"
         android:paddingBottom="85dp"
-        android:paddingTop="8dp"/>
+        android:paddingTop="8dp"
+        android:layout_below="@+id/btn_refresh"/>
 
 </RelativeLayout>

@@ -61,4 +61,5 @@
     <string name="updated_profile">Your profile info was successfully updated.</string>
     <string name="tap_twice_send_chat">Tap twice to send a chat request</string>
     <string name="location_permission_needed"><![CDATA[Location permission needed. Open Android settings -> ASD Playdate -> Permissions to enable.]]></string>
+    <string name="refresh">Refresh</string>
 </resources>

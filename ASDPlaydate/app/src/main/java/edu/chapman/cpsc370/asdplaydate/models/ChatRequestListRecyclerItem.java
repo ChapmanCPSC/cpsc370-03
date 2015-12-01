@@ -8,9 +8,9 @@ public class ChatRequestListRecyclerItem
     private String parentName;
     private String lastMsg;
     private boolean accepted;
-    private long userID;
+    private String userID;
 
-    public ChatRequestListRecyclerItem(long userID, String parentName, String lastMsg, boolean accepted)
+    public ChatRequestListRecyclerItem(String userID, String parentName, String lastMsg, boolean accepted)
     {
         this.userID = userID;
         this.parentName = parentName;
@@ -18,12 +18,12 @@ public class ChatRequestListRecyclerItem
         this.accepted = accepted;
     }
 
-    public long getUserID()
+    public String getUserID()
     {
         return userID;
     }
 
-    public void setUserID(long userID)
+    public void setUserID(String userID)
     {
         this.userID = userID;
     }

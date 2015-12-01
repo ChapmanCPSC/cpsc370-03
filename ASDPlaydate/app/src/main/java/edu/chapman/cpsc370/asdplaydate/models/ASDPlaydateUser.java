@@ -1,7 +1,10 @@
 package edu.chapman.cpsc370.asdplaydate.models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 @ParseClassName("_User")
 public class ASDPlaydateUser extends ParseUser
@@ -51,5 +54,15 @@ public class ASDPlaydateUser extends ParseUser
     public void setCityName(String city)
     {
         put(ATTR_CITY_NAME, city);
+    }
+
+    public static ASDPlaydateUser getUser(String objectId) throws Exception
+    {
+        ParseQuery<ParseUser> q = ASDPlaydateUser.getQuery();
+        q.whereEqualTo(ASDPlaydateUser.ATTR_ID, objectId);
+
+        List<ParseUser> users = q.find();
+
+        return (ASDPlaydateUser) users.get(0);
     }
 }
