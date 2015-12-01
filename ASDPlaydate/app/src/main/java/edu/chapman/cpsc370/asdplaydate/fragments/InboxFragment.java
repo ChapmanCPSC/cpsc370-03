@@ -85,17 +85,38 @@ public class InboxFragment extends Fragment
         for (Conversation c : displayConvos)
         {
             boolean accepted = false;
-            if (c.getStatus().equals(Conversation.Status.ACCEPTED.name())) accepted = true;
+            if (c.getStatus().toString().equals(Conversation.Status.ACCEPTED.name()))
+                accepted = true;
 
             ASDPlaydateUser initiator = c.getInitiator();
             ASDPlaydateUser receiver = c.getReceiver();
 
             if (initiator.equals(me))
             {
-                mItems.add(new ChatRequestListRecyclerItem(receiver.getObjectId(), receiver.getFirstName() + " " + receiver.getLastName(), null, accepted));
+                String firstName = "";
+                String lastName = "";
+                try
+                {
+                    firstName = receiver.fetchIfNeeded().getString("first_name");
+                    lastName = receiver.fetchIfNeeded().getString("last_name");
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                mItems.add(new ChatRequestListRecyclerItem(c.getObjectId(), firstName + " " + lastName, null, accepted));
             } else
             {
-                mItems.add(new ChatRequestListRecyclerItem(initiator.getObjectId(), initiator.getFirstName() + " " + initiator.getLastName(), null, accepted));
+                String firstName = "";
+                String lastName = "";
+                try
+                {
+                    firstName = initiator.fetchIfNeeded().getString("first_name");
+                    lastName = initiator.fetchIfNeeded().getString("last_name");
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                mItems.add(new ChatRequestListRecyclerItem(c.getObjectId(), firstName + " " + lastName, null, accepted));
             }
         }
 

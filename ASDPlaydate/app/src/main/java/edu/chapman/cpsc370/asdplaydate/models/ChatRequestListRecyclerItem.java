@@ -8,24 +8,24 @@ public class ChatRequestListRecyclerItem
     private String parentName;
     private String lastMsg;
     private boolean accepted;
-    private String userID;
+    private String conversationID;
 
-    public ChatRequestListRecyclerItem(String userID, String parentName, String lastMsg, boolean accepted)
+    public ChatRequestListRecyclerItem(String conversationID, String parentName, String lastMsg, boolean accepted)
     {
-        this.userID = userID;
+        this.conversationID = conversationID;
         this.parentName = parentName;
         this.lastMsg = lastMsg;
         this.accepted = accepted;
     }
 
-    public String getUserID()
+    public String getConversationID()
     {
-        return userID;
+        return conversationID;
     }
 
-    public void setUserID(String userID)
+    public void setConversationID(String conversationID)
     {
-        this.userID = userID;
+        this.conversationID = conversationID;
     }
 
     public String getParentName()

@@ -19,6 +19,7 @@ import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
+import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 
 public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatRequestListRecyclerAdapter.ViewHolder>
 {
@@ -132,6 +133,19 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             @Override
             public void denyRequest(int position)
             {
+                Conversation convo = new Conversation();
+                String conversationID = mItems.get(position).getConversationID();
+                try
+                {
+                    convo = Conversation.getConversation(conversationID);
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                convo.setStatus(Conversation.Status.DENIED);
+                convo.saveInBackground();
+
                 RecyclerAdapterHelpers.doSlideOutAnim(vi);
                 mItems.remove(position);
                 notifyItemRemoved(position);
@@ -143,7 +157,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             {
                 ChatRequestListRecyclerItem thisItem = mItems.get(position);
                 Intent i = new Intent(ctx, ChatActivity.class);
-                i.putExtra("userID", thisItem.getUserID());
+                i.putExtra("conversationID", thisItem.getConversationID());
                 i.putExtra("parentName", thisItem.getParentName());
                 ctx.startActivity(i);
                 thisItem.setAccepted(true);

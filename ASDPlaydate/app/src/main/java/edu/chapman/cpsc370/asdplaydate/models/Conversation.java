@@ -2,8 +2,12 @@ package edu.chapman.cpsc370.asdplaydate.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
 
@@ -70,5 +74,15 @@ public class Conversation extends ParseObject
     public enum Status
     {
         PENDING, ACCEPTED, DENIED;
+    }
+
+    public static Conversation getConversation(String objectId) throws Exception
+    {
+        ParseQuery<Conversation> q = new ParseQuery<Conversation>(Conversation.class);
+        q.whereEqualTo(Conversation.ATTR_ID, objectId);
+
+        List<Conversation> convos = q.find();
+
+        return (Conversation) convos.get(0);
     }
 }
