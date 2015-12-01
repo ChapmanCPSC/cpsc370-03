@@ -17,7 +17,6 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
@@ -31,7 +30,6 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     public static final int HAS_ACCEPTED = 0;
     public static final int NOT_ACCEPTED = 1;
     private List<ChatRequestListRecyclerItem> mItems;
-    private RecyclerView mRecyclerView;
     private Context ctx;
 
     // Provide a reference to the views for each data item
@@ -107,7 +105,6 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     {
         this.mItems = mItems;
         this.ctx = ctx;
-        this.mRecyclerView = mRecyclerView;
     }
 
     // Create new views (invoked by the layout manager)
@@ -133,7 +130,9 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             accepted = false;
         }
 
-        ViewHolder vh = new ViewHolder(vi, accepted, new ViewHolder.ViewHolderClicks()
+        //ViewHolder vh = new ViewHolder(vi, accepted, new ViewHolder.ViewHolderClicks(){}
+
+        return new ViewHolder(vi, accepted, new ViewHolder.ViewHolderClicks()
         {
             @Override
             public void denyRequest(int position)
@@ -194,12 +193,10 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                 int childAge = 0;
                 String childDesc = "";
 
-                ASDPlaydateUser parent = new ASDPlaydateUser();
-                Child child = new Child();
                 try
                 {
-                    parent = ASDPlaydateUser.getUser(thisItem.getUserID());
-                    child = Child.getChildFromParent(parent);
+                    ASDPlaydateUser parent = ASDPlaydateUser.getUser(thisItem.getUserID());
+                    Child child = Child.getChildFromParent(parent);
                     childName = child.fetchIfNeeded().getString("first_name");
                     childGender = child.fetchIfNeeded().getString("gender");
                     childAge = child.fetchIfNeeded().getInt("age");
@@ -238,7 +235,6 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                 }
             }
         });
-        return vh;
     }
 
     public static void disableTouchTheft(View view)
