@@ -492,10 +492,10 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     private Criteria setCriteriaFine()
     {
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        /*criteria.setPowerRequirement(Criteria.POWER_LOW);
         criteria.setAltitudeRequired(true);
         criteria.setBearingRequired(true);
-        criteria.setSpeedRequired(true);
+        criteria.setSpeedRequired(true);*/
         criteria.setCostAllowed(true);
         return criteria;
     }
@@ -503,10 +503,10 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     private Criteria setCriteriaCoarse()
     {
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
+       /* criteria.setPowerRequirement(Criteria.POWER_LOW);
         criteria.setAltitudeRequired(true);
         criteria.setBearingRequired(true);
-        criteria.setSpeedRequired(true);
+        criteria.setSpeedRequired(true);*/
         criteria.setCostAllowed(true);
         return criteria;
     }
