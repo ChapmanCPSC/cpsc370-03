@@ -2,8 +2,12 @@ package edu.chapman.cpsc370.asdplaydate.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
 
@@ -86,5 +90,15 @@ public class Child extends ParseObject
     public enum Gender
     {
         MALE,FEMALE,NONE;
+    }
+
+    public static Child getChildFromParent(ASDPlaydateUser user) throws Exception
+    {
+        ParseQuery<Child> q = new ParseQuery<>(Child.class);
+        q.whereEqualTo(Child.ATTR_PARENT, user);
+
+        List<Child> children = q.find();
+
+        return (Child) children.get(0);
     }
 }

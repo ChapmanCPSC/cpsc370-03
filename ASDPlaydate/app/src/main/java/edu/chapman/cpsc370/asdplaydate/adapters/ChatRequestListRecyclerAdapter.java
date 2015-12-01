@@ -15,10 +15,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
+import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
+import edu.chapman.cpsc370.asdplaydate.models.Child;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 
 public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatRequestListRecyclerAdapter.ViewHolder>
@@ -170,7 +173,28 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             {
                 ChatRequestListRecyclerItem thisItem = mItems.get(position);
                 String parentName = thisItem.getParentName();
-                String message = parentName + "\n\n8 yr old Johnnie\nHigh functioning Autism";
+                String childName = "";
+                String childGender = "";
+                int childAge = 0;
+                String childDesc = "";
+
+                ASDPlaydateUser parent = new ASDPlaydateUser();
+                Child child = new Child();
+                try
+                {
+                    parent = ASDPlaydateUser.getUser(thisItem.getUserID());
+                    child = Child.getChildFromParent(parent);
+                    childName = child.fetchIfNeeded().getString("first_name");
+                    childGender = child.fetchIfNeeded().getString("gender");
+                    childAge = child.fetchIfNeeded().getInt("age");
+                    childDesc = child.fetchIfNeeded().getString("description");
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                String message = parentName + "\n\n" + childName + " (" + String.valueOf(childGender) + ")" + "\n" + ctx.getString(R.string.age) + " " + childAge
+                        + "\n" + childDesc;
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
                         .setTitle(R.string.view_profile_dialog_title)

@@ -103,7 +103,7 @@ public class InboxFragment extends Fragment
                 {
                     e.printStackTrace();
                 }
-                mItems.add(new ChatRequestListRecyclerItem(c.getObjectId(), firstName + " " + lastName, null, accepted));
+                mItems.add(new ChatRequestListRecyclerItem(c.getObjectId(), receiver.getObjectId(), firstName + " " + lastName, null, accepted));
             } else
             {
                 String firstName = "";
@@ -116,7 +116,7 @@ public class InboxFragment extends Fragment
                 {
                     e.printStackTrace();
                 }
-                mItems.add(new ChatRequestListRecyclerItem(c.getObjectId(), firstName + " " + lastName, null, accepted));
+                mItems.add(new ChatRequestListRecyclerItem(c.getObjectId(), initiator.getObjectId(), firstName + " " + lastName, null, accepted));
             }
         }
 
