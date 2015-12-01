@@ -83,11 +83,11 @@ public class ChatActivity extends AppCompatActivity
 
 
         Intent i = getIntent();
-        String conversationId = i.getStringExtra("conversationId");
-        if(conversationId == null)
+        String conversationID = i.getStringExtra("conversationID");
+        if (conversationID == null)
         {
             Log.d(TAG,"here");
-            conversationId = "";
+            conversationID = "";
             Bundle bundle = i.getExtras();
             String data = bundle.get("com.parse.Data").toString();
             boolean nameFound = false;
@@ -110,9 +110,9 @@ public class ChatActivity extends AppCompatActivity
             }
             for (Object v : id)
             {
-                conversationId += v.toString();
+                conversationID += v.toString();
             }
-            Log.d(TAG,conversationId);
+            Log.d(TAG, conversationID);
         }
 
         ConversationCallback conversationCallback = new ConversationCallback();
@@ -123,14 +123,14 @@ public class ChatActivity extends AppCompatActivity
         // Show progress dialog
         progressDialog = ProgressDialog.show(this, "Loading", "Please wait...", true);
 
-        if(conversationId.equals("0"))
+        if (conversationID.equals("0"))
         {
             // Temporary testing ID
             q.getInBackground("yB59yLblb0", conversationCallback);
         }
         else
         {
-            q.getInBackground(conversationId, conversationCallback);
+            q.getInBackground(conversationID, conversationCallback);
         }
 
         fab_sendMessage.setOnClickListener(new View.OnClickListener()
