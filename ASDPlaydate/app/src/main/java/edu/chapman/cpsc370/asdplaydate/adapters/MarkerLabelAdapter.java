@@ -32,16 +32,12 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
     Context ctx;
     FindFragment fragment;
     private SessionManager sessionManager;
-    private LatLng markerLocation;
-    private int tapCount;
 
     public MarkerLabelAdapter(FindFragment fragment, Context ctx)
     {
         this.fragment = fragment;
         this.ctx = ctx;
         sessionManager = new SessionManager(ctx);
-        markerLocation = null;
-        tapCount = 0;
     }
 
     @Override
@@ -81,11 +77,10 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
 
                 ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
                 ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(markerPos);
-                //TODO: Check rounding
                 double dist = myPgp.distanceInMilesTo(broadcastPgp);
                 String roundedDist = new BigDecimal(String.valueOf(dist)).setScale(1, RoundingMode.HALF_UP).toPlainString();
                 profileDistance.setText(roundedDist + " miles from you");
-                tapMessage.setText(R.string.tap_twice_send_chat);
+                tapMessage.setText(R.string.tap_send_chat);
                 break;
             }
         }
@@ -96,45 +91,26 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
     @Override
     public void onInfoWindowClick(Marker marker)
     {
-        if (markerLocation == null)
+        LatLng markerLocation = marker.getPosition();
+        FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
+        for (MarkerLabelInfo info : container.broadcasts)
         {
-            markerLocation = marker.getPosition();
-        }
-        if (markerLocation.equals(marker.getPosition()))
-        {
-            // record taps
-            if (tapCount == 0)
+            if (info.getLatLng().equals(markerLocation))
             {
-                tapCount+=1;
-            }
-            else if (tapCount == 1)
-            {
-                FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
-                for (MarkerLabelInfo info : container.broadcasts)
+                ASDPlaydateUser receiver = info.getParent();
+                RecyclerAdapterHelpers.sendChatRequest(sessionManager, receiver, ctx, marker);
+                container.broadcasts.remove(info.getIndex());
+                if (container.adapter != null)
                 {
-                    if (info.getLatLng().equals(markerLocation))
-                    {
-                        ASDPlaydateUser receiver = info.getParent();
-                        RecyclerAdapterHelpers.sendChatRequest(sessionManager, receiver, ctx, marker);
-                        container.broadcasts.remove(info.getIndex());
-                        if (container.adapter != null)
-                        {
-                            container.adapter.notifyItemRemoved(info.getIndex());
-                            container.adapter.notifyItemRangeChanged(info.getIndex(), container.broadcasts.size());
-                        }
-                        else
-                        {
-                            container.needsNotify = true;
-                        }
-                        break;
-                    }
+                    container.adapter.notifyItemRemoved(info.getIndex());
+                    container.adapter.notifyItemRangeChanged(info.getIndex(), container.broadcasts.size());
                 }
+                else
+                {
+                    container.needsNotify = true;
+                }
+                break;
             }
-        }
-        else
-        {
-            markerLocation = marker.getPosition();
-            tapCount = 1;
         }
     }
 }

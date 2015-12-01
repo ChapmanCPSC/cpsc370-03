@@ -64,4 +64,5 @@
     <string name="refresh">Refresh</string>
     <string name="age">Age</string>
     <string name="no_convos_found">No conversations to display</string>
+    <string name="tap_send_chat">Tap to send a chat request</string>
 </resources>
