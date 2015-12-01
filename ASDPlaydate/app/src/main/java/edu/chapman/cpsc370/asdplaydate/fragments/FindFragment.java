@@ -79,7 +79,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     LocationManager locationManager;
     OnLocationChangedListener locationChangedListener;
     private final Criteria criteria = new Criteria();
-    String bestProvider;
 
     View rootView;
     boolean firstLoad = true;
@@ -488,35 +487,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
-
-    private Criteria setCriteriaFine()
-    {
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        /*criteria.setPowerRequirement(Criteria.POWER_LOW);
-        criteria.setAltitudeRequired(true);
-        criteria.setBearingRequired(true);
-        criteria.setSpeedRequired(true);*/
-        criteria.setCostAllowed(true);
-        return criteria;
-    }
-
-    private Criteria setCriteriaCoarse()
-    {
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-       /* criteria.setPowerRequirement(Criteria.POWER_LOW);
-        criteria.setAltitudeRequired(true);
-        criteria.setBearingRequired(true);
-        criteria.setSpeedRequired(true);*/
-        criteria.setCostAllowed(true);
-        return criteria;
-    }
-
-    private String getBestProvider(Criteria criteria)
-    {
-        bestProvider = locationManager.getBestProvider(criteria, true);
-        return bestProvider;
-    }
-
     private void hideBroadcastBar()
     {
         ObjectAnimator slideDown = ObjectAnimator.ofFloat(broadcastBar, "translationY", 2000);
@@ -528,15 +498,12 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         locationChangedListener = onLocationChangedListener;
 
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+
         {
-            if (getBestProvider(setCriteriaFine()) != null)
-                locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
-        }
-        else if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-        {
-            if (getBestProvider(setCriteriaCoarse()) != null)
-                locationManager.requestLocationUpdates(bestProvider, 7500, 10, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 7500, 10, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 7500, 10, this);
         }
     }
 
