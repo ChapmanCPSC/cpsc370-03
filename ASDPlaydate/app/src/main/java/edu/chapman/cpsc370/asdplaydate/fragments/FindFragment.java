@@ -256,7 +256,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             {
                 ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
                 ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
-                String message = sessionManager.getBroadcastMessage();
+                String message = broadcastMessage.getText().toString();
                 DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
 
 
@@ -274,6 +274,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             }
             catch (Exception ex)
             {
+                Toast.makeText(getActivity(),"Oops, something went wrong with your broadcast. Please try again!",Toast.LENGTH_SHORT).show();
             }
 
             //end lien103 code
