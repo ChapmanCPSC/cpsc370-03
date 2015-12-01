@@ -91,7 +91,7 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
         Child child = info.getChild();
         holder.parentName.setText(bcaster.getFirstName() + " " + bcaster.getLastName());
         holder.childAge.setText(child.getAge() + " years old");
-        holder.childName.setText(child.getFirstName() + " (" + child.getGender().name().substring(0, 1) + ")");
+        holder.childName.setText("Child: " + child.getFirstName() + " (" + child.getGender().name().substring(0, 1) + ")");
         holder.childCondition.setText(child.getDescription());
 
         ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
