@@ -13,6 +13,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.BaseApplication;
@@ -170,6 +172,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                 }
 
                 convo.setStatus(Conversation.Status.ACCEPTED);
+                convo.setExpireDate(DateTime.now().plusHours(24));
                 convo.saveInBackground();
 
                 Intent i = new Intent(ctx, ChatActivity.class);
