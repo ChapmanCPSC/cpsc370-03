@@ -16,9 +16,6 @@ import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 
-/**
- * Created by Martin on 12/1/2015.
- */
 public class GetMessagesTask extends AsyncTask<Void, Void, Void>
 {
     Context ctx;
