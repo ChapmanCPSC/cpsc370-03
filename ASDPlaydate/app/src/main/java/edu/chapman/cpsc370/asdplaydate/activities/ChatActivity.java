@@ -116,22 +116,13 @@ public class ChatActivity extends AppCompatActivity
         }
 
         ConversationCallback conversationCallback = new ConversationCallback();
-
-        // TODO: Get actual conversation from previous activity
-        ParseQuery<Conversation> q = new ParseQuery<>(Conversation.class);
+        ParseQuery<Conversation> conversationQuery = new ParseQuery<>(Conversation.class);
 
         // Show progress dialog
         progressDialog = ProgressDialog.show(this, "Loading", "Please wait...", true);
 
-        if (conversationID.equals("0"))
-        {
-            // Temporary testing ID
-            q.getInBackground("yB59yLblb0", conversationCallback);
-        }
-        else
-        {
-            q.getInBackground(conversationID, conversationCallback);
-        }
+        // Get the correct conversation
+        conversationQuery.getInBackground(conversationID, conversationCallback);
 
         fab_sendMessage.setOnClickListener(new View.OnClickListener()
         {
@@ -273,6 +264,7 @@ public class ChatActivity extends AppCompatActivity
 
             conversation = object;
 
+            // Get the conversation partner
             if(!conversation.getInitiator().equals(currentUser))
             {
                 chatPartner = conversation.getInitiator();

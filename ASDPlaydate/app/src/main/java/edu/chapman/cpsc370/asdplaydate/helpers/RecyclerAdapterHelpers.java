@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 
 import org.joda.time.DateTime;
 
@@ -28,7 +29,7 @@ public class RecyclerAdapterHelpers
         {
             ASDPlaydateUser initiator = (ASDPlaydateUser) ASDPlaydateUser.become(sm.getSessionToken());     //TODO: get initiator's broadcast expiredate here
             Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusMinutes(60));
-            convo.save();
+            convo.saveInBackground();
             Toast.makeText(ctx, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
             //TODO: update the send chat request UI here
             //remove the marker
@@ -38,6 +39,13 @@ public class RecyclerAdapterHelpers
         {
             e.printStackTrace();
         }
+
+        // Send push to receiver
+        ParsePush push = new ParsePush();
+        push.setChannel("c_" + receiver.getObjectId());
+        push.setMessage("New chat request from " + receiver.getFirstName() + " "
+                + receiver.getLastName());
+        push.sendInBackground();
     }
 
     public static void doSlideOutAnim(View vi)
