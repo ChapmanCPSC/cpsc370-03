@@ -12,9 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import org.joda.time.DateTime;
-
 import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
@@ -130,9 +128,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             accepted = false;
         }
 
-        //ViewHolder vh = new ViewHolder(vi, accepted, new ViewHolder.ViewHolderClicks(){}
-
-        return new ViewHolder(vi, accepted, new ViewHolder.ViewHolderClicks()
+        ViewHolder vh = new ViewHolder(vi, accepted, new ViewHolder.ViewHolderClicks()
         {
             @Override
             public void denyRequest(int position)
@@ -235,6 +231,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                 }
             }
         });
+        return vh;
     }
 
     public static void disableTouchTheft(View view)
