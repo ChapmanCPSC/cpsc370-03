@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -85,6 +86,14 @@ public class FindFragmentContainer extends Fragment
 
         // Flip to result list
         showingResultList = true;
+        try
+        {
+            updateUI(sessionManager);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         getChildFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(
@@ -140,25 +149,44 @@ public class FindFragmentContainer extends Fragment
             {
                 ArrayList<MarkerLabelInfo> info = new ArrayList<>();
                 int index = 0;
-                for (Broadcast broadcast : list)
+
+                if(list.isEmpty() && !showingResultList)
                 {
-                    try
+                    Toast.makeText(getActivity(), getString(R.string.no_results_found), Toast.LENGTH_SHORT).show();
+                }
+                else if(list.isEmpty() && showingResultList)
+                {
+                    if(ResultListFragment.noResults != null)
                     {
-                        // .fetchIfNeeded() gets parent info, not just the parent objectId
-                        ASDPlaydateUser bcaster = (ASDPlaydateUser) broadcast.getBroadcaster().fetchIfNeeded();
-                        Child child = getChildWithParent(bcaster);
-                        LatLng latLng = LocationHelpers.toLatLng(broadcast.getLocation());
-                        MarkerLabelInfo markerLabelInfo = new MarkerLabelInfo(bcaster, child, latLng);
-                        markerLabelInfo.setIndex(index);
-                        info.add(markerLabelInfo);
+                        ResultListFragment.noResults.setText(getString(R.string.no_results_found));
+                        ResultListFragment.noResults.setVisibility(View.VISIBLE);
                     }
-                    catch (Exception e1)
+                }
+                else
+                {
+                    ResultListFragment.noResults.setVisibility(View.GONE);
+                    for (Broadcast broadcast : list)
                     {
-                        e1.printStackTrace();
+                        try
+                        {
+                            // .fetchIfNeeded() gets parent info, not just the parent objectId
+                            ASDPlaydateUser bcaster = (ASDPlaydateUser) broadcast.getBroadcaster().fetchIfNeeded();
+                            Child child = getChildWithParent(bcaster);
+                            LatLng latLng = LocationHelpers.toLatLng(broadcast.getLocation());
+                            MarkerLabelInfo markerLabelInfo = new MarkerLabelInfo(bcaster, child, latLng);
+                            markerLabelInfo.setIndex(index);
+                            info.add(markerLabelInfo);
+                        }
+                        catch (Exception e1)
+                        {
+                            e1.printStackTrace();
+                        }
                     }
+
                 }
                 broadcasts = info;
                 onFinish();
+
             }
         });
     }

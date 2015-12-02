@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,7 @@ public class ResultListFragment extends Fragment
 {
 
     private RecyclerView recyclerView;
+    public static TextView noResults;
     FindFragmentContainer parent;
     SessionManager sm;
 
@@ -31,6 +35,8 @@ public class ResultListFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_result_list, container, false);
         parent = (FindFragmentContainer) getParentFragment();
+        noResults = (TextView) rootView.findViewById(R.id.tv_no_results);
+        noResults.setVisibility(View.GONE);
         sm = parent.sessionManager;
         return rootView;
     }
