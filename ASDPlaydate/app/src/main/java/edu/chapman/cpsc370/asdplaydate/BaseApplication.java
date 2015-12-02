@@ -15,7 +15,7 @@ import edu.chapman.cpsc370.asdplaydate.models.Message;
 
 public class BaseApplication extends Application
 {
-    private final boolean DEBUG = true;
+    private static final boolean DEBUG = true;
 
     public BaseApplication()
     {
@@ -41,6 +41,11 @@ public class BaseApplication extends Application
 
         if (!DEBUG)
             ParseUser.enableRevocableSessionInBackground();
+    }
+
+    public static boolean inDEBUGMode()
+    {
+        return DEBUG;
     }
 }
 

@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.adapters.ChatRequestListRecyclerAdapter;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.R;
@@ -66,7 +68,10 @@ public class InboxFragment extends Fragment
                             Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.no_convos_found), Toast.LENGTH_SHORT).show();
                         } else
                         {
-                            Toast.makeText(getActivity(), mItems.size() + " convos in Inbox", Toast.LENGTH_SHORT).show();
+                            if (BaseApplication.inDEBUGMode())
+                            {
+                                Toast.makeText(getActivity(), mItems.size() + " convos in Inbox", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         mAdapter.notifyDataSetChanged();

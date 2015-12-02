@@ -36,18 +36,22 @@ public class GetMessagesTask extends AsyncTask<Void, Void, Void>
             SessionManager sessionManager = new SessionManager(ctx);
             ASDPlaydateUser me = (ASDPlaydateUser) ASDPlaydateUser.become(sessionManager.getSessionToken());
 
+            //show conversations the current user received from other users
+            //that the current user did not deny
             ParseQuery<Conversation> meReceive = new ParseQuery<>(Conversation.class);
             meReceive.whereEqualTo(Conversation.ATTR_RECEIVER, me);
+            meReceive.whereNotEqualTo(Conversation.ATTR_STATUS, Conversation.Status.DENIED.name());
 
+            //show only the conversations the current user sent and other users accepted
             ParseQuery<Conversation> meSend = new ParseQuery<>(Conversation.class);
             meSend.whereEqualTo(Conversation.ATTR_INITIATOR, me);
+            meSend.whereEqualTo(Conversation.ATTR_STATUS, Conversation.Status.ACCEPTED.name());
 
             List<ParseQuery<Conversation>> both = new ArrayList<>();
             both.add(meReceive);
             both.add(meSend);
 
             ParseQuery<Conversation> meSendOrMeReceive = ParseQuery.or(both);
-            meSendOrMeReceive.whereNotEqualTo(Conversation.ATTR_STATUS, Conversation.Status.DENIED.name());
             meSendOrMeReceive.whereGreaterThan(Conversation.ATTR_EXPIRE_DATE, DateTime.now(DateTimeZone.UTC).toDate());
 
             List<Conversation> displayConvos = meSendOrMeReceive.find();
