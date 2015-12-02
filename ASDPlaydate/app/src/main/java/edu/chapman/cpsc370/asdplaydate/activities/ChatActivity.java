@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -26,12 +27,14 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.adapters.ChatMessageAdapter;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
@@ -81,8 +84,7 @@ public class ChatActivity extends AppCompatActivity
         messageAdapter = new ChatMessageAdapter(this, messages, currentUser);
         lv_displayMessages.setAdapter(messageAdapter);
 
-
-        Intent i = getIntent();
+        final Intent i = getIntent();
         String conversationID = i.getStringExtra("conversationID");
         if (conversationID == null)
         {
@@ -113,6 +115,33 @@ public class ChatActivity extends AppCompatActivity
                 conversationID += v.toString();
             }
             Log.d(TAG, conversationID);
+        }
+
+        if (BaseApplication.inDEBUGMode())
+        {
+            tv_chatInfoName.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View v)
+                {
+                    ParseQuery<Conversation> q = new ParseQuery<>(Conversation.class);
+                    q.whereEqualTo(Conversation.ATTR_ID, i.getStringExtra("conversationID"));
+                    try
+                    {
+                        Conversation result = q.find().get(0);
+                        result.setExpireDate(DateTime.now(DateTimeZone.UTC).minusHours(1));
+                        result.saveInBackground();
+                        chatActivity.finish();
+
+                        Toast.makeText(ChatActivity.this, "Conversation set as expired.", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    return false;
+                }
+            });
         }
 
         ConversationCallback conversationCallback = new ConversationCallback();
