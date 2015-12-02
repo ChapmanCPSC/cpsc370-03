@@ -9,10 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.adapters.ResultListRecyclerAdapter;
@@ -34,6 +31,7 @@ public class ResultListFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_result_list, container, false);
         parent = (FindFragmentContainer) getParentFragment();
+        sm = parent.sessionManager;
         return rootView;
     }
 
@@ -64,12 +62,12 @@ public class ResultListFragment extends Fragment
                 try
                 {
                     // Get broadcasts here
-                    parent.broadcasts = parent.getBroadcasts(sm);
+                    parent.updateUI(sm);
                 } catch (Exception e)
                 {
                     e.printStackTrace();
                 }
-                parent.adapter.notifyDataSetChanged();
+                parent.listAdapter.notifyDataSetChanged();
             }
         });
 
@@ -83,7 +81,7 @@ public class ResultListFragment extends Fragment
 
     private void setRecyclerAdapter(ArrayList<MarkerLabelInfo> data)
     {
-        parent.adapter = new ResultListRecyclerAdapter(getActivity(), this);
-        recyclerView.setAdapter(parent.adapter);
+        parent.listAdapter = new ResultListRecyclerAdapter(getActivity(), this);
+        recyclerView.setAdapter(parent.listAdapter);
     }
 }

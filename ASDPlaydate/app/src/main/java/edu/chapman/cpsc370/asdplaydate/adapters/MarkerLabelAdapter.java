@@ -14,11 +14,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import edu.chapman.cpsc370.asdplaydate.R;
-import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
 import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
 import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
-import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
@@ -29,15 +27,13 @@ import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMap.OnInfoWindowClickListener
 {
 
+    FindFragmentContainer parent;
     Context ctx;
-    FindFragment fragment;
-    private SessionManager sessionManager;
 
-    public MarkerLabelAdapter(FindFragment fragment, Context ctx)
+    public MarkerLabelAdapter(FindFragmentContainer parent, Context ctx)
     {
-        this.fragment = fragment;
+        this.parent = parent;
         this.ctx = ctx;
-        sessionManager = new SessionManager(ctx);
     }
 
     @Override
@@ -61,8 +57,7 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
 
         LatLng markerPos = marker.getPosition();
 
-        FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
-        for (MarkerLabelInfo info : container.broadcasts)
+        for (MarkerLabelInfo info : parent.broadcasts)
         {
             if (info.getLatLng().equals(markerPos))
             {
@@ -75,7 +70,7 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
                 childGender.setText("(" + child.getGender().name().substring(0,1) + ")");
                 optionalMsg.setText(child.getDescription());
 
-                ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(container.myLocation);
+                ParseGeoPoint myPgp = LocationHelpers.toParseGeoPoint(parent.myLocation);
                 ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(markerPos);
                 double dist = myPgp.distanceInMilesTo(broadcastPgp);
                 String roundedDist = new BigDecimal(String.valueOf(dist)).setScale(1, RoundingMode.HALF_UP).toPlainString();
@@ -92,22 +87,17 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
     public void onInfoWindowClick(Marker marker)
     {
         LatLng markerLocation = marker.getPosition();
-        FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
-        for (MarkerLabelInfo info : container.broadcasts)
+        for (MarkerLabelInfo info : parent.broadcasts)
         {
             if (info.getLatLng().equals(markerLocation))
             {
                 ASDPlaydateUser receiver = info.getParent();
-                RecyclerAdapterHelpers.sendChatRequest(sessionManager, receiver, ctx, marker);
-                container.broadcasts.remove(info.getIndex());
-                if (container.adapter != null)
+                RecyclerAdapterHelpers.sendChatRequest(receiver, ctx, marker);
+                parent.broadcasts.remove(info.getIndex());
+                if (parent.listAdapter != null)
                 {
-                    container.adapter.notifyItemRemoved(info.getIndex());
-                    container.adapter.notifyItemRangeChanged(info.getIndex(), container.broadcasts.size());
-                }
-                else
-                {
-                    container.needsNotify = true;
+                    parent.listAdapter.notifyItemRemoved(info.getIndex());
+                    parent.listAdapter.notifyItemRangeChanged(info.getIndex(), parent.broadcasts.size());
                 }
                 break;
             }

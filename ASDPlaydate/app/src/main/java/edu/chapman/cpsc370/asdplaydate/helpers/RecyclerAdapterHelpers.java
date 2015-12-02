@@ -8,12 +8,10 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
-import com.parse.ParseException;
 import com.parse.ParsePush;
 
 import org.joda.time.DateTime;
 
-import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 
@@ -23,22 +21,14 @@ import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 public class RecyclerAdapterHelpers
 {
 
-    public static void sendChatRequest(SessionManager sm, ASDPlaydateUser receiver, Context ctx, Marker marker)
+    public static void sendChatRequest(ASDPlaydateUser receiver, Context ctx, Marker marker)
     {
-        try
-        {
-            ASDPlaydateUser initiator = (ASDPlaydateUser) ASDPlaydateUser.become(sm.getSessionToken());     //TODO: get initiator's broadcast expiredate here
-            Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusMinutes(60));
-            convo.saveInBackground();
-            Toast.makeText(ctx, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
-            //TODO: update the send chat request UI here
-            //remove the marker
-            marker.remove();
-        }
-        catch (ParseException e)
-        {
-            e.printStackTrace();
-        }
+        ASDPlaydateUser initiator = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
+        Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusHours(24));
+        convo.saveInBackground();
+        Toast.makeText(ctx, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
+        //remove the marker
+        marker.remove();
 
         // Send push to receiver
         ParsePush push = new ParsePush();

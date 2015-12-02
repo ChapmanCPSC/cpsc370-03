@@ -34,26 +34,15 @@ import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseQuery;
 
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.chapman.cpsc370.asdplaydate.R;
-import edu.chapman.cpsc370.asdplaydate.adapters.MarkerLabelAdapter;
-import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
 import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
 import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Broadcast;
-import edu.chapman.cpsc370.asdplaydate.models.Child;
-import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 public class FindFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks,
@@ -61,7 +50,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 {
 
     MapView mapView;
-    GoogleMap googleMap;
     GoogleApiClient googleApiClient;
     SeekBar broadcastDuration;
     TextView progressValue;
@@ -81,7 +69,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     View rootView;
     boolean firstLoad = true;
 
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
 
     public FindFragment()
     {
@@ -94,6 +82,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         if (firstLoad)
         {
+            parent = (FindFragmentContainer) getParentFragment();
+            sessionManager = parent.sessionManager;
+
             // Skip the setup the next time onCreateView is called
             firstLoad = false;
             progressDialog = ProgressDialog.show(getActivity(), "Finding Your Location", "Please wait...", true);
@@ -127,9 +118,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
         }
 
-        sessionManager = new SessionManager(getActivity());
-        parent = (FindFragmentContainer) getParentFragment();
-
         return rootView;
     }
 
@@ -157,26 +145,26 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
-        this.googleMap = googleMap;
+        parent.googleMap = googleMap;
     }
 
     private void setUpMap()
     {
-        googleMap.setMyLocationEnabled(true);
-        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        googleMap.getUiSettings().setMapToolbarEnabled(false);
+        parent.googleMap.setMyLocationEnabled(true);
+        parent.googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        parent.googleMap.getUiSettings().setMapToolbarEnabled(false);
     }
 
     private void setUpMapIfNeeded()
     {
-        if (googleMap == null)
+        if (parent.googleMap == null)
         {
-            googleMap = mapView.getMap();
+            parent.googleMap = mapView.getMap();
 
-            if (googleMap != null)
+            if (parent.googleMap != null)
             {
                 setUpMap();
-                googleMap.setLocationSource(this);
+                parent.googleMap.setLocationSource(this);
             }
         }
     }
@@ -207,13 +195,11 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onConnectionSuspended(int i)
     {
-
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult)
     {
-
     }
 
     private void inflateBroadcastDialog()
@@ -225,9 +211,9 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
         broadcastMessage = (EditText) broadcast.findViewById(R.id.et_broadcast_message);
         if (!sessionManager.getBroadcastMessage().equals(""))
+        {
             broadcastMessage.setText(sessionManager.getBroadcastMessage());
-
-
+        }
         broadcastCheckBox = (CheckBox) broadcast.findViewById(R.id.cb_dont_ask_again);
         doBroadcastFab = (FloatingActionButton) broadcast.findViewById(R.id.fab_go);
         doBroadcastFab.setOnClickListener(onClickListener);
@@ -236,8 +222,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         broadcastDuration.setOnSeekBarChangeListener(onSeekBarChangeListener);
         progressValue = (TextView) broadcast.findViewById(R.id.tv_duration_progress);
         progressValue.setText(defaultBroadcastDuration + " " + getString(R.string.minutes));//Lien changed this to set it to user default preference
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setView(broadcast);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()).setView(broadcast);
         broadcastDialog = builder.create();
         broadcastDialog.show();
     }
@@ -307,9 +292,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             ex.printStackTrace();
         }
 
-
         broadcasted = true;//leave this here
-        broadcasted = true;
 
         hideBroadcastBar();
 
@@ -323,17 +306,12 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         try
         {
-            // Get broadcasts here
-            parent.broadcasts = parent.getBroadcasts(sessionManager);
+            // Update the UI of both fragments here
+            parent.updateUI(sessionManager);
         } catch (Exception e)
         {
             e.printStackTrace();
         }
-
-        placeMarkers(parent.broadcasts);
-        parent.mla = new MarkerLabelAdapter(FindFragment.this, getActivity());
-        googleMap.setInfoWindowAdapter(parent.mla);
-        googleMap.setOnInfoWindowClickListener(parent.mla);
     }
 
     private void initGoogleClient()
@@ -356,21 +334,17 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         @Override
         public void onStartTrackingTouch(SeekBar seekBar)
         {
-
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar)
         {
-
         }
     };
 
     private void openList()
     {
-        FindFragmentContainer parent = (FindFragmentContainer) getParentFragment();
         parent.flipFragment();
-
     }
 
     @Override
@@ -388,7 +362,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 {
                     //inflateBroadcastDialog();//not sure what to do here to start the broadcast, but not show the dialogue test
                     this.startNonDialogueBroadcast();
-
                 }
                 break;
             case R.id.fab_list:
@@ -402,18 +375,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    public void placeMarkers(ArrayList<MarkerLabelInfo> data)
-    {
-        googleMap.clear();
-        for (int i = 0; i < data.size(); i++)
-        {
-            MarkerLabelInfo info = data.get(i);
-            Marker marker = googleMap.addMarker(new MarkerOptions().position(info.getLatLng()));
-            info.setMarker(marker);
-            data.set(i, info);
-        }
-    }
-
     @Override
     public void onLocationChanged(Location location)
     {
@@ -422,7 +383,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             locationChangedListener.onLocationChanged(location);
 
             CameraPosition cp = new CameraPosition.Builder().target(LocationHelpers.toLatLng(location)).zoom(12).build();
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
+            parent.googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
 
             // Store location in field if location changes
             parent.myLocation = location;
@@ -469,10 +430,8 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public void activate(OnLocationChangedListener onLocationChangedListener)
     {
         locationChangedListener = onLocationChangedListener;
-
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
             || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-
         {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 7500, 10, this);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 7500, 10, this);
@@ -488,6 +447,5 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         {
             locationManager.removeUpdates(this);
         }
-
     }
 }

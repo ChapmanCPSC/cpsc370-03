@@ -1,34 +1,19 @@
 package edu.chapman.cpsc370.asdplaydate.adapters;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParsePush;
 
-import org.joda.time.DateTime;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import edu.chapman.cpsc370.asdplaydate.R;
-import edu.chapman.cpsc370.asdplaydate.fragments.FindFragment;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
 import edu.chapman.cpsc370.asdplaydate.fragments.ResultListFragment;
 import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
@@ -36,7 +21,6 @@ import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
 import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
-import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
 
 /**
@@ -67,7 +51,7 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
             {
                 FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
                 ASDPlaydateUser receiver = container.broadcasts.get(position).getParent();
-                RecyclerAdapterHelpers.sendChatRequest(sessionManager, receiver, ctx, container.broadcasts.get(position).getMarker());
+                RecyclerAdapterHelpers.sendChatRequest(receiver, ctx, container.broadcasts.get(position).getMarker());
                 RecyclerAdapterHelpers.doSlideOutAnim(vi);
                 container.broadcasts.remove(position);
                 notifyItemRemoved(position);
