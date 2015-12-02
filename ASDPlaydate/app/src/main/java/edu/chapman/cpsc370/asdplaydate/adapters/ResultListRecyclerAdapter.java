@@ -56,13 +56,6 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
                 container.broadcasts.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, container.broadcasts.size());
-
-                // Send push to receiver
-                ParsePush push = new ParsePush();
-                push.setChannel("c_" + receiver.getObjectId());
-                push.setMessage("New chat request from " + receiver.getFirstName() + " "
-                        + receiver.getLastName());
-                push.sendInBackground();
             }
         });
         return vh;
