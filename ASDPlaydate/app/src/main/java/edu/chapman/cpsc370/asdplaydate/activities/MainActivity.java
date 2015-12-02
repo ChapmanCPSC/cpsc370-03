@@ -20,13 +20,15 @@ import edu.chapman.cpsc370.asdplaydate.fragments.InboxFragment;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener
 {
-    SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
+    public SectionsPagerAdapter mSectionsPagerAdapter;
+    public ViewPager mViewPager;
+    public static MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        mainActivity = this;
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
@@ -54,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     }
 
 
+    public void refreshInbox()
+    {
+        InboxFragment.inboxFragment.refresh();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -90,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         {
             super(fm);
         }
+
 
         @Override
         public Fragment getItem(int position)

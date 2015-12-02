@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
+import edu.chapman.cpsc370.asdplaydate.activities.MainActivity;
 import edu.chapman.cpsc370.asdplaydate.activities.SettingsActivity;
 import edu.chapman.cpsc370.asdplaydate.models.Message;
 
@@ -27,16 +28,30 @@ public class PushReceiver extends ParsePushBroadcastReceiver
     @Override
     protected void onPushOpen(Context context, Intent intent)
     {
+        boolean isChatRequest = false;
         Bundle bundle = intent.getExtras();
         for(String key : bundle.keySet())
         {
             Object value = bundle.get(key);
             Log.d(TAG, String.format("%s %s (%s)", key, value.toString(), value.getClass().getName()));
+            if(value.toString().contains("New chat request"))
+            {
+                isChatRequest = true;
+            }
         }
-        Intent i = new Intent(context, ChatActivity.class);
-        i.putExtras(intent.getExtras());
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
+        if(isChatRequest)
+        {
+            MainActivity.mainActivity.refreshInbox();
+            MainActivity.mainActivity.mViewPager.setCurrentItem(1);
+        }
+        else
+        {
+            Intent i = new Intent(context, ChatActivity.class);
+            i.putExtras(intent.getExtras());
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+        }
+
     }
 
 
@@ -48,20 +63,36 @@ public class PushReceiver extends ParsePushBroadcastReceiver
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(Integer.MAX_VALUE);
         Log.d("topActivity", "CURRENT Activity ::" + tasks.get(0).topActivity.getClassName());
-        boolean isRunning = false;
+        boolean chatIsRunning = false;
+        boolean mainIsRunning = false;
         for(ActivityManager.RunningTaskInfo task : tasks)
         {
             if(task.topActivity.getClassName().equalsIgnoreCase("edu.chapman.cpsc370.asdplaydate.activities.ChatActivity"))
             {
                 Log.d(TAG, "true" + task.topActivity.getClassName());
-                isRunning = true;
+                chatIsRunning = true;
+            }
+            if(task.topActivity.getClassName().equalsIgnoreCase("edu.chapman.cpsc370.asdplaydate.activities.MainActivity"))
+            {
+                Log.d(TAG, "true" + task.topActivity.getClassName());
+                mainIsRunning = true;
             }
         }
-        if(!isRunning)
+        if(!mainIsRunning)
         {
             super.onPushReceive(context,intent);
         }
-        else
+        if(mainIsRunning)
+        {
+            super.onPushReceive(context,intent);
+            MainActivity.mainActivity.refreshInbox();
+            MainActivity.mainActivity.mViewPager.setCurrentItem(1);
+        }
+        if(!chatIsRunning)
+        {
+            super.onPushReceive(context,intent);
+        }
+        if(chatIsRunning)
         {
             Bundle bundle = intent.getExtras();
             for(String key : bundle.keySet())

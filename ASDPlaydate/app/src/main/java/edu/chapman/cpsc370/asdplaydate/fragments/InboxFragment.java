@@ -25,6 +25,8 @@ public class InboxFragment extends Fragment
     private RecyclerView.Adapter mAdapter;
     private SwipeRefreshLayout swipeLayout;
 
+    public static InboxFragment inboxFragment;
+
     public InboxFragment()
     {
     }
@@ -36,11 +38,45 @@ public class InboxFragment extends Fragment
         return inflater.inflate(R.layout.fragment_chat_request_list, container, false);
     }
 
+    public void refresh()
+    {
+        final GetMessagesTask task = new GetMessagesTask(getActivity());
+        task.onFinish = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                mItems.clear();
+
+                for (ChatRequestListRecyclerItem item : task.mItems)
+                {
+                    mItems.add(item);
+                }
+
+                if (mItems.size() == 0)
+                {
+                    Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.no_convos_found), Toast.LENGTH_SHORT).show();
+                } else
+                {
+                    if (BaseApplication.inDEBUGMode())
+                    {
+                        Toast.makeText(getActivity(), mItems.size() + " convos in Inbox", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                mAdapter.notifyDataSetChanged();
+                swipeLayout.setRefreshing(false);
+            }
+        };
+
+        task.execute();
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-
+        inboxFragment = this;
         swipeLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_container);
         RecyclerView mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_chatrequestlist);
         //btn_refresh = (Button) getActivity().findViewById(R.id.btn_refresh);
@@ -137,6 +173,7 @@ public class InboxFragment extends Fragment
                         });
 
         mRecyclerView.addOnItemTouchListener(swipeTouchListener);
+        refresh();
     }
 
     @Override
@@ -144,6 +181,7 @@ public class InboxFragment extends Fragment
     {
         super.onResume();
 
+        refresh();
 
     }
 }
