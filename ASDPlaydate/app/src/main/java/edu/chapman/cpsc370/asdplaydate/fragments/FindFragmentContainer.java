@@ -164,7 +164,7 @@ public class FindFragmentContainer extends Fragment
                 }
                 else
                 {
-                    ResultListFragment.noResults.setVisibility(View.GONE);
+                    
                     for (Broadcast broadcast : list)
                     {
                         try
