@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,18 @@ import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
 import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
 import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
@@ -61,6 +69,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     FindFragmentContainer parent;
     ProgressDialog progressDialog;
     boolean broadcasted = false;
+    boolean connected = false;
 
     LocationManager locationManager;
     OnLocationChangedListener locationChangedListener;
@@ -126,6 +135,10 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         super.onResume();
         setUpMapIfNeeded();
+
+        // Only check for ongoing broadcasts here if already connected to Google Play services
+        if(connected)
+            checkBroadcast();
     }
 
     @Override
@@ -190,11 +203,18 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
         // Get location once connected to Play Services
         parent.myLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+
+        // Check for any ongoing broadcasts
+        if(!connected)
+            checkBroadcast();
+        else
+            connected = true;
     }
 
     @Override
     public void onConnectionSuspended(int i)
     {
+        connected = false;
     }
 
     @Override
@@ -236,7 +256,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             try
             {
                 sessionManager.storeFromDialog(broadcastCheckBox.isChecked());
-                sessionManager.storePromptBroadcast(broadcastCheckBox.isChecked());
                 ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
                 ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
                 String message = broadcastMessage.getText().toString();
@@ -258,7 +277,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
             boolean dialogueIsChecked = broadcastCheckBox.isChecked();
             sessionManager.storeFromDialog(dialogueIsChecked);//store if the the user checked the checkbox
-            sessionManager.storePromptBroadcast(dialogueIsChecked);//store if the the user checked the checkbox
 
             //end lien103 code
             broadcasted = true;
@@ -354,7 +372,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         {
             case R.id.fab_broadcast:
                 //Lien103 code starts here
-                if (!sessionManager.getPromptBroadcast() && !sessionManager.getFromDialog())
+                if (sessionManager.getPromptBroadcast())
                 {
                     inflateBroadcastDialog();
                 }
@@ -426,6 +444,12 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         slideDown.setDuration(500).start();
     }
 
+    private void showBroadcastBar()
+    {
+        ObjectAnimator slideUp = ObjectAnimator.ofFloat(broadcastBar, "translationY", 0);
+        slideUp.setDuration(500).start();
+    }
+
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener)
     {
@@ -448,4 +472,72 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             locationManager.removeUpdates(this);
         }
     }
+
+    private void checkBroadcast()
+    {
+        ParseQuery<Broadcast> q = new ParseQuery<>(Broadcast.class);
+        q.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateHelpers.UTCDate(DateTime.now()))
+                .whereEqualTo(Broadcast.ATTR_BROADCASTER, ASDPlaydateUser.getCurrentUser());
+
+        q.findInBackground(new FindCallback<Broadcast>()
+        {
+            @Override
+            public void done(List<Broadcast> objects, ParseException e)
+            {
+                if(objects.size() == 0)
+                {
+                    // Clear results
+                    parent.googleMap.clear();
+
+                    // Prompt before broadcast is on, show broadcast bar again
+                    if(sessionManager.getPromptBroadcast())
+                    {
+                        showBroadcastBar();
+                        listFab.hide();
+                        refreshFab.hide();
+                    }
+
+                    // Prompt is off, start broadcasting again automatically
+                    else
+                    {
+                        startBroadcast();
+                    }
+                }
+
+                // User is already broadcasting
+                else
+                {
+                    showBroadcastResults();
+                }
+
+            }
+        });
+    }
+
+    private void startBroadcast()
+    {
+        ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
+        ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
+        String message = sessionManager.getBroadcastMessage();
+        DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
+        Broadcast b = new Broadcast(broadcaster, location, message, expireDate);
+
+        b.saveInBackground(new SaveCallback()
+        {
+            @Override
+            public void done(ParseException e)
+            {
+                showBroadcastResults();
+            }
+        });
+    }
+
+    private void showBroadcastResults()
+    {
+        hideBroadcastBar();
+        listFab.show();
+        refreshFab.show();
+        updateMap();
+    }
+
 }
