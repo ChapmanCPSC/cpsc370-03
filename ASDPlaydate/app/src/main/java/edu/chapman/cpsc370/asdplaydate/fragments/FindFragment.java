@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -325,7 +324,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         try
         {
             // Update the UI of both fragments here
-            parent.updateUI(sessionManager);
+            parent.updateUI();
         } catch (Exception e)
         {
             e.printStackTrace();

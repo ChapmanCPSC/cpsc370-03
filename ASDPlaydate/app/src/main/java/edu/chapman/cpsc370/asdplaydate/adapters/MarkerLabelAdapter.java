@@ -75,7 +75,15 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
                 double dist = myPgp.distanceInMilesTo(broadcastPgp);
                 String roundedDist = new BigDecimal(String.valueOf(dist)).setScale(1, RoundingMode.HALF_UP).toPlainString();
                 profileDistance.setText(roundedDist + " miles from you");
-                tapMessage.setText(R.string.tap_send_chat);
+
+                if (!info.hasConversation())
+                {
+                    tapMessage.setText(R.string.tap_send_chat);
+                }
+                else
+                {
+                    tapMessage.setVisibility(View.GONE);
+                }
                 break;
             }
         }
@@ -91,13 +99,16 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
         {
             if (info.getLatLng().equals(markerLocation))
             {
-                ASDPlaydateUser receiver = info.getParent();
-                RecyclerAdapterHelpers.sendChatRequest(receiver, ctx, marker);
-                parent.broadcasts.remove(info.getIndex());
-                if (parent.listAdapter != null)
+                if (!info.hasConversation())
                 {
-                    parent.listAdapter.notifyItemRemoved(info.getIndex());
-                    parent.listAdapter.notifyItemRangeChanged(info.getIndex(), parent.broadcasts.size());
+                    ASDPlaydateUser receiver = info.getParent();
+                    RecyclerAdapterHelpers.sendChatRequest(receiver, ctx, marker);
+                    parent.broadcasts.remove(info.getIndex());
+                    if (parent.listAdapter != null)
+                    {
+                        parent.listAdapter.notifyItemRemoved(info.getIndex());
+                        parent.listAdapter.notifyItemRangeChanged(info.getIndex(), parent.broadcasts.size());
+                    }
                 }
                 break;
             }

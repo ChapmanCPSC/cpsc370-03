@@ -13,6 +13,7 @@ public class MarkerLabelInfo
     private Marker marker;
     private LatLng latLng;
     private int index;
+    private boolean hasConversation = false;
 
     public MarkerLabelInfo(ASDPlaydateUser parent, Child child)
     {
@@ -75,5 +76,15 @@ public class MarkerLabelInfo
     public void setIndex(int index)
     {
         this.index = index;
+    }
+
+    public boolean hasConversation()
+    {
+        return hasConversation;
+    }
+
+    public void setHasConversation(boolean hasConversation)
+    {
+        this.hasConversation = hasConversation;
     }
 }

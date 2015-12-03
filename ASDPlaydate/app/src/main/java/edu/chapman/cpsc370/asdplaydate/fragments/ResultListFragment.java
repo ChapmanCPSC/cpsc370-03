@@ -46,8 +46,6 @@ public class ResultListFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
 
-        sm = new SessionManager(getActivity());
-
         // Set FAB on click listener
         FloatingActionButton fab1 = (FloatingActionButton) getActivity().findViewById(R.id.result_list_fab);
         fab1.setOnClickListener(new View.OnClickListener()
@@ -68,7 +66,7 @@ public class ResultListFragment extends Fragment
                 try
                 {
                     // Get broadcasts here
-                    parent.updateUI(sm);
+                    parent.updateUI();
                 } catch (Exception e)
                 {
                     e.printStackTrace();

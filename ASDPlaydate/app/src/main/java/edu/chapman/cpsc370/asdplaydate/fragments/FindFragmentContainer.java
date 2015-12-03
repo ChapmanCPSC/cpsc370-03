@@ -83,7 +83,7 @@ public class FindFragmentContainer extends Fragment
         super.onResume();
         try
         {
-            updateUI(sessionManager);
+            updateUI();
         }
         catch (Exception e)
         {
@@ -105,7 +105,7 @@ public class FindFragmentContainer extends Fragment
         showingResultList = true;
         try
         {
-            updateUI(sessionManager);
+            updateUI();
         }
         catch (Exception e)
         {
@@ -125,57 +125,72 @@ public class FindFragmentContainer extends Fragment
         }
     }
 
-    public void updateUI(SessionManager sm) throws Exception
+    public void updateUI() throws Exception
     {
+        if (myLocation == null)
+        {
+            return;
+        }
+
+        // Get the current user
         final ASDPlaydateUser me = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
 
+        // Query to get conversations where
         ParseQuery<Conversation> queryI = new ParseQuery<>(Conversation.class);
-        queryI.whereEqualTo(Conversation.ATTR_INITIATOR, me);
+        queryI.whereEqualTo(Conversation.ATTR_INITIATOR, me); // I am the initiator
         ParseQuery<Conversation> queryR = new ParseQuery<>(Conversation.class);
-        queryR.whereEqualTo(Conversation.ATTR_RECEIVER, me);
+        queryR.whereEqualTo(Conversation.ATTR_RECEIVER, me); // I am the receiver
 
-        //where I'm the initiator or the receiver
         List<ParseQuery<Conversation>> queries = new ArrayList<>();
         queries.add(queryI);
         queries.add(queryR);
 
-        //and accepted state
-        ParseQuery<Conversation> mainQuery = ParseQuery.or(queries);
-        mainQuery.whereMatches(Conversation.ATTR_STATUS, Conversation.Status.ACCEPTED.name());
+        ParseQuery<Conversation> initOrRec = ParseQuery.or(queries); // I am the initiator or the receiver
+        initOrRec.whereMatches(Conversation.ATTR_STATUS, Conversation.Status.ACCEPTED.name()); // and conversation Status is ACCEPTED
 
-        List<Conversation> acceptedConvos = mainQuery.find();
-        Set<ASDPlaydateUser> acceptedUsers = new HashSet<ASDPlaydateUser>();
-        for (Conversation conversation : acceptedConvos)
+        ParseQuery<Conversation> pend = initOrRec; // I am the initiator or the receiver
+        pend.whereMatches(Conversation.ATTR_STATUS, Conversation.Status.PENDING.name()); // and conversation status is pending
+
+        queries.clear();
+        queries.add(initOrRec);
+        queries.add(pend);
+
+        ParseQuery<Conversation> convoQuery = ParseQuery.or(queries);
+        convoQuery.whereGreaterThan(Conversation.ATTR_EXPIRE_DATE, DateHelpers.UTCDate(DateTime.now()));
+        final Set<String> acceptedUserIds = new HashSet<>(); // Store ids of users who have valid conversation with the current user
+        convoQuery.findInBackground(new FindCallback<Conversation>()
         {
-            ASDPlaydateUser user = (ASDPlaydateUser) conversation.get(Conversation.ATTR_INITIATOR);
-            user.fetchIfNeeded();
-            if (!user.getObjectId().equals(me.getObjectId()))
+            @Override
+            public void done(List<Conversation> objects, ParseException e)
             {
-                acceptedUsers.add(user);
+                for (Conversation convo : objects)
+                {
+                    String initiatorId = convo.getInitiator().getObjectId();
+                    if (me.getObjectId().equals(initiatorId))
+                    {
+                        acceptedUserIds.add(convo.getReceiver().getObjectId());
+                    }
+                    else
+                    {
+                        acceptedUserIds.add(initiatorId);
+                    }
+                }
+                onFindAcceptedUsersFinish(me, acceptedUserIds);
             }
-            else
-            {
-                acceptedUsers.add((ASDPlaydateUser) conversation.get(Conversation.ATTR_RECEIVER));
-            }
-        }
+        });
+    }
 
-        List<ParseQuery<Broadcast>> queries1 = new ArrayList<>();
-        ParseQuery<Broadcast> notMeQ = new ParseQuery<>(Broadcast.class);
-        notMeQ.whereNotEqualTo(Broadcast.ATTR_BROADCASTER, me);
-        queries1.add(notMeQ);
-        for (ASDPlaydateUser user : acceptedUsers)
-        {
-            ParseQuery<Broadcast> userQ = new ParseQuery<>(Broadcast.class);
-            userQ.whereNotEqualTo(Broadcast.ATTR_BROADCASTER, user);
-            queries1.add(userQ);
-        }
-
-        ParseQuery<Broadcast> awesomeQuery = ParseQuery.or(queries1);
-        awesomeQuery.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateHelpers.UTCDate(DateTime.now()))
+    private void onFindAcceptedUsersFinish(ASDPlaydateUser me, final Set<String> acceptedUserIds)
+    {
+        // Query to get broadcasts where
+        ParseQuery<Broadcast> mainQuery = new ParseQuery<>(Broadcast.class);
+        mainQuery.whereGreaterThan(Broadcast.ATTR_EXPIRE_DATE, DateHelpers.UTCDate(DateTime.now())) // expire date is beyond now
+                .orderByDescending(Broadcast.ATTR_EXPIRE_DATE) // latest broadcasts first
                 .whereWithinMiles(Broadcast.ATTR_LOCATION,
-                        new ParseGeoPoint(myLocation.getLatitude(), myLocation.getLongitude()), sm.getSearchRadius());
+                        new ParseGeoPoint(myLocation.getLatitude(), myLocation.getLongitude()), sessionManager.getSearchRadius()) // within the broadcast radius
+                .whereNotEqualTo(Broadcast.ATTR_BROADCASTER, me); // not my own broadcasts
 
-        awesomeQuery.findInBackground(new FindCallback<Broadcast>()
+        mainQuery.findInBackground(new FindCallback<Broadcast>()
         {
             @Override
             public void done(List<Broadcast> list, ParseException e)
@@ -183,13 +198,13 @@ public class FindFragmentContainer extends Fragment
                 ArrayList<MarkerLabelInfo> info = new ArrayList<>();
                 int index = 0;
 
-                if(list.isEmpty() && !showingResultList)
+                if (list.isEmpty() && !showingResultList)
                 {
                     Toast.makeText(getActivity(), getString(R.string.no_results_found), Toast.LENGTH_SHORT).show();
                 }
-                else if(list.isEmpty() && showingResultList)
+                else if (list.isEmpty() && showingResultList)
                 {
-                    if(ResultListFragment.noResults != null)
+                    if (ResultListFragment.noResults != null)
                     {
                         ResultListFragment.noResults.setText(getString(R.string.no_results_found));
                         ResultListFragment.noResults.setVisibility(View.VISIBLE);
@@ -197,23 +212,25 @@ public class FindFragmentContainer extends Fragment
                 }
                 else
                 {
-                    
+                    Set<ASDPlaydateUser> users = new HashSet<>(); // Prevent multiple broadcasts from showing by getting the latest broadcast
                     for (Broadcast broadcast : list)
                     {
                         try
                         {
-                            // .fetchIfNeeded() gets parent info, not just the parent objectId
                             ASDPlaydateUser bcaster = (ASDPlaydateUser) broadcast.getBroadcaster().fetchIfNeeded();
-                            // need to fix the query, remove if statement later
-                            if (bcaster.equals(me))
+                            if (!users.contains(bcaster))
                             {
-                                break;
+                                Child child = getChildWithParent(bcaster);
+                                LatLng latLng = LocationHelpers.toLatLng(broadcast.getLocation());
+                                MarkerLabelInfo markerLabelInfo = new MarkerLabelInfo(bcaster, child, latLng);
+                                markerLabelInfo.setIndex(index);
+                                if (acceptedUserIds.contains(broadcast.getBroadcaster().getObjectId()))
+                                {
+                                    markerLabelInfo.setHasConversation(true);
+                                }
+                                info.add(markerLabelInfo);
+                                users.add(bcaster);
                             }
-                            Child child = getChildWithParent(bcaster);
-                            LatLng latLng = LocationHelpers.toLatLng(broadcast.getLocation());
-                            MarkerLabelInfo markerLabelInfo = new MarkerLabelInfo(bcaster, child, latLng);
-                            markerLabelInfo.setIndex(index);
-                            info.add(markerLabelInfo);
                         }
                         catch (Exception e1)
                         {
@@ -223,13 +240,13 @@ public class FindFragmentContainer extends Fragment
 
                 }
                 broadcasts = info;
-                onFinish();
+                onBroadcastQueryFinish();
 
             }
         });
     }
 
-    private void onFinish()
+    private void onBroadcastQueryFinish()
     {
         placeMarkers(broadcasts);
         labelAdapter = new MarkerLabelAdapter(FindFragmentContainer.this, getActivity());
