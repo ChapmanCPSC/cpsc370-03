@@ -65,4 +65,20 @@ public class ASDPlaydateUser extends ParseUser
 
         return (ASDPlaydateUser) users.get(0);
     }
+
+    public Broadcast getLastBroadcast()
+    {
+        ParseQuery<Broadcast> q = new ParseQuery<>(Broadcast.class);
+        q.whereEqualTo(Broadcast.ATTR_BROADCASTER, this);
+        q.orderByDescending(Broadcast.ATTR_EXPIRE_DATE);
+
+        try
+        {
+            return q.find().get(0);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

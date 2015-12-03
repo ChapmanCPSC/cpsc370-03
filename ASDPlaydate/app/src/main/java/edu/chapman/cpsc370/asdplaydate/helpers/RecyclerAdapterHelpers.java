@@ -48,7 +48,13 @@ public class RecyclerAdapterHelpers
             Toast.makeText(ctx, ctx.getText(R.string.users_have_conversation), Toast.LENGTH_SHORT).show();
         } else
         {
-            Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusHours(24));
+            DateTime convoExpire = initiator.getLastBroadcast().getExpireDate();
+            if (convoExpire == null)
+            {
+                convoExpire = DateTime.now().plusHours(24);
+            }
+
+            Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, convoExpire);
             convo.saveInBackground();
             Toast.makeText(ctx, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
 
