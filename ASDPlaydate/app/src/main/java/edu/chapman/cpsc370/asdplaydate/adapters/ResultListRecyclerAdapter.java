@@ -28,22 +28,29 @@ import edu.chapman.cpsc370.asdplaydate.models.MarkerLabelInfo;
  */
 public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRecyclerAdapter.ResultItemViewHolder>
 {
-
+    public static final int HAS_CONVERSATION = 0;
+    public static final int NO_CONVERSATION = 1;
     private Context ctx;
     private ResultListFragment fragment;
-    private SessionManager sessionManager;
+    private FindFragmentContainer container;
 
     public ResultListRecyclerAdapter(Context ctx, ResultListFragment fragment)
     {
         this.ctx = ctx;
         this.fragment = fragment;
-        sessionManager = new SessionManager(ctx);
+        container = (FindFragmentContainer) fragment.getParentFragment();
     }
 
     @Override
-    public ResultListRecyclerAdapter.ResultItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public ResultListRecyclerAdapter.ResultItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
         final View vi = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_result_list_item, viewGroup, false);
+
+        if (viewType == HAS_CONVERSATION)
+        {
+            vi.findViewById(R.id.result_list_request_chat_button).setVisibility(View.GONE);
+        }
+
         ResultListRecyclerAdapter.ResultItemViewHolder vh = new ResultItemViewHolder(vi, new ResultItemViewHolder.ViewHolderClicks()
         {
             @Override
@@ -83,8 +90,20 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
     @Override
     public int getItemCount()
     {
-        FindFragmentContainer container = (FindFragmentContainer) fragment.getParentFragment();
         return container.broadcasts.size();
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        if (container.broadcasts.get(position).hasConversation())
+        {
+            return HAS_CONVERSATION;
+        }
+        else
+        {
+            return NO_CONVERSATION;
+        }
     }
 
     public static class ResultItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
