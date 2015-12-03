@@ -75,12 +75,6 @@ public class InboxFragment extends Fragment
                 if (mItems.size() == 0)
                 {
                     Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.no_convos_found), Toast.LENGTH_SHORT).show();
-                } else
-                {
-                    if (BaseApplication.inDEBUGMode())
-                    {
-                        Toast.makeText(getActivity(), mItems.size() + " convos in Inbox", Toast.LENGTH_SHORT).show();
-                    }
                 }
 
                 mAdapter.notifyDataSetChanged();
