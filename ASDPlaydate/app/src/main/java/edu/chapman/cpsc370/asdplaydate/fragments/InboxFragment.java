@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +21,7 @@ import edu.chapman.cpsc370.asdplaydate.adapters.ChatRequestListRecyclerAdapter;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.SwipeableRecyclerViewTouchListener;
+import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 import edu.chapman.cpsc370.asdplaydate.tasks.GetMessagesTask;
 
 public class InboxFragment extends Fragment
@@ -50,7 +55,19 @@ public class InboxFragment extends Fragment
 
                 for (ChatRequestListRecyclerItem item : task.mItems)
                 {
-                    mItems.add(item);
+                    try
+                    {
+                        Conversation conversation = Conversation.getConversation(item.getConversationID());
+                        if(conversation.getExpireDate().isAfter(DateTime.now().toDateTime(DateTimeZone.UTC)))
+                        {
+                            mItems.add(item);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
                 }
 
                 if (mItems.size() == 0)
@@ -96,7 +113,18 @@ public class InboxFragment extends Fragment
 
                         for (ChatRequestListRecyclerItem item : task.mItems)
                         {
-                            mItems.add(item);
+                            try
+                            {
+                                Conversation conversation = Conversation.getConversation(item.getConversationID());
+                                if(conversation.getExpireDate().isAfter(DateTime.now().toDateTime(DateTimeZone.UTC)))
+                                {
+                                    mItems.add(item);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
                         }
 
                         if (mItems.size() == 0)
