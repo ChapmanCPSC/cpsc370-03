@@ -3,15 +3,23 @@ package edu.chapman.cpsc370.asdplaydate.helpers;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
 import com.parse.ParsePush;
+import com.parse.ParseQuery;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.chapman.cpsc370.asdplaydate.R;
+import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 
@@ -24,18 +32,66 @@ public class RecyclerAdapterHelpers
     public static void sendChatRequest(ASDPlaydateUser receiver, Context ctx, Marker marker)
     {
         ASDPlaydateUser initiator = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
-        Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusHours(24));
-        convo.saveInBackground();
-        Toast.makeText(ctx, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
+        Conversation result = usersHaveConversation(initiator, receiver);
+        if (result != null)
+        {
+            Intent i = new Intent(ctx, ChatActivity.class);
+            i.putExtra("conversationID", result.getObjectId());
+            if (result.getInitiator().equals(initiator))
+            {
+                i.putExtra("parentName", result.getReceiver().getFirstName() + " " + result.getReceiver().getLastName());
+            } else
+            {
+                i.putExtra("parentName", result.getInitiator().getFirstName() + " " + result.getInitiator().getLastName());
+            }
+            ctx.startActivity(i);
+            Toast.makeText(ctx, ctx.getText(R.string.users_have_conversation), Toast.LENGTH_SHORT).show();
+        } else
+        {
+            Conversation convo = new Conversation(initiator, receiver, Conversation.Status.PENDING, DateTime.now().plusHours(24));
+            convo.saveInBackground();
+            Toast.makeText(ctx, "Sent chat request to " + receiver.getFirstName() + " " + receiver.getLastName(), Toast.LENGTH_SHORT).show();
+
+            // Send push to receiver
+            ParsePush push = new ParsePush();
+            push.setChannel("c_" + receiver.getObjectId());
+            push.setMessage("New chat request from " + receiver.getFirstName() + " "
+                    + receiver.getLastName());
+            push.sendInBackground();
+        }
         //remove the marker
         marker.remove();
+    }
 
-        // Send push to receiver
-        ParsePush push = new ParsePush();
-        push.setChannel("c_" + receiver.getObjectId());
-        push.setMessage("New chat request from " + receiver.getFirstName() + " "
-                + receiver.getLastName());
-        push.sendInBackground();
+    public static Conversation usersHaveConversation(ASDPlaydateUser user1, ASDPlaydateUser user2)
+    {
+        ParseQuery<Conversation> user1Initiate = new ParseQuery<>(Conversation.class);
+        user1Initiate.whereEqualTo(Conversation.ATTR_INITIATOR, user1);
+        user1Initiate.whereEqualTo(Conversation.ATTR_RECEIVER, user2);
+
+        ParseQuery<Conversation> user2Initiate = new ParseQuery<>(Conversation.class);
+        user2Initiate.whereEqualTo(Conversation.ATTR_INITIATOR, user2);
+        user2Initiate.whereEqualTo(Conversation.ATTR_RECEIVER, user1);
+
+        List<ParseQuery<Conversation>> both = new ArrayList<>();
+        both.add(user1Initiate);
+        both.add(user2Initiate);
+
+        ParseQuery<Conversation> conversationsBetweenUsers = ParseQuery.or(both);
+        try
+        {
+            if (conversationsBetweenUsers.count() > 0)
+            {
+                return conversationsBetweenUsers.find().get(0);
+            }
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        return null;
     }
 
     public static void doSlideOutAnim(View vi)

@@ -254,7 +254,7 @@ public class ChatActivity extends AppCompatActivity
                     try
                     {
                         data.put("alert", temp);
-                        data.put("conversationId", conversation.getObjectId());
+                        data.put("conversationID", conversation.getObjectId());
                     }
                     catch (JSONException e1)
                     {
@@ -307,7 +307,7 @@ public class ChatActivity extends AppCompatActivity
                 @Override
                 public void done(ParseObject object, ParseException e) {
                     parentName = chatPartner.getFirstName() + " " + chatPartner.getLastName();
-                    tv_chatInfoName.setText("Chat With " + parentName);
+                    tv_chatInfoName.setText(chatActivity.getText(R.string.chat_with) + " " + parentName);
                 }
             });
 

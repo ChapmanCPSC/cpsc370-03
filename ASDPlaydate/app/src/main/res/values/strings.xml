@@ -66,4 +66,6 @@
     <string name="no_convos_found">No conversations to display</string>
     <string name="tap_send_chat">Tap to send a chat request</string>
     <string name="no_results_found">No results found. Please try again later.</string>
+    <string name="users_have_conversation">You already have an active conversation with this user.</string>
+    <string name="chat_with">Chat with</string>
 </resources>
