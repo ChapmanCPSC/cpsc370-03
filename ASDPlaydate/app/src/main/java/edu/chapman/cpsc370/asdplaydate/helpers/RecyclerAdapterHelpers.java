@@ -61,8 +61,8 @@ public class RecyclerAdapterHelpers
             // Send push to receiver
             ParsePush push = new ParsePush();
             push.setChannel("c_" + receiver.getObjectId());
-            push.setMessage("New chat request from " + receiver.getFirstName() + " "
-                    + receiver.getLastName());
+            push.setMessage("New chat request from " + initiator.getFirstName() + " "
+                    + initiator.getLastName());
             push.sendInBackground();
         }
         //remove the marker
