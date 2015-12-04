@@ -42,25 +42,25 @@ public class SessionManager
 
     public void storeSearchRadius(int searchRadius)
     {
-        editor.putInt(KEY_SEARCH_RADIUS, searchRadius);
+        editor.putInt(KEY_SEARCH_RADIUS, searchRadius+1);
         editor.commit();
     }
 
     public int getSearchRadius()
     {
-        int searchRadius = prefs.getInt(KEY_SEARCH_RADIUS, 2);
+        int searchRadius = prefs.getInt(KEY_SEARCH_RADIUS, 3);
         return searchRadius;
     }
 
     public void storeBroadcastDuration(int duration)
     {
-        editor.putInt(KEY_BROADCAST_DURATION, duration);
+        editor.putInt(KEY_BROADCAST_DURATION, duration+1);
         editor.commit();
     }
 
     public int getBroadcastDuration()
     {
-        int broadcastDuration = prefs.getInt(KEY_BROADCAST_DURATION, 59);
+        int broadcastDuration = prefs.getInt(KEY_BROADCAST_DURATION, 60);
         return broadcastDuration;
     }
 

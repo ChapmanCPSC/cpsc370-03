@@ -223,7 +223,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
     private void inflateBroadcastDialog()
     {
-        int defaultBroadcastDuration = sessionManager.getBroadcastDuration() + 1;
+        int defaultBroadcastDuration = sessionManager.getBroadcastDuration();
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View broadcast = inflater.inflate(R.layout.broadcast_dialog, null);

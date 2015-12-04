@@ -60,7 +60,7 @@ public class InboxFragment extends Fragment
                         Conversation conversation = Conversation.getConversation(item.getConversationID());
                         System.out.println(conversation.getExpireDate());
                         System.out.println(DateTime.now());
-                        if(conversation.getExpireDate().isAfter(DateTime.now().toDateTime(DateTimeZone.UTC)))
+                        if(conversation.getExpireDate().isAfter(DateTime.now()))
                         {
                             mItems.add(item);
                         }

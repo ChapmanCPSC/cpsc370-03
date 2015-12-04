@@ -105,7 +105,10 @@ public class FindFragmentContainer extends Fragment
         showingResultList = true;
         try
         {
-            updateUI();
+            if(showingResultList){
+                updateUI();
+            }
+
         }
         catch (Exception e)
         {

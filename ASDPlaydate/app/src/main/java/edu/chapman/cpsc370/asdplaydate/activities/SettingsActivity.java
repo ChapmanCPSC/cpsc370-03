@@ -154,12 +154,12 @@ public class SettingsActivity extends AppCompatActivity
     public void getCurrentInfo()
     {
         searchRadius = sessionManager.getSearchRadius();
-        mileUpdateTextView.setText(searchRadius+1 + " " + getString(R.string.miles));
+        mileUpdateTextView.setText(searchRadius + " " + getString(R.string.miles));
         broadcastDuration = sessionManager.getBroadcastDuration();
-        broadcastUpdateTextView.setText(broadcastDuration+1 + " " + getString(R.string.minutes));
+        broadcastUpdateTextView.setText(broadcastDuration + " " + getString(R.string.minutes));
 
-        searchRadiusSeekBar.setProgress(searchRadius);
-        broadcastDurationSeekBar.setProgress(broadcastDuration);
+        searchRadiusSeekBar.setProgress(searchRadius-1);
+        broadcastDurationSeekBar.setProgress(broadcastDuration-1);
         editMessage.setText(sessionManager.getBroadcastMessage());
         promptBroadcast.setChecked(sessionManager.getPromptBroadcast());
     }
