@@ -258,7 +258,8 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
                 ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
                 String message = broadcastMessage.getText().toString();
-                DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
+                DateTime expireDate = DateTime.now().plusMinutes(broadcastDuration.getProgress()+1);
+                //DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
                 Broadcast b = new Broadcast(broadcaster, location, message, expireDate);//add broadcast to PARSE with message
                 b.saveInBackground();
 
