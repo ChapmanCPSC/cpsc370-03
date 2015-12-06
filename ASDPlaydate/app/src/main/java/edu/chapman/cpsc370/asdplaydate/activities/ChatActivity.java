@@ -92,28 +92,17 @@ public class ChatActivity extends AppCompatActivity
             conversationID = "";
             Bundle bundle = i.getExtras();
             String data = bundle.get("com.parse.Data").toString();
-            boolean nameFound = false;
-            ArrayList id = new ArrayList();
-            for (int j = 0; j < data.length(); j++)
+            Log.d(TAG + "HI",data);
+            try
             {
-                if (data.charAt(j) == 'c' && data.charAt(j + 13) == 'd')
-                {
-                    j += 17;
-                    nameFound = true;
-                }
-                if (nameFound)
-                {
-                    if (data.charAt(j) == '"')
-                    {
-                        break;
-                    }
-                    id.add(data.charAt(j));
-                }
-            }
-            for (Object v : id)
+                JSONObject mainObject = new JSONObject(data);
+                conversationID = mainObject.getString("conversationID");
+            }catch (Exception e)
             {
-                conversationID += v.toString();
+                e.printStackTrace();
             }
+
+
             Log.d(TAG, conversationID);
         }
 

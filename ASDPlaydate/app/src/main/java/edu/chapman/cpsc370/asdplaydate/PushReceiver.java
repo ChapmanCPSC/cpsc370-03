@@ -78,7 +78,7 @@ public class PushReceiver extends ParsePushBroadcastReceiver
                 mainIsRunning = true;
             }
         }
-        if(!mainIsRunning)
+        /*if(!mainIsRunning)
         {
             super.onPushReceive(context,intent);
         }
@@ -87,7 +87,7 @@ public class PushReceiver extends ParsePushBroadcastReceiver
             super.onPushReceive(context,intent);
             MainActivity.mainActivity.refreshInbox();
             MainActivity.mainActivity.mViewPager.setCurrentItem(1);
-        }
+        }*/
         if(!chatIsRunning)
         {
             super.onPushReceive(context,intent);
