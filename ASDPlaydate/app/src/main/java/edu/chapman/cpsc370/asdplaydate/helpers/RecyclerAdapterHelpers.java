@@ -21,6 +21,7 @@ import java.util.List;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
+import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
 
 /**
@@ -84,6 +85,8 @@ public class RecyclerAdapterHelpers
         both.add(user2Initiate);
 
         ParseQuery<Conversation> conversationsBetweenUsers = ParseQuery.or(both);
+        conversationsBetweenUsers.whereNotEqualTo(Conversation.ATTR_STATUS, Conversation.Status.DENIED.name());
+        conversationsBetweenUsers.whereGreaterThan(Conversation.ATTR_EXPIRE_DATE, DateTime.now().toDate());
         try
         {
             if (conversationsBetweenUsers.count() > 0)
@@ -110,5 +113,22 @@ public class RecyclerAdapterHelpers
         set.playTogether(slideOutRight, fadeOut);
         set.setInterpolator(new AccelerateInterpolator());
         set.start();
+    }
+
+    public static void denyRequest(ChatRequestListRecyclerItem item)
+    {
+        Conversation convo = new Conversation();
+        String conversationID = item.getConversationID();
+        try
+        {
+            convo = Conversation.getConversation(conversationID);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        convo.setStatus(Conversation.Status.DENIED);
+        convo.setExpireDate(DateTime.now());
+        convo.saveInBackground();
     }
 }

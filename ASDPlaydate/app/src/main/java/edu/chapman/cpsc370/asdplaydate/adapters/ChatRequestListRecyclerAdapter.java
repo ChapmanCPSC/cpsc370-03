@@ -133,20 +133,9 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
             @Override
             public void denyRequest(int position)
             {
-                Conversation convo = new Conversation();
-                String conversationID = mItems.get(position).getConversationID();
-                try
-                {
-                    convo = Conversation.getConversation(conversationID);
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-
-                convo.setStatus(Conversation.Status.DENIED);
-                convo.saveInBackground();
-
+                RecyclerAdapterHelpers.denyRequest(mItems.get(position));
                 RecyclerAdapterHelpers.doSlideOutAnim(vi);
+
                 mItems.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, mItems.size());
@@ -257,11 +246,6 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     @Override
     public void onBindViewHolder(ViewHolder holder, int position)
     {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-//        holder.mCardView.setText(mDataset[position]);
-
-        //TODO: Fill data here
         holder.parentName.setText(mItems.get(position).getParentName());
         holder.lastMsg.setText(mItems.get(position).getLastMsg());
     }

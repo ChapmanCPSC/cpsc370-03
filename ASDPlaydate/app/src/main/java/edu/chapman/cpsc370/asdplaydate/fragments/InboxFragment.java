@@ -18,6 +18,7 @@ import java.util.List;
 
 import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.adapters.ChatRequestListRecyclerAdapter;
+import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.SwipeableRecyclerViewTouchListener;
@@ -72,11 +73,6 @@ public class InboxFragment extends Fragment
 
                 }
 
-                if (mItems.size() == 0)
-                {
-                    Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.no_convos_found), Toast.LENGTH_SHORT).show();
-                }
-
                 mAdapter.notifyDataSetChanged();
                 swipeLayout.setRefreshing(false);
             }
@@ -120,17 +116,6 @@ public class InboxFragment extends Fragment
                             catch (Exception e)
                             {
                                 e.printStackTrace();
-                            }
-                        }
-
-                        if (mItems.size() == 0)
-                        {
-                            Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.no_convos_found), Toast.LENGTH_SHORT).show();
-                        } else
-                        {
-                            if (BaseApplication.inDEBUGMode())
-                            {
-                                Toast.makeText(getActivity(), mItems.size() + " convos in Inbox", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -178,6 +163,7 @@ public class InboxFragment extends Fragment
                             {
                                 for (int position : reverseSortedPositions)
                                 {
+                                    RecyclerAdapterHelpers.denyRequest(mItems.get(position));
                                     mItems.remove(position);
                                     mAdapter.notifyItemRemoved(position);
                                 }
@@ -189,6 +175,7 @@ public class InboxFragment extends Fragment
                             {
                                 for (int position : reverseSortedPositions)
                                 {
+                                    RecyclerAdapterHelpers.denyRequest(mItems.get(position));
                                     mItems.remove(position);
                                     mAdapter.notifyItemRemoved(position);
                                 }
