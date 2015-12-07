@@ -250,11 +250,6 @@ public class ChatActivity extends AppCompatActivity
                         e1.printStackTrace();
                     }
                     push.setData(data);
-                    /*try {
-                        push.setData(new JSONObject().put("conversationId", conversation.getObjectId()));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }*/
                     push.sendInBackground();
                 }
             });
