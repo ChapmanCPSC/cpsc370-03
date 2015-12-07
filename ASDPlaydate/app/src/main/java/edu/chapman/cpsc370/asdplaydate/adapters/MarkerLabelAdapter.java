@@ -65,7 +65,7 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
                 ASDPlaydateUser bcaster = info.getParent();
                 Child child = info.getChild();
                 parentName.setText(bcaster.getFirstName() + " " + bcaster.getLastName());
-                childAge.setText("Child: " + child.getAge() + " yr old");
+                childAge.setText(ctx.getString(R.string.child) + ": " + child.getAge() + " yr old");
                 childName.setText(child.getFirstName());
                 childGender.setText("(" + child.getGender().name().substring(0,1) + ")");
                 optionalMsg.setText(child.getDescription());
