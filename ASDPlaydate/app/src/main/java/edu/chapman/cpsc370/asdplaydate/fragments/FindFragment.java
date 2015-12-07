@@ -273,52 +273,15 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
 
             //end lien103 code
             broadcasted = true;//leave this here
-
-            //SET SHARED PREFS ISCHECKED - begin lien103 code
-
-            boolean dialogueIsChecked = broadcastCheckBox.isChecked();
-            sessionManager.storeFromDialog(dialogueIsChecked);//store if the the user checked the checkbox
-
-            //end lien103 code
-            broadcasted = true;
-
             broadcastDialog.cancel();
-
-            hideBroadcastBar();
-
-            listFab.show();
-            refreshFab.show();
-
-            updateMap();
+            showBroadcastResults();
         }
     };
 
     public void startNonDialogueBroadcast()
     {
-        try
-        {
-            ASDPlaydateUser broadcaster = (ASDPlaydateUser) ASDPlaydateUser.getCurrentUser();
-            ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
-            String message = sessionManager.getBroadcastMessage();
-            DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
-            Broadcast b = new Broadcast(broadcaster, location, message, expireDate);//add broadcast to PARSE with message
-            b.saveInBackground();
-
-        }
-        catch (Exception ex)
-        {
-            Toast.makeText(getActivity(),"TESTOops, something went wrong with your broadcast. Please try again!",Toast.LENGTH_SHORT).show();
-            ex.printStackTrace();
-        }
-
+        startBroadcast();
         broadcasted = true;//leave this here
-
-        hideBroadcastBar();
-
-        listFab.show();
-        refreshFab.show();
-
-        updateMap();
     }
 
     public void updateMap()
@@ -480,13 +443,13 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void done(List<Broadcast> objects, ParseException e)
             {
-                if(objects.size() == 0)
+                if (objects.size() == 0)
                 {
                     // Clear results
                     parent.googleMap.clear();
 
                     // Prompt before broadcast is on, show broadcast bar again
-                    if(sessionManager.getPromptBroadcast())
+                    if (sessionManager.getPromptBroadcast())
                     {
                         showBroadcastBar();
                         listFab.hide();
@@ -523,7 +486,15 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void done(ParseException e)
             {
-                showBroadcastResults();
+                if(e == null)
+                {
+                    showBroadcastResults();
+                }
+                else
+                {
+                    Toast.makeText(getActivity(),"Something went wrong with your broadcast. Please try again.",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

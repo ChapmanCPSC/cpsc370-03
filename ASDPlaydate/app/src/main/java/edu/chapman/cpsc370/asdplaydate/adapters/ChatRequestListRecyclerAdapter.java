@@ -191,7 +191,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
                     e.printStackTrace();
                 }
 
-                String message = parentName + "\n\n" + childName + " (" + String.valueOf(childGender) + ")" + "\n" + ctx.getString(R.string.age) + " " + childAge
+                String message = parentName + "\n\n" + ctx.getString(R.string.child) + ": " + childName + " (" + String.valueOf(childGender) + ")" + "\n" + ctx.getString(R.string.age) + " " + childAge
                         + "\n" + childDesc;
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ctx)

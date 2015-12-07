@@ -13,6 +13,7 @@ public class ASDPlaydateUser extends ParseUser
     public static final String ATTR_FIRST_NAME = "first_name";
     public static final String ATTR_LAST_NAME = "last_name";
     public static final String ATTR_CITY_NAME = "city";
+    public static final String ATTR_EMAIL = "email";
 
     public ASDPlaydateUser(){}
 

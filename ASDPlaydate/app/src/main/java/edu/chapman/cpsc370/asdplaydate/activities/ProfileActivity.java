@@ -267,7 +267,7 @@ public class ProfileActivity extends AppCompatActivity
             {
                 // Show an error message
                 Toast.makeText(ProfileActivity.this,
-                        "An error occurred. This email may already be in use.",
+                        "An error occurred, please try again",
                         Toast.LENGTH_LONG).show();
 
                 progressDialog.dismiss();
