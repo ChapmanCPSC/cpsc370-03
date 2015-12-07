@@ -121,7 +121,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             }
             else
             {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             }
 
         }
@@ -143,9 +143,11 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
     {
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
         {
             initGoogleClient();
+            if(locationChangedListener != null)
+                activate(locationChangedListener);
         }
         else
         {
@@ -259,7 +261,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 ParseGeoPoint location = new ParseGeoPoint(parent.myLocation.getLatitude(), parent.myLocation.getLongitude());
                 String message = broadcastMessage.getText().toString();
                 DateTime expireDate = DateTime.now().plusMinutes(broadcastDuration.getProgress()+1);
-                //DateTime expireDate = DateTime.now().plusMinutes(sessionManager.getBroadcastDuration());
                 Broadcast b = new Broadcast(broadcaster, location, message, expireDate);//add broadcast to PARSE with message
                 b.saveInBackground();
 
@@ -432,10 +433,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     private boolean hasRequiredPermissions()
     {
         return ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                &&
-                ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void hideBroadcastBar()
@@ -454,8 +452,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public void activate(OnLocationChangedListener onLocationChangedListener)
     {
         locationChangedListener = onLocationChangedListener;
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-            || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 7500, 10, this);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 7500, 10, this);
@@ -466,8 +463,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public void deactivate()
     {
         locationChangedListener = null;
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             locationManager.removeUpdates(this);
         }
