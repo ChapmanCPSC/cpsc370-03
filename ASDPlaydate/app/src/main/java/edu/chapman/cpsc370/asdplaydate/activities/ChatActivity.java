@@ -174,7 +174,7 @@ public class ChatActivity extends AppCompatActivity
                 if (chatPartnerChild != null) {
                     String description = chatPartnerChild.getDescription();
 
-                    message = parentName + "\n\n" + chatPartnerChild.getAge() + " year old "
+                    message = parentName + "\n\n" + "Child: " + chatPartnerChild.getAge() + " year old "
                             + chatPartnerChild.getFirstName() + "\n"
                             + (description == null ? "" : description);
                 }
