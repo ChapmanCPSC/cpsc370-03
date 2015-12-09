@@ -299,6 +299,7 @@ public class ChatActivity extends AppCompatActivity
             ParseQuery<Message> convoMessageQuery = new ParseQuery<>(Message.class)
                     .whereEqualTo(Message.ATTR_CONVERSATION, conversation);
 
+            convoMessageQuery.orderByAscending(Message.ATTR_TIMESTAMP);
             convoMessageQuery.findInBackground(new FindCallback<Message>() {
                 @Override
                 public void done(List<Message> objects, ParseException e) {
