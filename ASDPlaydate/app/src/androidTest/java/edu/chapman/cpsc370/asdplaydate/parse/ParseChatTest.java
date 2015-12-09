@@ -196,4 +196,16 @@ public class ParseChatTest extends ParseTest
 
         return convo;
     }
+
+    @Test
+    public void getLastMessage() throws Exception
+    {
+        Conversation convo = getConversation("CLaQ4hSZsa");
+        ParseQuery<Message> q = new ParseQuery<Message>(Message.class);
+        q.whereEqualTo(Message.ATTR_CONVERSATION, convo);
+        q.orderByDescending(Message.ATTR_TIMESTAMP);
+
+        Message lastMsg = q.getFirst();
+        assertNotNull(lastMsg);
+    }
 }

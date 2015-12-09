@@ -6,6 +6,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.List;
 
@@ -84,5 +86,12 @@ public class Conversation extends ParseObject
         List<Conversation> convos = q.find();
 
         return (Conversation) convos.get(0);
+    }
+
+    public static String printDate(DateTime date)
+    {
+        DateTimeFormatter dateFormatted = DateTimeFormat.forPattern("MM/dd");
+        DateTimeFormatter timeFormatted = DateTimeFormat.forPattern("hh:mma");
+        return " " + dateFormatted.print(date) + " at " + timeFormatted.print(date);
     }
 }

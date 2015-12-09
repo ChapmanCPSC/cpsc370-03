@@ -2,6 +2,7 @@ package edu.chapman.cpsc370.asdplaydate.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.joda.time.DateTime;
 
@@ -76,5 +77,15 @@ public class Message extends ParseObject
     public DateTime getTimestamp()
     {
         return DateHelpers.LocalDateTime(getDate(ATTR_TIMESTAMP));
+    }
+
+    public static Message getLastMessage(Conversation conversation) throws Exception
+    {
+        ParseQuery<Message> q = new ParseQuery<Message>(Message.class);
+        q.whereEqualTo(Message.ATTR_CONVERSATION, conversation);
+        q.orderByDescending(Message.ATTR_TIMESTAMP);
+
+        Message lastMsg = q.getFirst();
+        return lastMsg;
     }
 }

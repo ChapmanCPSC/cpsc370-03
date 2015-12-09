@@ -22,6 +22,7 @@ import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.activities.ChatActivity;
 import edu.chapman.cpsc370.asdplaydate.models.Child;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
+import edu.chapman.cpsc370.asdplaydate.models.Message;
 
 public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatRequestListRecyclerAdapter.ViewHolder>
 {
@@ -37,6 +38,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     {
         public TextView parentName;
         public TextView lastMsg;
+        public TextView expiration;
         public ViewHolderClicks mListener;
 
         public ViewHolder(View cardView, boolean accepted, ViewHolderClicks listener)
@@ -45,6 +47,7 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
 
             this.parentName = (TextView) cardView.findViewById(R.id.tv_parent_name);
             this.lastMsg = (TextView) cardView.findViewById(R.id.tv_last_message);
+            this.expiration = (TextView) cardView.findViewById(R.id.tv_expiration_value);
             mListener = listener;
 
             // OnClickListeners set below for each child in the cardView
@@ -121,10 +124,14 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
         boolean accepted = true;
         if (viewType == HAS_ACCEPTED)
         {
+            vi.findViewById(R.id.ll_expiration_date).setVisibility(View.VISIBLE);
+            vi.findViewById(R.id.tv_last_message).setVisibility(View.VISIBLE);
             vi.findViewById(R.id.ll_chatrequestlist_buttons).setVisibility(View.GONE);
         }
         else
         {
+            vi.findViewById(R.id.ll_expiration_date).setVisibility(View.GONE);
+            vi.findViewById(R.id.tv_last_message).setVisibility(View.GONE);
             accepted = false;
         }
 
@@ -247,7 +254,19 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     public void onBindViewHolder(ViewHolder holder, int position)
     {
         holder.parentName.setText(mItems.get(position).getParentName());
-        holder.lastMsg.setText(mItems.get(position).getLastMsg());
+
+        try
+        {
+            Conversation convo = Conversation.getConversation(mItems.get(position).getConversationID());
+            holder.expiration.setText(Conversation.printDate(convo.getExpireDate()));
+            Message lastMessage = Message.getLastMessage(convo);
+            holder.lastMsg.setText(lastMessage.getText());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
