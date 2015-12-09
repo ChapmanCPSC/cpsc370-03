@@ -102,6 +102,7 @@ public class PushReceiver extends ParsePushBroadcastReceiver
             }
             Object data = bundle.get("com.parse.Data");
             String sData = data.toString();
+            String chat = "";
             try
             {
                 JSONObject main = new JSONObject(sData);
@@ -109,6 +110,7 @@ public class PushReceiver extends ParsePushBroadcastReceiver
                 //Log.d(TAG + "1",messageObj.getString("alert").toString());
                 Log.d(TAG + "1", main.getString("alert").toString());
                 sData = main.getString("alert").toString();
+                chat = main.getString("conversationID");
             }catch(Exception e)
             {
                 e.printStackTrace();
@@ -123,10 +125,17 @@ public class PushReceiver extends ParsePushBroadcastReceiver
                 }
             }
             Log.d(TAG, sData);
-            Message newMessage = new Message();
-            newMessage.setText(sData);
-            newMessage.setTimestamp(DateTime.now());
-            ChatActivity.chatActivity.displayMessage(newMessage);
+            if(chat == ChatActivity.chatActivity.chatID)
+            {
+                Message newMessage = new Message();
+                newMessage.setText(sData);
+                newMessage.setTimestamp(DateTime.now());
+                ChatActivity.chatActivity.displayMessage(newMessage);
+            }
+            else
+            {
+                super.onPushReceive(context,intent);
+            }
         }
     }
 

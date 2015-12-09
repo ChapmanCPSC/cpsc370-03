@@ -62,6 +62,7 @@ public class ChatActivity extends AppCompatActivity
     String parentName;
 
     public static ChatActivity chatActivity;
+    public static String chatID;
 
     private static final String TAG = "PushDebugChat";
 
@@ -151,6 +152,7 @@ public class ChatActivity extends AppCompatActivity
                 et_message.setText("");
             }
         });
+        chatID = conversationID;
     }
 
     @Override
