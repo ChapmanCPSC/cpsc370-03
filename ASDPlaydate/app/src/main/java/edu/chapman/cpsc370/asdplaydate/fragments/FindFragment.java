@@ -67,7 +67,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     EditText broadcastMessage;
     FindFragmentContainer parent;
     ProgressDialog progressDialog;
-    boolean broadcasted = false;
     boolean connected = false;
 
     LocationManager locationManager;
@@ -272,7 +271,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             }
 
             //end lien103 code
-            broadcasted = true;//leave this here
+            parent.broadcasted = true;//leave this here
             broadcastDialog.cancel();
             showBroadcastResults();
         }
@@ -281,7 +280,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     public void startNonDialogueBroadcast()
     {
         startBroadcast();
-        broadcasted = true;//leave this here
+        parent.broadcasted = true;//leave this here
     }
 
     public void updateMap()
@@ -371,7 +370,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             parent.myLocation = location;
         }
 
-        if (!broadcasted)
+        if (!parent.broadcasted)
         {
             progressDialog.dismiss();
             broadcastBar.setVisibility(View.VISIBLE);

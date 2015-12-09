@@ -47,6 +47,7 @@ public class FindFragmentContainer extends Fragment
     public ResultListRecyclerAdapter listAdapter;
     public MarkerLabelAdapter labelAdapter;
     public SessionManager sessionManager;
+    public boolean broadcasted = false;
 
     public FindFragmentContainer()
     {
@@ -83,7 +84,10 @@ public class FindFragmentContainer extends Fragment
         super.onResume();
         try
         {
-            updateUI();
+            if (broadcasted)
+            {
+                updateUI();
+            }
         }
         catch (Exception e)
         {
