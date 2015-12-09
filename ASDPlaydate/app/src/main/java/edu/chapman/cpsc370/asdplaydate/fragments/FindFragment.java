@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
+import edu.chapman.cpsc370.asdplaydate.LocationUpdateService;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.helpers.DateHelpers;
 import edu.chapman.cpsc370.asdplaydate.helpers.LocationHelpers;
@@ -56,8 +58,10 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         View.OnClickListener, LocationSource, android.location.LocationListener
 {
 
+    public FindFragmentContainer parent;
+    public GoogleApiClient googleApiClient;
+
     MapView mapView;
-    GoogleApiClient googleApiClient;
     SeekBar broadcastDuration;
     TextView progressValue;
     FloatingActionButton listFab, doBroadcastFab, broadcastFab, refreshFab;
@@ -65,7 +69,6 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     LinearLayout broadcastBar;
     CheckBox broadcastCheckBox;
     EditText broadcastMessage;
-    FindFragmentContainer parent;
     ProgressDialog progressDialog;
     boolean connected = false;
 
@@ -274,6 +277,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             parent.broadcasted = true;//leave this here
             broadcastDialog.cancel();
             showBroadcastResults();
+            startLocationService();
         }
     };
 
@@ -392,6 +396,14 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
     {
     }
 
+    public void resetBroadcastBar()
+    {
+        // Show broadcast bar and hide list/refresh buttons
+        showBroadcastBar();
+        listFab.hide();
+        refreshFab.hide();
+    }
+
     private boolean hasRequiredPermissions()
     {
         return ContextCompat.checkSelfPermission(getActivity(),
@@ -444,15 +456,15 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
             {
                 if (objects.size() == 0)
                 {
+                    parent.broadcasted = false;
+
                     // Clear results
                     parent.googleMap.clear();
 
                     // Prompt before broadcast is on, show broadcast bar again
                     if (sessionManager.getPromptBroadcast())
                     {
-                        showBroadcastBar();
-                        listFab.hide();
-                        refreshFab.hide();
+                        resetBroadcastBar();
                     }
 
                     // Prompt is off, start broadcasting again automatically
@@ -488,6 +500,7 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
                 if(e == null)
                 {
                     showBroadcastResults();
+                    startLocationService();
                 }
                 else
                 {
@@ -506,4 +519,8 @@ public class FindFragment extends Fragment implements OnMapReadyCallback,
         updateMap();
     }
 
+    private void startLocationService() {
+        LocationUpdateService.findFragment = this;
+        LocationUpdateService.StartLocationUpdater(getActivity());
+    }
 }

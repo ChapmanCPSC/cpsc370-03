@@ -41,7 +41,7 @@ public class FindFragmentContainer extends Fragment
 {
 
     public ArrayList<MarkerLabelInfo> broadcasts;
-    GoogleMap googleMap = null;
+    public GoogleMap googleMap = null;
     public Location myLocation;
     private boolean showingResultList = false;
     public ResultListRecyclerAdapter listAdapter;
@@ -82,17 +82,6 @@ public class FindFragmentContainer extends Fragment
     public void onResume()
     {
         super.onResume();
-        try
-        {
-            if (broadcasted)
-            {
-                updateUI();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 
     public void flipFragment()
