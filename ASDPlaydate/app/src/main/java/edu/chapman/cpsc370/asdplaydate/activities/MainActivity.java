@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import java.util.Locale;
 
+import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.FindFragmentContainer;
 import edu.chapman.cpsc370.asdplaydate.fragments.InboxFragment;
@@ -88,6 +89,21 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         //ISAAC HI
         Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
         MainActivity.this.startActivity(myIntent);
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        BaseApplication.activityResumed();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        BaseApplication.activityPaused();
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter

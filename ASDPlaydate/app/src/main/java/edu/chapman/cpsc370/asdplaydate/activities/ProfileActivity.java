@@ -17,6 +17,7 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.CreateAccountFragment;
 import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
@@ -252,6 +253,21 @@ public class ProfileActivity extends AppCompatActivity
 
     }
 
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        BaseApplication.activityResumed();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        BaseApplication.activityPaused();
+    }
 
     private class UserSignUpCallback implements SignUpCallback
     {

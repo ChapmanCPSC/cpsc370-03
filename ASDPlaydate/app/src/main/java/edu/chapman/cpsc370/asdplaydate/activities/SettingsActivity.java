@@ -23,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 
+import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
@@ -114,6 +115,20 @@ public class SettingsActivity extends AppCompatActivity
             {
             }
         });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        BaseApplication.activityResumed();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        BaseApplication.activityPaused();
     }
 
     public void logout(View v)

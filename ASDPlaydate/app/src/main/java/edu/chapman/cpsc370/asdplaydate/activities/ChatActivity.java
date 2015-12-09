@@ -153,6 +153,19 @@ public class ChatActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        BaseApplication.activityResumed();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        BaseApplication.activityPaused();
+    }
 
     public void viewProfile(View view)
     {

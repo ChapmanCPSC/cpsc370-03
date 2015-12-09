@@ -88,7 +88,7 @@ public class PushReceiver extends ParsePushBroadcastReceiver
             MainActivity.mainActivity.refreshInbox();
             MainActivity.mainActivity.mViewPager.setCurrentItem(1);
         }*/
-        if(!chatIsRunning)
+        if(!chatIsRunning || !BaseApplication.isActivityVisible())
         {
             super.onPushReceive(context,intent);
         }

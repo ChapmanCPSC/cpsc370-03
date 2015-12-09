@@ -11,6 +11,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.R;
 import edu.chapman.cpsc370.asdplaydate.fragments.CreateAccountFragment;
 import edu.chapman.cpsc370.asdplaydate.fragments.LoginFragment;
@@ -53,6 +54,20 @@ public class AccountActivity extends FragmentActivity
             loadFragment();
         }
 
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        BaseApplication.activityResumed();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        BaseApplication.activityPaused();
     }
 
     void loadSplash()
