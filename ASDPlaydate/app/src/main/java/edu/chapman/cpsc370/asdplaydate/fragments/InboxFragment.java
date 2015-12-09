@@ -8,15 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
+import android.widget.TextView;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.chapman.cpsc370.asdplaydate.BaseApplication;
 import edu.chapman.cpsc370.asdplaydate.adapters.ChatRequestListRecyclerAdapter;
 import edu.chapman.cpsc370.asdplaydate.helpers.RecyclerAdapterHelpers;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
@@ -30,6 +26,7 @@ public class InboxFragment extends Fragment
     public List<ChatRequestListRecyclerItem> mItems = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private SwipeRefreshLayout swipeLayout;
+    private TextView noConvos;
 
     public static InboxFragment inboxFragment;
 
@@ -54,23 +51,26 @@ public class InboxFragment extends Fragment
             {
                 mItems.clear();
 
-                for (ChatRequestListRecyclerItem item : task.mItems)
+                if (task.mItems.size() > 0)
                 {
-                    try
+                    noConvos.setVisibility(View.INVISIBLE);
+                    for (ChatRequestListRecyclerItem item : task.mItems)
                     {
-                        Conversation conversation = Conversation.getConversation(item.getConversationID());
-                        System.out.println(conversation.getExpireDate());
-                        System.out.println(DateTime.now());
-                        if(conversation.getExpireDate().isAfter(DateTime.now()))
+                        try
                         {
-                            mItems.add(item);
+                            Conversation conversation = Conversation.getConversation(item.getConversationID());
+                            if (conversation.getExpireDate().isAfter(DateTime.now().toDateTime(DateTimeZone.UTC)))
+                            {
+                                mItems.add(item);
+                            }
+                        } catch (Exception e)
+                        {
+                            e.printStackTrace();
                         }
                     }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-
+                } else
+                {
+                    noConvos.setVisibility(View.VISIBLE);
                 }
 
                 mAdapter.notifyDataSetChanged();
@@ -87,6 +87,7 @@ public class InboxFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
         inboxFragment = this;
         swipeLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_container);
+        noConvos = (TextView) getActivity().findViewById(R.id.tv_noConvos);
         RecyclerView mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.rv_chatrequestlist);
         //btn_refresh = (Button) getActivity().findViewById(R.id.btn_refresh);
 
@@ -95,38 +96,7 @@ public class InboxFragment extends Fragment
             @Override
             public void onRefresh()
             {
-                final GetMessagesTask task = new GetMessagesTask(getActivity());
-                task.onFinish = new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        mItems.clear();
-
-                        for (ChatRequestListRecyclerItem item : task.mItems)
-                        {
-                            try
-                            {
-                                Conversation conversation = Conversation.getConversation(item.getConversationID());
-                                if(conversation.getExpireDate().isAfter(DateTime.now().toDateTime(DateTimeZone.UTC)))
-                                {
-                                    mItems.add(item);
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        mAdapter.notifyDataSetChanged();
-                        swipeLayout.setRefreshing(false);
-                    }
-                };
-
-                task.execute();
-
-
+                refresh();
             }
         });
 
