@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="end"
+    android:id="@+id/ll_messageRowContainer">
 
     <LinearLayout
         android:id="@+id/ll_bubbleContainer"
@@ -20,11 +22,12 @@
 
         <TextView
             android:id="@+id/tv_Message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:padding="10dp"
             android:textSize="16sp"
-            android:maxWidth="400dp"/>
+            android:maxWidth="400dp"
+            android:textIsSelectable="true"/>
 
     </LinearLayout>
 
@@ -32,7 +35,7 @@
         android:id="@+id/tv_dateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:textSize="12sp"/>
 
