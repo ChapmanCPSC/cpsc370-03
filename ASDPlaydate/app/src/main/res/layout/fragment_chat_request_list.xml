@@ -8,7 +8,7 @@
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true" android:focusableInTouchMode="false">
 
         <android.support.v7.widget.RecyclerView
             android:id="@id/rv_chatrequestlist"

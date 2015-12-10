@@ -73,9 +73,10 @@ public class ASDPlaydateUser extends ParseUser
         q.whereEqualTo(Broadcast.ATTR_BROADCASTER, this);
         q.orderByDescending(Broadcast.ATTR_EXPIRE_DATE);
 
+
         try
         {
-            return q.find().get(0);
+            return q.getFirst();
         } catch (Exception e)
         {
             e.printStackTrace();
