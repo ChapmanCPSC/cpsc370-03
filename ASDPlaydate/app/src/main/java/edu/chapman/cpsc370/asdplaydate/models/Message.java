@@ -84,8 +84,10 @@ public class Message extends ParseObject
         ParseQuery<Message> q = new ParseQuery<Message>(Message.class);
         q.whereEqualTo(Message.ATTR_CONVERSATION, conversation);
         q.orderByDescending(Message.ATTR_TIMESTAMP);
+        q.setLimit(1);
 
         Message lastMsg = q.getFirst();
+        lastMsg.fetchIfNeeded();
         return lastMsg;
     }
 }

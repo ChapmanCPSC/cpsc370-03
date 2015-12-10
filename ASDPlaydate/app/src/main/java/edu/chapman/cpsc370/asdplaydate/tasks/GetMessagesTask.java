@@ -15,6 +15,7 @@ import edu.chapman.cpsc370.asdplaydate.managers.SessionManager;
 import edu.chapman.cpsc370.asdplaydate.models.ASDPlaydateUser;
 import edu.chapman.cpsc370.asdplaydate.models.ChatRequestListRecyclerItem;
 import edu.chapman.cpsc370.asdplaydate.models.Conversation;
+import edu.chapman.cpsc370.asdplaydate.models.Message;
 
 public class GetMessagesTask extends AsyncTask<Void, Void, Void>
 {
@@ -70,28 +71,55 @@ public class GetMessagesTask extends AsyncTask<Void, Void, Void>
                 {
                     String firstName = "";
                     String lastName = "";
+                    Message lastMsg = null;
                     try
                     {
                         firstName = receiver.fetchIfNeeded().getString("first_name");
                         lastName = receiver.fetchIfNeeded().getString("last_name");
+                        ParseQuery<Message> q = new ParseQuery<>(Message.class);
+                        q.whereEqualTo(Message.ATTR_CONVERSATION, c);
+                        q.orderByDescending(Message.ATTR_TIMESTAMP);
+                        q.setLimit(1);
+                        lastMsg = q.getFirst();
+                        lastMsg.fetchIfNeeded();
                     } catch (Exception e)
                     {
                         e.printStackTrace();
                     }
-                    mItems.add(new ChatRequestListRecyclerItem(c.getObjectId(), receiver.getObjectId(), firstName + " " + lastName, null, accepted));
+                    ChatRequestListRecyclerItem item = new ChatRequestListRecyclerItem(c.getObjectId(), receiver.getObjectId(), firstName + " " + lastName, null, accepted);
+                    if (lastMsg != null)
+                    {
+                        item.setRead(lastMsg.isRead());
+                        item.setLastMsg(lastMsg.getText());
+                    }
+                    mItems.add(item);
                 } else
                 {
                     String firstName = "";
                     String lastName = "";
+                    Message lastMsg = null;
                     try
                     {
                         firstName = initiator.fetchIfNeeded().getString("first_name");
                         lastName = initiator.fetchIfNeeded().getString("last_name");
+                        ParseQuery<Message> q = new ParseQuery<>(Message.class);
+                        q.whereEqualTo(Message.ATTR_CONVERSATION, c);
+                        q.orderByDescending(Message.ATTR_TIMESTAMP);
+                        q.setLimit(1);
+                        lastMsg = q.getFirst();
+                        lastMsg.fetchIfNeeded();
                     } catch (Exception e)
                     {
                         e.printStackTrace();
                     }
-                    mItems.add(new ChatRequestListRecyclerItem(c.getObjectId(), initiator.getObjectId(), firstName + " " + lastName, null, accepted));
+
+                    ChatRequestListRecyclerItem item = new ChatRequestListRecyclerItem(c.getObjectId(), initiator.getObjectId(), firstName + " " + lastName, null, accepted);
+                    if (lastMsg != null)
+                    {
+                        item.setRead(lastMsg.isRead());
+                        item.setLastMsg(lastMsg.getText());
+                    }
+                    mItems.add(item);
                 }
             }
         } catch (Exception e)

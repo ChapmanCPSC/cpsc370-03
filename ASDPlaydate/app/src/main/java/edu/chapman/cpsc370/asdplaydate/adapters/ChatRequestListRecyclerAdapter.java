@@ -3,6 +3,7 @@ package edu.chapman.cpsc370.asdplaydate.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,8 +27,9 @@ import edu.chapman.cpsc370.asdplaydate.models.Message;
 
 public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatRequestListRecyclerAdapter.ViewHolder>
 {
-    public static final int HAS_ACCEPTED = 0;
-    public static final int NOT_ACCEPTED = 1;
+    public static final int HAS_ACCEPTED_READ = 0;
+    public static final int HAS_ACCEPTED_UNREAD = 1;
+    public static final int NOT_ACCEPTED = 2;
     private List<ChatRequestListRecyclerItem> mItems;
     private Context ctx;
 
@@ -122,11 +124,25 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
         disableTouchTheft(vi);
 
         boolean accepted = true;
-        if (viewType == HAS_ACCEPTED)
+        if (viewType != NOT_ACCEPTED)
         {
             vi.findViewById(R.id.ll_expiration_date).setVisibility(View.VISIBLE);
             vi.findViewById(R.id.tv_last_message).setVisibility(View.VISIBLE);
             vi.findViewById(R.id.ll_chatrequestlist_buttons).setVisibility(View.GONE);
+            if (viewType == HAS_ACCEPTED_UNREAD)
+            {
+                TextView tv = (TextView) vi.findViewById(R.id.tv_parent_name);
+                tv.setTypeface(null, Typeface.BOLD);
+                TextView tv1 = (TextView) vi.findViewById(R.id.tv_last_message);
+                tv1.setTypeface(null, Typeface.BOLD);
+            }
+            else if (viewType == HAS_ACCEPTED_READ)
+            {
+                TextView tv = (TextView) vi.findViewById(R.id.tv_parent_name);
+                tv.setTypeface(null, Typeface.NORMAL);
+                TextView tv1 = (TextView) vi.findViewById(R.id.tv_last_message);
+                tv1.setTypeface(null, Typeface.NORMAL);
+            }
         }
         else
         {
@@ -281,7 +297,14 @@ public class ChatRequestListRecyclerAdapter extends RecyclerView.Adapter<ChatReq
     {
         if (mItems.get(position).isAccepted())
         {
-            return HAS_ACCEPTED;
+            if (mItems.get(position).isRead())
+            {
+                return HAS_ACCEPTED_READ;
+            }
+            else
+            {
+                return HAS_ACCEPTED_UNREAD;
+            }
         }
         else
         {
