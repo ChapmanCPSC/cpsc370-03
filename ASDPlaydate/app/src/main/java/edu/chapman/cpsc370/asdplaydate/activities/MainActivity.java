@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction)
     {
-        refreshInbox();
+        refreshInbox();//added
     }
 
 
