@@ -9,6 +9,7 @@ public class ChatRequestListRecyclerItem
     private String lastMsg;
     private boolean accepted;
     private String conversationID;
+    private boolean read;
     private String userID;
 
     public ChatRequestListRecyclerItem(String conversationID, String userID, String parentName, String lastMsg, boolean accepted)
@@ -58,6 +59,16 @@ public class ChatRequestListRecyclerItem
     public void setLastMsg(String lastMsg)
     {
         this.lastMsg = lastMsg;
+    }
+
+    public boolean isRead()
+    {
+        return read;
+    }
+
+    public void setRead(boolean read)
+    {
+        this.read = read;
     }
 
     public boolean isAccepted()
