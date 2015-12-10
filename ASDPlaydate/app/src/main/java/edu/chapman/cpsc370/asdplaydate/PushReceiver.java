@@ -2,6 +2,7 @@ package edu.chapman.cpsc370.asdplaydate;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,8 +42,23 @@ public class PushReceiver extends ParsePushBroadcastReceiver
         }
         if(isChatRequest)
         {
-            MainActivity.mainActivity.refreshInbox();
-            MainActivity.mainActivity.mViewPager.setCurrentItem(1);
+            if(BaseApplication.isActivityVisible())
+            {
+                MainActivity.mainActivity.refreshInbox();
+                MainActivity.mainActivity.mViewPager.setCurrentItem(1);
+            }
+            else
+            {
+                MainActivity.mainActivity.refreshInbox();
+                MainActivity.mainActivity.mViewPager.setCurrentItem(1);
+                Intent intent1 = new Intent(context, MainActivity.class);
+                //intent1.setAction(Intent.ACTION_MAIN);
+                //intent1.addCategory(Intent.CATEGORY_LAUNCHER);
+                intent1.setComponent(new ComponentName(context.getPackageName(), MainActivity.class.getName()));
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent1);
+            }
+
         }
         else
         {
@@ -125,7 +141,9 @@ public class PushReceiver extends ParsePushBroadcastReceiver
                 }
             }
             Log.d(TAG, sData);
-            if(chat == ChatActivity.chatActivity.chatID)
+            Log.d(TAG+11,chat);
+            Log.d(TAG+12,ChatActivity.chatActivity.chatID.toString() );
+            if(chat.equals(ChatActivity.chatActivity.chatID.toString()))
             {
                 Message newMessage = new Message();
                 newMessage.setText(sData);
