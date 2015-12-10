@@ -69,45 +69,48 @@ public class LocationUpdateService extends Service
 
             q.findInBackground(new FindCallback<Broadcast>() {
                 @Override
-                public void done(List<Broadcast> objects, ParseException e) {
-
-                    if(objects.size() != 0)
+                public void done(List<Broadcast> objects, ParseException e)
+                {
+                    if(e == null)
                     {
-                        // Only update if main window is open
-                        try
+                        if(objects.size() != 0)
                         {
-                            // Get the new location
-                            findFragment.parent.myLocation = LocationServices.FusedLocationApi
-                                    .getLastLocation(findFragment.googleApiClient);
+                            // Only update if main window is open
+                            try
+                            {
+                                // Get the new location
+                                findFragment.parent.myLocation = LocationServices.FusedLocationApi
+                                        .getLastLocation(findFragment.googleApiClient);
 
-                            // Update broadcast with new location
-                            Broadcast updatedBroadcast = objects.get(0);
-                            updatedBroadcast.setLocation(new ParseGeoPoint(
-                                    findFragment.parent.myLocation.getLatitude(),
-                                    findFragment.parent.myLocation.getLongitude()));
+                                // Update broadcast with new location
+                                Broadcast updatedBroadcast = objects.get(0);
+                                updatedBroadcast.setLocation(new ParseGeoPoint(
+                                        findFragment.parent.myLocation.getLatitude(),
+                                        findFragment.parent.myLocation.getLongitude()));
 
-                            updatedBroadcast.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    findFragment.updateMap();
-                                }
-                            });
+                                updatedBroadcast.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        findFragment.updateMap();
+                                    }
+                                });
+                            }
+                            catch(Exception exception)
+                            {
+                                //exception.printStackTrace();
+                            }
+
                         }
-                        catch(Exception exception)
+                        else
                         {
-                            //exception.printStackTrace();
+                            // Broadcast has finished, show broadcast bar
+                            findFragment.parent.googleMap.clear();
+                            findFragment.resetBroadcastBar();
+
+                            // Stop service
+                            cancel();
+                            LocationUpdateService.this.stopSelf();
                         }
-
-                    }
-                    else
-                    {
-                        // Broadcast has finished, show broadcast bar
-                        findFragment.parent.googleMap.clear();
-                        findFragment.resetBroadcastBar();
-
-                        // Stop service
-                        cancel();
-                        LocationUpdateService.this.stopSelf();
                     }
                 }
             });
