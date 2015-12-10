@@ -19,33 +19,35 @@
             android:id="@+id/tv_child_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
-            android:text="8 yr old"/>
+            android:layout_marginEnd="3dp"/>
         <TextView
             android:id="@+id/tv_child_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
-            android:text="Johnnie"/>
+            android:layout_marginEnd="3dp"/>
         <TextView
             android:id="@+id/tv_child_gender"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(M)"/>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_optional_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="High functioning Autism"
         android:layout_marginBottom="10dp"/>
 
     <TextView
         android:id="@+id/tv_profile_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0.4 miles from you"/>
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_broadcast_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:id="@+id/tv_tap_message"

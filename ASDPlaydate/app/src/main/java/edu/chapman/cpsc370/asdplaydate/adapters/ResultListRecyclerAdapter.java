@@ -84,7 +84,16 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
         ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(info.getLatLng());
         double dist = myPgp.distanceInMilesTo(broadcastPgp);
         String roundedDist = new BigDecimal(String.valueOf(dist)).setScale(1, RoundingMode.HALF_UP).toPlainString();
-        holder.distance.setText(roundedDist + " miles from you");
+        holder.distance.setText(roundedDist + " " + ctx.getString(R.string.miles_from_you));
+
+        String message = bcaster.getLastBroadcast().getMessage();
+        if (message.length() > 0)
+        {
+            holder.message.setText(ctx.getString(R.string.broadcast_msg_label) + "\n" + message);
+        } else
+        {
+            holder.message.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -114,6 +123,7 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
         TextView childAge;
         TextView childCondition;
         TextView distance;
+        TextView message;
         ImageView requestChat;
         public ViewHolderClicks mListener;
 
@@ -126,6 +136,7 @@ public class ResultListRecyclerAdapter extends RecyclerView.Adapter<ResultListRe
             childAge = (TextView) itemView.findViewById(R.id.result_list_child_age);
             childCondition = (TextView) itemView.findViewById(R.id.result_list_child_condition);
             distance = (TextView) itemView.findViewById(R.id.result_list_distance);
+            message = (TextView) itemView.findViewById(R.id.result_list_broadcast_msg);
             requestChat = (ImageView) itemView.findViewById(R.id.result_list_request_chat_button);
             mListener = listener;
 
