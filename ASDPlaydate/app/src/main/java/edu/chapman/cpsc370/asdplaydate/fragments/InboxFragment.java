@@ -116,6 +116,7 @@ public class InboxFragment extends Fragment
                         new SwipeableRecyclerViewTouchListener.SwipeListener()
                         {
 
+
                             @Override
                             public boolean canSwipeLeft(int position)
                             {
@@ -163,6 +164,12 @@ public class InboxFragment extends Fragment
         super.onResume();
 
         refresh();
+    }
 
+    public void onStart()
+    {
+        super.onStart();
+
+        refresh();
     }
 }

@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     {
         InboxFragment.inboxFragment.refresh();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -82,7 +83,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction)
     {
+        refreshInbox();//added
     }
+
 
     public void settings(MenuItem item)
     {

@@ -70,4 +70,6 @@
     <string name="chat_with">Chat with</string>
     <string name="child">Child</string>
     <string name="expiration">Chat Expires:</string>
+    <string name="broadcast_msg_label">Broadcast Message:</string>
+    <string name="miles_from_you">miles from you</string>
 </resources>

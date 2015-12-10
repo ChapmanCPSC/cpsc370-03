@@ -53,6 +53,7 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
         TextView childGender = (TextView) label.findViewById(R.id.tv_child_gender);
         TextView optionalMsg = (TextView) label.findViewById(R.id.tv_optional_message);
         TextView profileDistance = (TextView) label.findViewById(R.id.tv_profile_distance);
+        TextView broadcastMsg = (TextView) label.findViewById(R.id.tv_broadcast_msg);
         TextView tapMessage = (TextView) label.findViewById(R.id.tv_tap_message);
 
         LatLng markerPos = marker.getPosition();
@@ -74,7 +75,16 @@ public class MarkerLabelAdapter implements GoogleMap.InfoWindowAdapter, GoogleMa
                 ParseGeoPoint broadcastPgp = LocationHelpers.toParseGeoPoint(markerPos);
                 double dist = myPgp.distanceInMilesTo(broadcastPgp);
                 String roundedDist = new BigDecimal(String.valueOf(dist)).setScale(1, RoundingMode.HALF_UP).toPlainString();
-                profileDistance.setText(roundedDist + " miles from you");
+                profileDistance.setText(roundedDist + " " + ctx.getString(R.string.miles_from_you));
+
+                String message = bcaster.getLastBroadcast().getMessage();
+                if (message.length() > 0)
+                {
+                    broadcastMsg.setText(ctx.getString(R.string.broadcast_msg_label) + "\n" + message);
+                } else
+                {
+                    broadcastMsg.setVisibility(View.GONE);
+                }
 
                 if (!info.hasConversation())
                 {
